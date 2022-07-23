@@ -6,7 +6,7 @@ dataSources:
     name: TalentLayerID
     network: xdai
     source:
-      address: '0x931dA829f06c02fCD683a9153bBD40EF7Ce1E907'
+      address: '0x25DFc905884be839eCF2dE0e760C28BA6B8070e6'
       abi: TalentLayerID
       startBlock: 23315433
     mapping:
@@ -25,7 +25,7 @@ dataSources:
           handler: handleApprovalForAll
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string)
+        - event: Mint(indexed address,uint256,string,bool)
           handler: handleMint
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
@@ -36,7 +36,7 @@ dataSources:
     name: TalentLayerReview
     network: xdai
     source:
-      address: '0x41cDF5Fd621645Bc5E0f0a943B297a2440924949'
+      address: '0x690113a1965781e272E30DE287a0bbBd62f63269'
       abi: TalentLayerReview
       startBlock: 23315894
     mapping:
@@ -62,7 +62,7 @@ dataSources:
     name: JobRegistry
     network: xdai
     source:
-      address: '0xD80Fb0B9ED5af8dcA3aCD3EAdf215B074EF68DcF'
+      address: '0x4aE6B4edD82c75bbA8e29B44aD4829708D5cEc8e'
       abi: JobRegistry
       startBlock: 23315589
     mapping:
@@ -75,6 +75,6 @@ dataSources:
         - name: JobRegistry
           file: ./abis/JobRegistry.json
       eventHandlers:
-        - event: CreateJob(uint256,uint256,uint256,uint256,string)
+        - event: JobCreated(uint256,uint256,uint256,uint256,string)
           handler: handleCreateJob
       file: ./src/mappings/job-registry.ts

@@ -10,6 +10,36 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class AccountRecovered extends ethereum.Event {
+  get params(): AccountRecovered__Params {
+    return new AccountRecovered__Params(this);
+  }
+}
+
+export class AccountRecovered__Params {
+  _event: AccountRecovered;
+
+  constructor(event: AccountRecovered) {
+    this._event = event;
+  }
+
+  get _newAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _oldAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _handle(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get _tokenId(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
 export class Approval extends ethereum.Event {
   get params(): Approval__Params {
     return new Approval__Params(this);
@@ -59,6 +89,28 @@ export class ApprovalForAll__Params {
 
   get approved(): boolean {
     return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class CidUpdated extends ethereum.Event {
+  get params(): CidUpdated__Params {
+    return new CidUpdated__Params(this);
+  }
+}
+
+export class CidUpdated__Params {
+  _event: CidUpdated;
+
+  constructor(event: CidUpdated) {
+    this._event = event;
+  }
+
+  get _tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _newCid(): string {
+    return this._event.parameters[1].value.toString();
   }
 }
 
@@ -116,6 +168,10 @@ export class Mint__Params {
   get _handle(): string {
     return this._event.parameters[2].value.toString();
   }
+
+  get _withPoh(): boolean {
+    return this._event.parameters[3].value.toBoolean();
+  }
 }
 
 export class OwnershipTransferred extends ethereum.Event {
@@ -137,6 +193,32 @@ export class OwnershipTransferred__Params {
 
   get newOwner(): Address {
     return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class PohActivated extends ethereum.Event {
+  get params(): PohActivated__Params {
+    return new PohActivated__Params(this);
+  }
+}
+
+export class PohActivated__Params {
+  _event: PohActivated;
+
+  constructor(event: PohActivated) {
+    this._event = event;
+  }
+
+  get _user(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _tokenId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get _handle(): string {
+    return this._event.parameters[2].value.toString();
   }
 }
 
@@ -211,23 +293,23 @@ export class TalentLayerID extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  handles(param0: string): Address {
-    let result = super.call("handles", "handles(string):(address)", [
-      ethereum.Value.fromString(param0)
+  handles(param0: BigInt): string {
+    let result = super.call("handles", "handles(uint256):(string)", [
+      ethereum.Value.fromUnsignedBigInt(param0)
     ]);
 
-    return result[0].toAddress();
+    return result[0].toString();
   }
 
-  try_handles(param0: string): ethereum.CallResult<Address> {
-    let result = super.tryCall("handles", "handles(string):(address)", [
-      ethereum.Value.fromString(param0)
+  try_handles(param0: BigInt): ethereum.CallResult<string> {
+    let result = super.tryCall("handles", "handles(uint256):(string)", [
+      ethereum.Value.fromUnsignedBigInt(param0)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   hasBeenRecovered(param0: Address): boolean {
@@ -463,6 +545,25 @@ export class TalentLayerID extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
+  takenHandles(param0: string): boolean {
+    let result = super.call("takenHandles", "takenHandles(string):(bool)", [
+      ethereum.Value.fromString(param0)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_takenHandles(param0: string): ethereum.CallResult<boolean> {
+    let result = super.tryCall("takenHandles", "takenHandles(string):(bool)", [
+      ethereum.Value.fromString(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   talentIdPohAddresses(param0: BigInt): Address {
     let result = super.call(
       "talentIdPohAddresses",
@@ -561,12 +662,8 @@ export class ConstructorCall__Inputs {
     this._call = call;
   }
 
-  get _baseURI(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-
   get _pohAddress(): Address {
-    return this._call.inputValues[1].value.toAddress();
+    return this._call.inputValues[0].value.toAddress();
   }
 }
 
@@ -888,36 +985,6 @@ export class SetApprovalForAllCall__Outputs {
   _call: SetApprovalForAllCall;
 
   constructor(call: SetApprovalForAllCall) {
-    this._call = call;
-  }
-}
-
-export class SetBaseURICall extends ethereum.Call {
-  get inputs(): SetBaseURICall__Inputs {
-    return new SetBaseURICall__Inputs(this);
-  }
-
-  get outputs(): SetBaseURICall__Outputs {
-    return new SetBaseURICall__Outputs(this);
-  }
-}
-
-export class SetBaseURICall__Inputs {
-  _call: SetBaseURICall;
-
-  constructor(call: SetBaseURICall) {
-    this._call = call;
-  }
-
-  get _newBaseURI(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-}
-
-export class SetBaseURICall__Outputs {
-  _call: SetBaseURICall;
-
-  constructor(call: SetBaseURICall) {
     this._call = call;
   }
 }

@@ -7,10 +7,9 @@ type Job @entity {
 }
 
 type Review @entity {
-  id: ID!
+  id: ID! # totalSupply (unique id)
   jobId: BigInt!
   toId: BigInt!
-  tokenId: BigInt!
   reviewUri: String!
 }
 
@@ -18,4 +17,5 @@ type User @entity {
   id: ID!
   userTokenId: BigInt!
   handle: String!
+  withPoh: Boolean!
 }

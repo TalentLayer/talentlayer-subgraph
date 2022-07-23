@@ -10,16 +10,46 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class CreateJob extends ethereum.Event {
-  get params(): CreateJob__Params {
-    return new CreateJob__Params(this);
+export class JobConfirmed extends ethereum.Event {
+  get params(): JobConfirmed__Params {
+    return new JobConfirmed__Params(this);
   }
 }
 
-export class CreateJob__Params {
-  _event: CreateJob;
+export class JobConfirmed__Params {
+  _event: JobConfirmed;
 
-  constructor(event: CreateJob) {
+  constructor(event: JobConfirmed) {
+    this._event = event;
+  }
+
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get employerId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get employeeId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get jobDataUri(): string {
+    return this._event.parameters[3].value.toString();
+  }
+}
+
+export class JobCreated extends ethereum.Event {
+  get params(): JobCreated__Params {
+    return new JobCreated__Params(this);
+  }
+}
+
+export class JobCreated__Params {
+  _event: JobCreated;
+
+  constructor(event: JobCreated) {
     this._event = event;
   }
 
@@ -41,6 +71,66 @@ export class CreateJob__Params {
 
   get jobDataUri(): string {
     return this._event.parameters[4].value.toString();
+  }
+}
+
+export class JobFinished extends ethereum.Event {
+  get params(): JobFinished__Params {
+    return new JobFinished__Params(this);
+  }
+}
+
+export class JobFinished__Params {
+  _event: JobFinished;
+
+  constructor(event: JobFinished) {
+    this._event = event;
+  }
+
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get employerId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get employeeId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get jobDataUri(): string {
+    return this._event.parameters[3].value.toString();
+  }
+}
+
+export class JobRejected extends ethereum.Event {
+  get params(): JobRejected__Params {
+    return new JobRejected__Params(this);
+  }
+}
+
+export class JobRejected__Params {
+  _event: JobRejected;
+
+  constructor(event: JobRejected) {
+    this._event = event;
+  }
+
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get employerId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get employeeId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get jobDataUri(): string {
+    return this._event.parameters[3].value.toString();
   }
 }
 
