@@ -6,25 +6,26 @@ enum JobStatus {
 }
 
 type Job @entity {
-  id: ID!
+  id: ID! # job token id
   status: JobStatus!
   employerId: BigInt!
   employeeId: BigInt!
   senderId: BigInt! # the talentLayerId of the msg.sender address
   # recipientId: BigInt! # the talentLayerId of the "other" address
-  jobDataUri: String
+  uri: String # metadata Uri of job
 }
 
 type Review @entity {
-  id: ID! # unique token id
+  id: ID! # review token id
   jobId: BigInt!
   toId: BigInt!
-  reviewUri: String!
+  uri: String! # metadata Uri of review
 }
 
 type User @entity {
-  id: ID! # Ethereum address of the user that mints
-  userTokenId: BigInt!
+  id: ID! # user token id
+  address: String! # wallet address of user
+  uri: String! # metadata Uri of profile
   handle: String!
   withPoh: Boolean!
 }

@@ -84,8 +84,8 @@ export class Job extends Entity {
     this.set("senderId", Value.fromBigInt(value));
   }
 
-  get jobDataUri(): string | null {
-    let value = this.get("jobDataUri");
+  get uri(): string | null {
+    let value = this.get("uri");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -93,11 +93,11 @@ export class Job extends Entity {
     }
   }
 
-  set jobDataUri(value: string | null) {
+  set uri(value: string | null) {
     if (!value) {
-      this.unset("jobDataUri");
+      this.unset("uri");
     } else {
-      this.set("jobDataUri", Value.fromString(<string>value));
+      this.set("uri", Value.fromString(<string>value));
     }
   }
 }
@@ -109,7 +109,7 @@ export class Review extends Entity {
 
     this.set("jobId", Value.fromBigInt(BigInt.zero()));
     this.set("toId", Value.fromBigInt(BigInt.zero()));
-    this.set("reviewUri", Value.fromString(""));
+    this.set("uri", Value.fromString(""));
   }
 
   save(): void {
@@ -156,13 +156,13 @@ export class Review extends Entity {
     this.set("toId", Value.fromBigInt(value));
   }
 
-  get reviewUri(): string {
-    let value = this.get("reviewUri");
+  get uri(): string {
+    let value = this.get("uri");
     return value!.toString();
   }
 
-  set reviewUri(value: string) {
-    this.set("reviewUri", Value.fromString(value));
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
   }
 }
 
@@ -171,7 +171,8 @@ export class User extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("userTokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("address", Value.fromString(""));
+    this.set("uri", Value.fromString(""));
     this.set("handle", Value.fromString(""));
     this.set("withPoh", Value.fromBoolean(false));
   }
@@ -202,13 +203,22 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get userTokenId(): BigInt {
-    let value = this.get("userTokenId");
-    return value!.toBigInt();
+  get address(): string {
+    let value = this.get("address");
+    return value!.toString();
   }
 
-  set userTokenId(value: BigInt) {
-    this.set("userTokenId", Value.fromBigInt(value));
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    return value!.toString();
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
   }
 
   get handle(): string {
