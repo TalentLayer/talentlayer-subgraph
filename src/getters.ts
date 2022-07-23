@@ -7,15 +7,24 @@ export function createAndGetJob(id: BigInt): Job {
   if (!job) {
     job = new Job(id.toString());
     job.status = 'Initialized';
-    job.employerId = ZERO;
-    job.employeeId = ZERO;
-    job.senderId = ZERO;
-    job.recipientId = ZERO;
     job.uri = '';
     job.save();
   }
   return job;
 }
+
+// job.employerId = event.params.employerId;
+// job.employeeId = event.params.employeeId;
+// job.senderId = event.params.initiatorId;
+// if (event.params.initiatorId == event.params.employerId) {
+//   job.recipientId = event.params.employeeId;
+// } else if (event.params.initiatorId == event.params.employeeId) {
+//   job.recipientId = event.params.employerId;
+// } else {
+//   log.error('Job created by neither employer nor employee, senderId: {}', [
+//     event.params.initiatorId.toString(),
+//   ]);
+// }
 
 export function createAndGetReview(
   id: BigInt,
