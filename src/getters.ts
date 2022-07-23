@@ -10,6 +10,7 @@ export function createAndGetJob(id: BigInt): Job {
     job.employerId = ZERO;
     job.employeeId = ZERO;
     job.senderId = ZERO;
+    job.recipientId = ZERO;
     job.uri = '';
     job.save();
   }

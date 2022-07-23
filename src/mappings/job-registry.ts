@@ -1,3 +1,4 @@
+import { log } from '@graphprotocol/graph-ts';
 import {
   JobCreated,
   JobConfirmed,
@@ -11,6 +12,15 @@ export function handleJobCreated(event: JobCreated): void {
   job.employerId = event.params.employerId;
   job.employeeId = event.params.employeeId;
   job.senderId = event.params.initiatorId;
+  if (event.params.initiatorId == event.params.employerId) {
+    job.recipientId = event.params.employeeId;
+  } else if (event.params.initiatorId == event.params.employeeId) {
+    job.recipientId = event.params.employerId;
+  } else {
+    log.error('Job created by neither employer nor employee, senderId: {}', [
+      event.params.initiatorId.toString(),
+    ]);
+  }
   job.uri = event.params.jobDataUri;
   job.save();
 }

@@ -20,6 +20,7 @@ export class Job extends Entity {
     this.set("employerId", Value.fromBigInt(BigInt.zero()));
     this.set("employeeId", Value.fromBigInt(BigInt.zero()));
     this.set("senderId", Value.fromBigInt(BigInt.zero()));
+    this.set("recipientId", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -82,6 +83,15 @@ export class Job extends Entity {
 
   set senderId(value: BigInt) {
     this.set("senderId", Value.fromBigInt(value));
+  }
+
+  get recipientId(): BigInt {
+    let value = this.get("recipientId");
+    return value!.toBigInt();
+  }
+
+  set recipientId(value: BigInt) {
+    this.set("recipientId", Value.fromBigInt(value));
   }
 
   get uri(): string | null {
