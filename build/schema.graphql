@@ -1,5 +1,0 @@
-type User @entity {
-  id: ID!
-  userTokenId: BigInt!
-  handle: String!
-}
