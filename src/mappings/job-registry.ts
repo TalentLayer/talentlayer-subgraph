@@ -1,3 +1,4 @@
+import { User } from '../../generated/schema';
 import { log } from '@graphprotocol/graph-ts';
 import {
   JobCreated,
@@ -9,13 +10,13 @@ import { createAndGetJob } from '../getters';
 
 export function handleJobCreated(event: JobCreated): void {
   let job = createAndGetJob(event.params.id);
-  job.employerId = event.params.employerId;
-  job.employeeId = event.params.employeeId;
-  job.senderId = event.params.initiatorId;
+  job.employer = User.load(event.params.employerId.toString())!.id;
+  job.employee = User.load(event.params.employeeId.toString())!.id;
+  job.sender = User.load(event.params.initiatorId.toString())!.id;
   if (event.params.initiatorId == event.params.employerId) {
-    job.recipientId = event.params.employeeId;
+    job.recipient = job.employee;
   } else if (event.params.initiatorId == event.params.employeeId) {
-    job.recipientId = event.params.employerId;
+    job.recipient = job.employer;
   } else {
     log.error('Job created by neither employer nor employee, senderId: {}', [
       event.params.initiatorId.toString(),
