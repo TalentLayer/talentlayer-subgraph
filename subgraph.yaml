@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,19 +6,15 @@ dataSources:
     name: TalentLayerID
     network: xdai
     source:
-      address: "0x931dA829f06c02fCD683a9153bBD40EF7Ce1E907"
+      address: '0x931dA829f06c02fCD683a9153bBD40EF7Ce1E907'
       abi: TalentLayerID
+      startBlock: 23315433
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - ApprovalForAll
-        - ConsecutiveTransfer
-        - Mint
-        - OwnershipTransferred
-        - Transfer
+        - User
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json

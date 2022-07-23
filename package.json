@@ -1,6 +1,6 @@
 {
   "name": "talent-layer",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
@@ -10,7 +10,7 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayerid/talent-layer"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.22.4",
-    "@graphprotocol/graph-ts": "0.22.1"
+    "@graphprotocol/graph-cli": "^0.25.1",
+    "@graphprotocol/graph-ts": "^0.26.0"
   }
 }
