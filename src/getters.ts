@@ -15,13 +15,12 @@ export function createAndGetJob(id: BigInt): Job {
   return job;
 }
 
-export function createAndGetReview(address: Address): Review {
-  let review = Review.load(address.toHex());
+export function createAndGetReview(id: BigInt): Review {
+  let review = Review.load(id.toString());
   if (!review) {
-    review = new Review(address.toHex());
+    review = new Review(id.toHex());
     review.jobId = ZERO;
     review.toId = ZERO;
-    review.tokenId = ZERO;
     review.reviewUri = '';
     review.save();
   }
@@ -34,6 +33,7 @@ export function createAndGetUser(address: Address): User {
     user = new User(address.toHex());
     user.userTokenId = ZERO;
     user.handle = '';
+    user.withPoh = false;
     user.save();
   }
   return user;

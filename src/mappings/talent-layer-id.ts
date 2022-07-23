@@ -19,6 +19,7 @@ export function handleMint(event: Mint): void {
   let user = createAndGetUser(event.params._user);
   user.userTokenId = event.params._tokenId;
   user.handle = event.params._handle;
+  user.withPoh = event.params._withPoh;
   user.save();
 }
 

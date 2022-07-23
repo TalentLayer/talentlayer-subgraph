@@ -99,7 +99,6 @@ export class Review extends Entity {
 
     this.set("jobId", Value.fromBigInt(BigInt.zero()));
     this.set("toId", Value.fromBigInt(BigInt.zero()));
-    this.set("tokenId", Value.fromBigInt(BigInt.zero()));
     this.set("reviewUri", Value.fromString(""));
   }
 
@@ -147,15 +146,6 @@ export class Review extends Entity {
     this.set("toId", Value.fromBigInt(value));
   }
 
-  get tokenId(): BigInt {
-    let value = this.get("tokenId");
-    return value!.toBigInt();
-  }
-
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
-  }
-
   get reviewUri(): string {
     let value = this.get("reviewUri");
     return value!.toString();
@@ -173,6 +163,7 @@ export class User extends Entity {
 
     this.set("userTokenId", Value.fromBigInt(BigInt.zero()));
     this.set("handle", Value.fromString(""));
+    this.set("withPoh", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -217,5 +208,14 @@ export class User extends Entity {
 
   set handle(value: string) {
     this.set("handle", Value.fromString(value));
+  }
+
+  get withPoh(): boolean {
+    let value = this.get("withPoh");
+    return value!.toBoolean();
+  }
+
+  set withPoh(value: boolean) {
+    this.set("withPoh", Value.fromBoolean(value));
   }
 }

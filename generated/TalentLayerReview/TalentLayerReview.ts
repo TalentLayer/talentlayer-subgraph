@@ -123,6 +123,21 @@ export class TalentLayerReview extends ethereum.SmartContract {
     return new TalentLayerReview("TalentLayerReview", address);
   }
 
+  _totalSupply(): BigInt {
+    let result = super.call("_totalSupply", "_totalSupply():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try__totalSupply(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("_totalSupply", "_totalSupply():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   balanceOf(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
       ethereum.Value.fromAddress(owner)
@@ -413,12 +428,8 @@ export class AddReviewCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get _tokenId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
   get _reviewUri(): string {
-    return this._call.inputValues[2].value.toString();
+    return this._call.inputValues[1].value.toString();
   }
 }
 

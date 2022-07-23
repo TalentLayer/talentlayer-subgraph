@@ -4,10 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayerid/talent-layer",
-    "create-local": "graph create --node http://localhost:8020/ talentlayerid/talent-layer",
-    "remove-local": "graph remove --node http://localhost:8020/ talentlayerid/talent-layer",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayerid/talent-layer"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayerid/talent-layer-id",
+    "create-local": "graph create --node http://localhost:8020/ talentlayerid/talent-layer-id",
+    "remove-local": "graph remove --node http://localhost:8020/ talentlayerid/talent-layer-id",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayerid/talent-layer-id"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.25.1",
