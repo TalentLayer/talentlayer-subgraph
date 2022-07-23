@@ -11,7 +11,7 @@ export function handleJobCreated(event: JobCreated): void {
   job.employerId = event.params.employerId;
   job.employeeId = event.params.employeeId;
   job.senderId = event.params.initiatorId;
-  job.jobDataUri = event.params.jobDataUri;
+  job.uri = event.params.jobDataUri;
   job.save();
 }
 

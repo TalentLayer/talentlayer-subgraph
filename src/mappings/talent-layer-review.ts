@@ -15,7 +15,7 @@ export function handleMint(event: Mint): void {
   let review = createAndGetReview(event.params._tokenId);
   review.jobId = event.params._jobId;
   review.toId = event.params._toId;
-  review.reviewUri = event.params._reviewUri;
+  review.uri = event.params._reviewUri;
   review.save();
 }
 
