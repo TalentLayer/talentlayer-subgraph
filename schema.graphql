@@ -18,7 +18,7 @@ type Job @entity {
 type Review @entity {
   id: ID! # review token id
   jobId: BigInt!
-  toId: BigInt!
+  toId: User! # the talentLayerId of the reviewed user
   uri: String! # metadata Uri of review
 }
 
@@ -28,4 +28,5 @@ type User @entity {
   uri: String! # metadata Uri of profile
   handle: String!
   withPoh: Boolean!
+  reviews: [Review!] @derivedFrom(field: "toId")
 }
