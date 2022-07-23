@@ -16,9 +16,10 @@ export class Job extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("status", Value.fromString(""));
     this.set("employerId", Value.fromBigInt(BigInt.zero()));
     this.set("employeeId", Value.fromBigInt(BigInt.zero()));
-    this.set("initiatorId", Value.fromBigInt(BigInt.zero()));
+    this.set("senderId", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -47,6 +48,15 @@ export class Job extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get status(): string {
+    let value = this.get("status");
+    return value!.toString();
+  }
+
+  set status(value: string) {
+    this.set("status", Value.fromString(value));
+  }
+
   get employerId(): BigInt {
     let value = this.get("employerId");
     return value!.toBigInt();
@@ -65,13 +75,13 @@ export class Job extends Entity {
     this.set("employeeId", Value.fromBigInt(value));
   }
 
-  get initiatorId(): BigInt {
-    let value = this.get("initiatorId");
+  get senderId(): BigInt {
+    let value = this.get("senderId");
     return value!.toBigInt();
   }
 
-  set initiatorId(value: BigInt) {
-    this.set("initiatorId", Value.fromBigInt(value));
+  set senderId(value: BigInt) {
+    this.set("senderId", Value.fromBigInt(value));
   }
 
   get jobDataUri(): string | null {
