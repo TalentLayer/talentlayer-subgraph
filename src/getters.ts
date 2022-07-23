@@ -17,12 +17,16 @@ export function createAndGetJob(id: BigInt): Job {
   return job;
 }
 
-export function createAndGetReview(id: BigInt, toId: BigInt): Review {
+export function createAndGetReview(
+  id: BigInt,
+  jobId: BigInt,
+  toId: BigInt
+): Review {
   let review = Review.load(id.toString());
   if (!review) {
     review = new Review(id.toString());
-    review.toId = createAndGetUser(toId).id;
-    review.jobId = ZERO;
+    review.to = createAndGetUser(toId).id;
+    review.job = createAndGetJob(jobId).id;
     review.uri = '';
     review.save();
   }
