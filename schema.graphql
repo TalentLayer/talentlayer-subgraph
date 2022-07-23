@@ -7,26 +7,26 @@ enum JobStatus {
 
 type Job @entity {
   id: ID! # job token id
-  status: JobStatus!
-  employerId: BigInt!
-  employeeId: BigInt!
-  senderId: BigInt! # the talentLayerId of the msg.sender address
-  recipientId: BigInt! # the talentLayerId of the "other" address
-  uri: String # metadata Uri of job
+  status: JobStatus! # job status
+  employerId: BigInt! # job employer
+  employeeId: BigInt! # job employee
+  senderId: BigInt! # id of the user that created the job
+  recipientId: BigInt! # id of the other participating user
+  uri: String # metadata URI of job
 }
 
 type Review @entity {
   id: ID! # review token id
-  jobId: BigInt!
-  toId: User! # the talentLayerId of the reviewed user
-  uri: String! # metadata Uri of review
+  job: Job! # job this review is for
+  to: User! # reviewed user
+  uri: String! # metadata URI of review
 }
 
 type User @entity {
   id: ID! # user token id
   address: String! # wallet address of user
-  uri: String! # metadata Uri of profile
-  handle: String!
-  withPoh: Boolean!
-  reviews: [Review!] @derivedFrom(field: "toId")
+  uri: String! # metadata URI of profile
+  handle: String! # handle of user
+  withPoh: Boolean! # whether user has proof of identity
+  reviews: [Review!] @derivedFrom(field: "to") # reviews of user
 }
