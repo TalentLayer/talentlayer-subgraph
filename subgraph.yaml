@@ -31,4 +31,50 @@ dataSources:
           handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: ./src/mappings/talent-layer-id.ts
+  - kind: ethereum/contract
+    name: TalentLayerReview
+    network: xdai
+    source:
+      address: '0x41cDF5Fd621645Bc5E0f0a943B297a2440924949'
+      abi: TalentLayerReview
+      startBlock: 23315894
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Review
+      abis:
+        - name: TalentLayerReview
+          file: ./abis/TalentLayerReview.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Mint(indexed uint256,indexed uint256,indexed uint256,string)
+          handler: handleMint
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/talent-layer-review.ts
+  - kind: ethereum/contract
+    name: JobRegistry
+    network: xdai
+    source:
+      address: '0xD80Fb0B9ED5af8dcA3aCD3EAdf215B074EF68DcF'
+      abi: JobRegistry
+      startBlock: 23315589
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Job
+      abis:
+        - name: JobRegistry
+          file: ./abis/JobRegistry.json
+      eventHandlers:
+        - event: CreateJob(uint256,uint256,uint256,uint256,string)
+          handler: handleCreateJob
+      file: ./src/mappings/job-registry.ts

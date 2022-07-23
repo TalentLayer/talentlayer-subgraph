@@ -6,8 +6,8 @@ import {
   Mint,
   OwnershipTransferred,
   Transfer,
-} from '../generated/TalentLayerID/TalentLayerID';
-import { createAndGetUser } from './getters';
+} from '../../generated/TalentLayerID/TalentLayerID';
+import { createAndGetUser } from '../getters';
 
 export function handleApproval(event: Approval): void {}
 
