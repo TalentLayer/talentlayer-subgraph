@@ -11,6 +11,161 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Job extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("employerId", Value.fromBigInt(BigInt.zero()));
+    this.set("employeeId", Value.fromBigInt(BigInt.zero()));
+    this.set("initiatorId", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Job entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Job entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Job", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Job | null {
+    return changetype<Job | null>(store.get("Job", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get employerId(): BigInt {
+    let value = this.get("employerId");
+    return value!.toBigInt();
+  }
+
+  set employerId(value: BigInt) {
+    this.set("employerId", Value.fromBigInt(value));
+  }
+
+  get employeeId(): BigInt {
+    let value = this.get("employeeId");
+    return value!.toBigInt();
+  }
+
+  set employeeId(value: BigInt) {
+    this.set("employeeId", Value.fromBigInt(value));
+  }
+
+  get initiatorId(): BigInt {
+    let value = this.get("initiatorId");
+    return value!.toBigInt();
+  }
+
+  set initiatorId(value: BigInt) {
+    this.set("initiatorId", Value.fromBigInt(value));
+  }
+
+  get jobDataUri(): string | null {
+    let value = this.get("jobDataUri");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set jobDataUri(value: string | null) {
+    if (!value) {
+      this.unset("jobDataUri");
+    } else {
+      this.set("jobDataUri", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class Review extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("jobId", Value.fromBigInt(BigInt.zero()));
+    this.set("toId", Value.fromBigInt(BigInt.zero()));
+    this.set("tokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("reviewUri", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Review entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Review entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Review", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Review | null {
+    return changetype<Review | null>(store.get("Review", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get jobId(): BigInt {
+    let value = this.get("jobId");
+    return value!.toBigInt();
+  }
+
+  set jobId(value: BigInt) {
+    this.set("jobId", Value.fromBigInt(value));
+  }
+
+  get toId(): BigInt {
+    let value = this.get("toId");
+    return value!.toBigInt();
+  }
+
+  set toId(value: BigInt) {
+    this.set("toId", Value.fromBigInt(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get reviewUri(): string {
+    let value = this.get("reviewUri");
+    return value!.toString();
+  }
+
+  set reviewUri(value: string) {
+    this.set("reviewUri", Value.fromString(value));
+  }
+}
+
 export class User extends Entity {
   constructor(id: string) {
     super();

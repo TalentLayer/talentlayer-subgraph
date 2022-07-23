@@ -1,3 +1,19 @@
+type Job @entity {
+  id: ID!
+  employerId: BigInt!
+  employeeId: BigInt!
+  initiatorId: BigInt!
+  jobDataUri: String
+}
+
+type Review @entity {
+  id: ID!
+  jobId: BigInt!
+  toId: BigInt!
+  tokenId: BigInt!
+  reviewUri: String!
+}
+
 type User @entity {
   id: ID!
   userTokenId: BigInt!
