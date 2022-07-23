@@ -11,7 +11,7 @@ type Job @entity {
   employerId: BigInt!
   employeeId: BigInt!
   senderId: BigInt! # the talentLayerId of the msg.sender address
-  # recipientId: BigInt! # the talentLayerId of the "other" address
+  recipientId: BigInt! # the talentLayerId of the "other" address
   uri: String # metadata Uri of job
 }
 
