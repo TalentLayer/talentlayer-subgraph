@@ -75,6 +75,12 @@ dataSources:
         - name: JobRegistry
           file: ./abis/JobRegistry.json
       eventHandlers:
+        - event: JobConfirmed(uint256,uint256,uint256,string)
+          handler: handleJobConfirmed
         - event: JobCreated(uint256,uint256,uint256,uint256,string)
-          handler: handleCreateJob
+          handler: handleJobCreated
+        - event: JobFinished(uint256,uint256,uint256,string)
+          handler: handleJobFinished
+        - event: JobRejected(uint256,uint256,uint256,string)
+          handler: handleJobRejected
       file: ./src/mappings/job-registry.ts

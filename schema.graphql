@@ -1,20 +1,29 @@
+enum JobStatus {
+  Initialized
+  Confirmed
+  Rejected
+  Finished
+}
+
 type Job @entity {
   id: ID!
+  status: JobStatus!
   employerId: BigInt!
   employeeId: BigInt!
-  initiatorId: BigInt!
+  senderId: BigInt! # the talentLayerId of the msg.sender address
+  # recipientId: BigInt! # the talentLayerId of the "other" address
   jobDataUri: String
 }
 
 type Review @entity {
-  id: ID! # totalSupply (unique id)
+  id: ID! # unique token id
   jobId: BigInt!
   toId: BigInt!
   reviewUri: String!
 }
 
 type User @entity {
-  id: ID!
+  id: ID! # Ethereum address of the user that mints
   userTokenId: BigInt!
   handle: String!
   withPoh: Boolean!
