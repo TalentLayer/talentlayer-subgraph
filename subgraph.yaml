@@ -6,7 +6,7 @@ dataSources:
     name: TalentLayerID
     network: xdai
     source:
-      address: '0xfC36a323D56A041011b5c2b537EA809e2AB7C8b7'
+      address: '0x45Cd9E9C04d0701b23089C44Faa807932996717E'
       abi: TalentLayerID
       startBlock: 23315433
     mapping:
@@ -40,7 +40,7 @@ dataSources:
     name: TalentLayerReview
     network: xdai
     source:
-      address: '0x67E3Aa6F076445197DfF91e0E776588FE09951aD'
+      address: '0x8685C7359DeE31703a1f47F8dabad7879148cFCf'
       abi: TalentLayerReview
       startBlock: 23315894
     mapping:
@@ -66,7 +66,7 @@ dataSources:
     name: JobRegistry
     network: xdai
     source:
-      address: '0xa0ba381942EE16CAbf901f831A8C5B722C907263'
+      address: '0xFAe97514c8e94501E66F0AEf84E4Cccb7eb2EB84'
       abi: JobRegistry
       startBlock: 23315589
     mapping:
