@@ -28,6 +28,8 @@ type User @entity {
   uri: String! # metadata URI of profile
   handle: String! # handle of user
   withPoh: Boolean! # whether user has proof of identity
+  numReviews: BigInt! # number of reviews user has received
+  rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
   employerJobs: [Job!] @derivedFrom(field: "employer") # jobs user is an employer for
   employeeJobs: [Job!] @derivedFrom(field: "employee") # jobs user is an employee for

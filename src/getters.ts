@@ -1,6 +1,6 @@
 import { Address, BigInt } from '@graphprotocol/graph-ts';
 import { User, Review, Job } from '../generated/schema';
-import { ZERO, ZERO_ADDRESS } from './constants';
+import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from './constants';
 
 export function createAndGetJob(id: BigInt): Job {
   let job = Job.load(id.toString());
@@ -12,19 +12,6 @@ export function createAndGetJob(id: BigInt): Job {
   }
   return job;
 }
-
-// job.employerId = event.params.employerId;
-// job.employeeId = event.params.employeeId;
-// job.senderId = event.params.initiatorId;
-// if (event.params.initiatorId == event.params.employerId) {
-//   job.recipientId = event.params.employeeId;
-// } else if (event.params.initiatorId == event.params.employeeId) {
-//   job.recipientId = event.params.employerId;
-// } else {
-//   log.error('Job created by neither employer nor employee, senderId: {}', [
-//     event.params.initiatorId.toString(),
-//   ]);
-// }
 
 export function createAndGetReview(
   id: BigInt,
@@ -50,6 +37,8 @@ export function createAndGetUser(id: BigInt): User {
     user.handle = '';
     user.uri = '';
     user.withPoh = false;
+    user.numReviews = ZERO;
+    user.rating = ZERO_BIGDEC;
     user.save();
   }
   return user;
