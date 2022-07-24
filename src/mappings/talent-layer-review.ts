@@ -1,4 +1,4 @@
-// import { BigInt } from '@graphprotocol/graph-ts';
+import { User } from '../../generated/schema';
 import {
   Approval,
   ApprovalForAll,
@@ -6,6 +6,7 @@ import {
   Transfer,
 } from '../../generated/TalentLayerReview/TalentLayerReview';
 import { createAndGetReview } from '../getters';
+import { ONE } from '../constants';
 
 export function handleApproval(event: Approval): void {}
 
@@ -19,6 +20,16 @@ export function handleMint(event: Mint): void {
   );
   review.uri = event.params._reviewUri;
   review.save();
+
+  let user = User.load(event.params._toId.toString());
+  if (!user) return;
+  let rating = user.rating
+    .times(user.numReviews.toBigDecimal())
+    .plus(event.params._rating.toBigDecimal())
+    .div(user.numReviews.plus(ONE).toBigDecimal());
+  user.rating = rating;
+  user.numReviews = user.numReviews.plus(ONE);
+  user.save();
 }
 
 export function handleTransfer(event: Transfer): void {}

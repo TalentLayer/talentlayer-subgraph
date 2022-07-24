@@ -1,5 +1,5 @@
-import { User } from '../../generated/schema';
 import { log } from '@graphprotocol/graph-ts';
+import { User } from '../../generated/schema';
 import {
   JobCreated,
   JobConfirmed,
