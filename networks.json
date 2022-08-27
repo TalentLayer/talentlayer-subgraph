@@ -1,0 +1,30 @@
+{
+    "xdai": {
+        "dataSource1": {
+            "address": "0x45Cd9E9C04d0701b23089C44Faa807932996717E", 
+            "startBlock": 23315433
+        },
+        "dataSource2": {
+            "address": "0x8685C7359DeE31703a1f47F8dabad7879148cFCf",
+            "startBlock": 23315894
+        },
+        "dataSource3": {
+            "address": "0xFAe97514c8e94501E66F0AEf84E4Cccb7eb2EB84",
+            "startBlock": 23315589
+        }
+    },
+    "kovan": {
+        "dataSource1": {
+            "address": "0x6A5BF452108DA389B7B38284E871f538671Ad375", 
+            "startBlock": 33354012
+        },
+        "dataSource2": {
+            "address": "0x863751792aa2dab3554b08b5ba9b336b134ae3ed",
+            "startBlock": 33354012
+        },
+        "dataSource3": {
+            "address": "0x24cEd045b50cF811862B1c33dC6B1fbC8358F521",
+            "startBlock": 33354012
+        }
+    }
+}
