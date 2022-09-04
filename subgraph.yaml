@@ -81,7 +81,7 @@ dataSources:
       eventHandlers:
         - event: JobConfirmed(uint256,uint256,uint256,string)
           handler: handleJobConfirmed
-        - event: JobCreated(uint256,uint256,uint256,uint256,string)
+        - event: JobCreated(uint256,uint256,uint256,uint256,string,uint8)
           handler: handleJobCreated
         - event: JobFinished(uint256,uint256,uint256,string)
           handler: handleJobFinished

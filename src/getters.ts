@@ -6,7 +6,7 @@ export function createAndGetJob(id: BigInt): Job {
   let job = Job.load(id.toString());
   if (!job) {
     job = new Job(id.toString());
-    job.status = 'Initialized';
+    job.status = 'Filled';
     job.uri = '';
     job.save();
   }

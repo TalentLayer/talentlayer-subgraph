@@ -1,8 +1,9 @@
 enum JobStatus {
-  Initialized
+  Filled
   Confirmed
   Rejected
   Finished
+  Opened
 }
 
 type Job @entity {
