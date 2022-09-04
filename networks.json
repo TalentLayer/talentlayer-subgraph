@@ -1,30 +1,44 @@
 {
     "xdai": {
-        "dataSource1": {
+        "TalentLayerID": {
             "address": "0x45Cd9E9C04d0701b23089C44Faa807932996717E", 
             "startBlock": 23315433
         },
-        "dataSource2": {
+        "TalentLayerReview": {
             "address": "0x8685C7359DeE31703a1f47F8dabad7879148cFCf",
             "startBlock": 23315894
         },
-        "dataSource3": {
+        "JobRegistry": {
             "address": "0xFAe97514c8e94501E66F0AEf84E4Cccb7eb2EB84",
             "startBlock": 23315589
         }
     },
     "kovan": {
-        "dataSource1": {
+        "TalentLayerID": {
             "address": "0x6A5BF452108DA389B7B38284E871f538671Ad375", 
             "startBlock": 33354012
         },
-        "dataSource2": {
+        "TalentLayerReview": {
             "address": "0x863751792aa2dab3554b08b5ba9b336b134ae3ed",
             "startBlock": 33354012
         },
-        "dataSource3": {
+        "JobRegistry": {
             "address": "0x24cEd045b50cF811862B1c33dC6B1fbC8358F521",
             "startBlock": 33354012
+        }
+    },
+    "goerli": {
+        "TalentLayerID": {
+            "address": "0x89b0d7A8B7B3c23d03c471F7c28197655c3A192B", 
+            "startBlock": 7529391
+        },
+        "TalentLayerReview": {
+            "address": "0x4F8f04B675B0ef2A0AA7C8B93D4c2d5FfFCd9Ae1",
+            "startBlock": 7529391
+        },
+        "JobRegistry": {
+            "address": "0xC51537E03f56650C63A9Feca4cCb5a039c77c822",
+            "startBlock": 7529391
         }
     }
 }
