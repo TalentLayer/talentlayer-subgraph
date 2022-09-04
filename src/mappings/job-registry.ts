@@ -23,7 +23,7 @@ export function handleJobCreated(event: JobCreated): void {
     ]);
   }
   job.uri = event.params.jobDataUri;
-  job.status = event.params.status;
+  // job.status = event.params.status;
   job.save();
 }
 
