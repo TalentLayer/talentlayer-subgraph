@@ -1,3 +1,3 @@
 # Subgraph for TalentLayer
 
-https://api.thegraph.com/subgraphs/name/talentlayerid/talent-layer-id
+https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-protocol
