@@ -3,6 +3,7 @@
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
+    "graphhelp":"graph help",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol",
     "create-local": "graph create --node http://localhost:8020/ talentlayer/talent-layer-protocol",
