@@ -1,17 +1,18 @@
 {
     "xdai": {
         "TalentLayerID": {
-            "address": "0x45Cd9E9C04d0701b23089C44Faa807932996717E", 
-            "startBlock": 23315433
+            "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6", 
+            "startBlock": 0
         },
         "TalentLayerReview": {
-            "address": "0x8685C7359DeE31703a1f47F8dabad7879148cFCf",
-            "startBlock": 23315894
+            "address": "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4",
+            "startBlock": 0
         },
         "JobRegistry": {
-            "address": "0xFAe97514c8e94501E66F0AEf84E4Cccb7eb2EB84",
-            "startBlock": 23315589
+            "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
+            "startBlock": 0
         }
+        
     },
     "kovan": {
         "TalentLayerID": {
