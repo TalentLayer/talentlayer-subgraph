@@ -11,6 +11,10 @@
         "JobRegistry": {
             "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
             "startBlock": 0
+        },
+        "TalentLayerMultipleArbitrableTransaction": {
+            "address": "0x7f606e9868283A46c050515eD70ac13B46dB845b",
+            "startBlock": 0
         }
         
     },

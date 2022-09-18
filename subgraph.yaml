@@ -75,6 +75,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Job
+        - Proposal
       abis:
         - name: JobRegistry
           file: ./abis/JobRegistry.json
@@ -99,3 +100,26 @@ dataSources:
           handler: handleProposalRejected
 
       file: ./src/mappings/job-registry.ts
+
+  - kind: ethereum/contract
+    name: TalentLayerMultipleArbitrableTransaction
+    network: xdai
+    source:
+      address: "0x7f606e9868283A46c050515eD70ac13B46dB845b"
+      abi: TalentLayerMultipleArbitrableTransaction
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Job
+        - Proposal
+      abis:
+        - name: TalentLayerMultipleArbitrableTransaction
+          file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
+      eventHandlers:
+        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256,uint256)
+          handler: handleJobProposalConfirmedWithDeposit
+
+      file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
