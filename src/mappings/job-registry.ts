@@ -6,6 +6,8 @@ import {
   JobFinished,
   JobRejected,
   ProposalCreated,
+  ProposalRejected,
+  ProposalUpdated,
 } from "../../generated/JobRegistry/JobRegistry";
 import { createAndGetJob, createAndGetProposal } from "../getters";
 
@@ -61,18 +63,18 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.rateAmount = event.params.rateAmount;
   proposal.uri = event.params.proposalDataUri;
   proposal.job = Job.load(event.params.jobId.toString())!.id;
+  proposal.employee = User.load(event.params.employeeId.toString())!.id;
   proposal.save();
 }
 
-export function handleProposalRejected(event: ProposalCreated): void {
+export function handleProposalRejected(event: ProposalRejected): void {
   let proposal = createAndGetProposal(event.params.employeeId);
   proposal.status = "Rejected";
   proposal.save();
 }
 
-export function handleProposalUpdate(event: ProposalCreated): void {
+export function handleProposalUpdated(event: ProposalUpdated): void {
   let proposal = createAndGetProposal(event.params.employeeId);
-
   proposal.rateToken = event.params.rateToken;
   proposal.rateAmount = event.params.rateAmount;
   proposal.uri = event.params.proposalDataUri;
