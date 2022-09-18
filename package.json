@@ -3,12 +3,12 @@
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
-    "graphhelp":"graph help",
+    "graphhelp": "graph help",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol",
     "create-local": "graph create --node http://localhost:8020/ talentlayer/talent-layer-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ talentlayer/talent-layer-protocol",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.25.1",
