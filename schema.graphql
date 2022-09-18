@@ -14,6 +14,7 @@ type Job @entity {
   sender: User # user that created the job (employer or employee)
   recipient: User # other participating user (employee or employer)
   uri: String # metadata URI of job
+  transactionId: String # Escrow transaction id of job
   proposals: [Proposal!] @derivedFrom(field: "job") # proposals for this job
 }
 
