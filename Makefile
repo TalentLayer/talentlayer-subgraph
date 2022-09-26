@@ -1,4 +1,5 @@
 regenerate: 
+	graph build --network localhost
 	npm run codegen
 	npm run build
 	npm run remove-local
