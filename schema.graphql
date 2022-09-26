@@ -53,3 +53,11 @@ type Proposal @entity {
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of job
 }
+
+type Payement @entity {
+  id: ID! # job token id
+  job: Job! # job entity
+  amount: BigInt # job entity
+  rateToken: Bytes # Rate token
+  transactionId: String # Escrow transaction id of job
+}
