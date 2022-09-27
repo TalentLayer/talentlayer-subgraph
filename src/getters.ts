@@ -18,7 +18,6 @@ export function createAndGetProposal(id: BigInt): Proposal {
   if (!proposal) {
     proposal = new Proposal(id.toString());
     proposal.status = "Pending";
-    // proposal.uri = "test";
     proposal.save();
   }
   return proposal;

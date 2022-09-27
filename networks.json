@@ -1,49 +1,56 @@
 {
-    "xdai": {
+    "localhost": {
         "TalentLayerID": {
-            "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6", 
-            "startBlock": 0
+          "address": "0xd78C3fae7AFE37DF386cD331CD6B446eD4095306",
+          "startBlock": 0
         },
         "TalentLayerReview": {
-            "address": "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4",
-            "startBlock": 0
+          "address": "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f",
+          "startBlock": 0
         },
         "JobRegistry": {
-            "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
-            "startBlock": 0
+          "address": "0x2deB8a32638c99310AD84E3b335e07737F8a61aE",
+          "startBlock": 0
         },
         "TalentLayerMultipleArbitrableTransaction": {
-            "address": "0x7f606e9868283A46c050515eD70ac13B46dB845b",
-            "startBlock": 0
+          "address": "0xe33725A94e24A6808AA6351551ee96c80736e8Dc",
+          "startBlock": 0
         }
-        
     },
     "kovan": {
         "TalentLayerID": {
-            "address": "0x6A5BF452108DA389B7B38284E871f538671Ad375", 
-            "startBlock": 33354012
+          "address": "0x6A5BF452108DA389B7B38284E871f538671Ad375",
+          "startBlock": 33354012
         },
         "TalentLayerReview": {
-            "address": "0x863751792aa2dab3554b08b5ba9b336b134ae3ed",
-            "startBlock": 33354012
+          "address": "0x863751792aa2dab3554b08b5ba9b336b134ae3ed",
+          "startBlock": 33354012
         },
         "JobRegistry": {
-            "address": "0x24cEd045b50cF811862B1c33dC6B1fbC8358F521",
-            "startBlock": 33354012
+          "address": "0x24cEd045b50cF811862B1c33dC6B1fbC8358F521",
+          "startBlock": 33354012
         }
     },
     "goerli": {
         "TalentLayerID": {
-            "address": "0x9FDc1ade9D4a2518eC5C5c01f683E312d1970f3C", 
-            "startBlock": 7611927
+          "address": "0xbc183807fDaeaC824C38BFC9851a2224402a6a24",
+          "startBlock": 7611927
         },
         "TalentLayerReview": {
-            "address": "0x7A534501a6e63448EBC691f27B27B76d4F9b7E17",
-            "startBlock": 7611927
+          "address": "0x24124D6F6AE8fB5e55Ff9d6B8E575825fC6f178B",
+          "startBlock": 7611927
         },
         "JobRegistry": {
-            "address": "0x863751792aa2DAb3554b08B5ba9B336B134ae3ed",
-            "startBlock": 7611927
+          "address": "0x2e3c6135510C324C7d18a651dA573B8Cbd189657",
+          "startBlock": 7611927
+        },
+        "TalentLayerMultipleArbitrableTransaction": {
+          "address": "0x0E357ce3Fb8C07800F1FEFF3dB0C0947799Fba0c",
+          "startBlock": 7611927
+        },
+        "proofOfHumanityAddress": {
+          "address": "0x2C81B0E3797b860f9C395A60044Dc7341321c7E9",
+          "startBlock": 7611927
         }
     }
 }
