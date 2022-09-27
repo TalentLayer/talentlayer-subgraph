@@ -1,13 +1,16 @@
 import { log } from "@graphprotocol/graph-ts";
 import { Job, User } from "../../generated/schema";
-// import {
-//   Approval,
-//   ApprovalForAll,
-//   Mint,
-//   Transfer,
-// } from "../../generated/TalentLayerReview/TalentLayerReview";
+import {
+  Approval,
+  ApprovalForAll,
+  Mint,
+  Transfer,
+} from "../../generated/TalentLayerReview/TalentLayerReview";
 import { createAndGetJob, createAndGetProposal } from "../getters";
-import { JobProposalConfirmedWithDeposit } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
+import {
+  JobProposalConfirmedWithDeposit,
+  PaymentCompleted,
+} from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 
 export function handleJobProposalConfirmedWithDeposit(
   event: JobProposalConfirmedWithDeposit
@@ -24,4 +27,10 @@ export function handleJobProposalConfirmedWithDeposit(
 
   proposal.status = "Validated";
   proposal.save();
+}
+
+export function handlePaymentCompleted(event: PaymentCompleted): void {
+  let job = createAndGetJob(event.params._jobId);
+  job.status = "Finished";
+  job.save();
 }
