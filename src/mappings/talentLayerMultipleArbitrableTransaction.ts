@@ -7,10 +7,7 @@ import { Job, User } from "../../generated/schema";
 //   Transfer,
 // } from "../../generated/TalentLayerReview/TalentLayerReview";
 import { createAndGetJob, createAndGetProposal } from "../getters";
-import {
-  JobProposalConfirmedWithDeposit,
-  Payment,
-} from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
+import { JobProposalConfirmedWithDeposit } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 
 export function handleJobProposalConfirmedWithDeposit(
   event: JobProposalConfirmedWithDeposit

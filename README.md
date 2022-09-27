@@ -6,40 +6,40 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
 
 ### GraphiQL request example
 
+```graphql
 {
-proposals{
-id
-status
-uri
-rateToken
-rateAmount
-job{
-id,
-employer{
-handle
+  proposals {
+    id
+    status
+    uri
+    rateToken
+    rateAmount
+    job {
+      id
+      employer {
+        handle
+      }
+    }
+  }
+  users(orderBy: id, orderDirection: desc) {
+    id
+    address
+    uri
+    handle
+    withPoh
+  }
+  jobs {
+    id
+    status
+    proposals {
+      id
+      status
+      rateAmount
+      rateToken
+      employee {
+        handle
+      }
+    }
+  }
 }
-}
-
-}
-users(orderBy: id, orderDirection: desc) {
-id
-address
-uri
-handle
-withPoh
-}
-jobs{
-id
-status
-proposals{
-id,
-status,
-rateAmount,
-rateToken,
-employee{
-handle
-}
-}
-}
-
-}
+```
