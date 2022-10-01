@@ -19,7 +19,6 @@ export function handleJobCreated(event: JobCreated): void {
   log.warning("employee: {}", [employeeId]);
   if (employeeId != "0") {
     job.employee = User.load(employeeId)!.id;
-    job.createdAt = event.block.timestamp;
   } else {
     job.status = "Opened";
   }
