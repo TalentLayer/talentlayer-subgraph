@@ -28,6 +28,7 @@ export function handleJobCreated(event: JobCreated): void {
   if (event.params.initiatorId == event.params.employerId) {
     job.recipient = job.employee;
   } else if (event.params.initiatorId == event.params.employeeId) {
+    job.recipient = job.employer;
   } else {
     log.error("Job created by neither employer nor employee, senderId: {}", [
       event.params.initiatorId.toString(),
