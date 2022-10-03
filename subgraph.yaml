@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
+      address: "0xd78C3fae7AFE37DF386cD331CD6B446eD4095306"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -25,7 +25,8 @@ dataSources:
           handler: handleApprovalForAll
         - event: CidUpdated(indexed uint256,string)
           handler: handleCidUpdated
-        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
+        - event:
+            ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
         - event: Mint(indexed address,uint256,string,bool)
@@ -42,7 +43,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4"
+      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,7 +69,7 @@ dataSources:
     network: localhost
     source:
       abi: JobRegistry
-      address: "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC"
+      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -105,7 +106,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0xEa46171E156D3f578c97E98C62bB86Cf94CA101F"
+      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -120,6 +121,6 @@ dataSources:
       eventHandlers:
         - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256,uint256)
           handler: handleJobProposalConfirmedWithDeposit
-        - event: Payment(indexed uint256,uint256,address)
-          handler: handlePayment
+        - event: PaymentCompleted(uint256)
+          handler: handlePaymentCompleted
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
