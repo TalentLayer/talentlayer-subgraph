@@ -45,7 +45,7 @@ enum ProposalStatus {
 }
 
 type Proposal @entity {
-  id: ID! # job token id
+  id: ID! # employee address
   job: Job! # job entity
   status: ProposalStatus! # Proposal status
   employee: User # Proposal employee
@@ -55,10 +55,9 @@ type Proposal @entity {
 }
 
 type Payment @entity {
-  id: ID! # transaction id
+  id: ID! # escrow transaction id
   job: Job! # job entity
   amount: BigInt # payment amount
   rateToken: Bytes # Rate token
   party: Bytes # Party who paid the transaction
-  transactionId: String # Escrow transaction id of job
 }

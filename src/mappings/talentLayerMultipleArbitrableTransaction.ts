@@ -13,8 +13,8 @@ import {
 export function handleJobProposalConfirmedWithDeposit(
   event: JobProposalConfirmedWithDeposit
 ): void {
-  let job = getOrCreateJob(event.params.id);
-  let proposal = getOrCreateProposal(event.params.proposalId);
+  const job = getOrCreateJob(event.params.id);
+  const proposal = getOrCreateProposal(event.params.proposalId);
   log.warning("!!!!!! proposal ID", [event.params.proposalId.toString()]);
   log.warning("!!!!!! job ID", [event.params.id.toString()]);
 
@@ -28,19 +28,16 @@ export function handleJobProposalConfirmedWithDeposit(
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
-  let job = getOrCreateJob(event.params._jobId);
+  const job = getOrCreateJob(event.params._jobId);
   job.status = "Finished";
   job.save();
 }
 
 export function handlePayment(event: Payment): void {
-  //TODO: For payment Id, use transactionID ? Can there be several payments for one transaction ? Does this ID need to be unique ?
-  let payment = getOrCreatePayment(event.params._transactionID, event.params._jobId);
+  const payment = getOrCreatePayment(event.params._transactionID, event.params._jobId);
   payment.job = Job.load(event.params._jobId.toString())!.id;
   payment.amount = event.params._amount;
   payment.party = event.params._party;
   payment.rateToken = event.params._token;
-  //TODO If so, this param is redundant
-  payment.transactionId = event.params._transactionID.toString();
   payment.save();
 }
