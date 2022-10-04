@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391"
+      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,7 +68,7 @@ dataSources:
     network: localhost
     source:
       abi: JobRegistry
-      address: "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e"
+      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -105,7 +105,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0xA4402FaF408cA14a7aCcA7BD074836162cA84582"
+      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
       startBlock: 0
     mapping:
       kind: ethereum/events
