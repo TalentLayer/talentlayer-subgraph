@@ -1,22 +1,20 @@
 import { log } from "@graphprotocol/graph-ts";
-import { Job, User } from "../../generated/schema";
+import {Job, User} from "../../generated/schema";
 import {
-  Approval,
-  ApprovalForAll,
-  Mint,
-  Transfer,
-} from "../../generated/TalentLayerReview/TalentLayerReview";
-import { createAndGetJob, createAndGetProposal } from "../getters";
+  getOrCreateJob,
+  getOrCreatePayment,
+  getOrCreateProposal
+} from "../getters";
 import {
-  JobProposalConfirmedWithDeposit,
+  JobProposalConfirmedWithDeposit, Payment,
   PaymentCompleted,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 
 export function handleJobProposalConfirmedWithDeposit(
   event: JobProposalConfirmedWithDeposit
 ): void {
-  let job = createAndGetJob(event.params.id);
-  let proposal = createAndGetProposal(event.params.proposalId);
+  let job = getOrCreateJob(event.params.id);
+  let proposal = getOrCreateProposal(event.params.proposalId);
   log.warning("!!!!!! proposal ID", [event.params.proposalId.toString()]);
   log.warning("!!!!!! job ID", [event.params.id.toString()]);
 
@@ -30,7 +28,17 @@ export function handleJobProposalConfirmedWithDeposit(
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
-  let job = createAndGetJob(event.params._jobId);
+  let job = getOrCreateJob(event.params._jobId);
   job.status = "Finished";
   job.save();
+}
+
+export function handlePayment(event: Payment): void {
+  //TODO: For payment Id, use transactionID ?
+  let payment = getOrCreatePayment(event.params._transactionID, event.params._jobId);
+  payment.job = Job.load(event.params._jobId.toString())!.id;
+  payment.amount = event.params._amount;
+  payment.party = event.params._party;
+  payment.rateToken = event.params._token;
+  payment.save();
 }

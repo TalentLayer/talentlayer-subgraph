@@ -54,10 +54,11 @@ type Proposal @entity {
   uri: String! # metadata URI of job
 }
 
-type Payement @entity {
-  id: ID! # job token id
+type Payment @entity {
+  id: ID! #
   job: Job! # job entity
-  amount: BigInt # job entity
+  amount: BigInt # payment amount
   rateToken: Bytes # Rate token
+  party: Bytes # Party whi paid the transaction
   transactionId: String # Escrow transaction id of job
 }
