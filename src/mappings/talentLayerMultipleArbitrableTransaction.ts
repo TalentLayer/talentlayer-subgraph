@@ -34,11 +34,13 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
 }
 
 export function handlePayment(event: Payment): void {
-  //TODO: For payment Id, use transactionID ?
+  //TODO: For payment Id, use transactionID ? Can there be several payments for one transaction ? Does this ID need to be unique ?
   let payment = getOrCreatePayment(event.params._transactionID, event.params._jobId);
   payment.job = Job.load(event.params._jobId.toString())!.id;
   payment.amount = event.params._amount;
   payment.party = event.params._party;
   payment.rateToken = event.params._token;
+  //TODO If so, this param is redundant
+  payment.transactionId = event.params._transactionID.toString();
   payment.save();
 }
