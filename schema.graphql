@@ -55,10 +55,10 @@ type Proposal @entity {
 }
 
 type Payment @entity {
-  id: ID! #
+  id: ID! # transaction id
   job: Job! # job entity
   amount: BigInt # payment amount
   rateToken: Bytes # Rate token
-  party: Bytes # Party whi paid the transaction
+  party: Bytes # Party who paid the transaction
   transactionId: String # Escrow transaction id of job
 }
