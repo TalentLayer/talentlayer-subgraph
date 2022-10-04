@@ -9,10 +9,10 @@ import {
   ProposalRejected,
   ProposalUpdated,
 } from "../../generated/JobRegistry/JobRegistry";
-import { createAndGetJob, createAndGetProposal } from "../getters";
+import { getOrCreateJob, getOrCreateProposal } from "../getters";
 
 export function handleJobCreated(event: JobCreated): void {
-  let job = createAndGetJob(event.params.id);
+  let job = getOrCreateJob(event.params.id);
   job.employer = User.load(event.params.employerId.toString())!.id;
 
   let employeeId = event.params.employeeId.toString();
@@ -38,25 +38,25 @@ export function handleJobCreated(event: JobCreated): void {
 }
 
 export function handleJobConfirmed(event: JobConfirmed): void {
-  let job = createAndGetJob(event.params.id);
+  let job = getOrCreateJob(event.params.id);
   job.status = "Confirmed";
   job.save();
 }
 
 export function handleJobFinished(event: JobFinished): void {
-  let job = createAndGetJob(event.params.id);
+  let job = getOrCreateJob(event.params.id);
   job.status = "Finished";
   job.save();
 }
 
 export function handleJobRejected(event: JobRejected): void {
-  let job = createAndGetJob(event.params.id);
+  let job = getOrCreateJob(event.params.id);
   job.status = "Rejected";
   job.save();
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
+  let proposal = getOrCreateProposal(event.params.employeeId);
   proposal.status = "Pending";
 
   proposal.rateToken = event.params.rateToken;
@@ -68,13 +68,13 @@ export function handleProposalCreated(event: ProposalCreated): void {
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
+  let proposal = getOrCreateProposal(event.params.employeeId);
   proposal.status = "Rejected";
   proposal.save();
 }
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
+  let proposal = getOrCreateProposal(event.params.employeeId);
   proposal.rateToken = event.params.rateToken;
   proposal.rateAmount = event.params.rateAmount;
   proposal.uri = event.params.proposalDataUri;

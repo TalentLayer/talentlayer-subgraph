@@ -5,7 +5,7 @@ import {
   Mint,
   Transfer,
 } from '../../generated/TalentLayerReview/TalentLayerReview';
-import { createAndGetReview } from '../getters';
+import { getOrCreateReview } from '../getters';
 import { ONE } from '../constants';
 
 export function handleApproval(event: Approval): void {}
@@ -13,7 +13,7 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleMint(event: Mint): void {
-  let review = createAndGetReview(
+  let review = getOrCreateReview(
     event.params._tokenId,
     event.params._jobId,
     event.params._toId
