@@ -61,8 +61,6 @@ export function getOrCreatePayment(transactionId: BigInt, jobId: BigInt): Paymen
     payment.job = getOrCreateJob(jobId).id;
     payment.amount = ZERO;
     payment.rateToken = ZERO_ADDRESS;
-    //TODO: Param may be redundant
-    payment.transactionId = transactionId.toString();
   }
   return payment;
 }
