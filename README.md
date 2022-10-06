@@ -10,6 +10,8 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
 {
   proposals {
     id
+    createdAt
+    updatedAt
     status
     uri
     rateToken
@@ -23,6 +25,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
   }
   users(orderBy: id, orderDirection: desc) {
     id
+
     address
     uri
     handle
@@ -30,6 +33,8 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
   }
   jobs {
     id
+    createdAt
+    updatedAt
     status
     proposals {
       id
