@@ -2,3 +2,5 @@ node_modules
 build
 generated
 data
+pnpm-lock.yaml
+.vscode/settings.json
