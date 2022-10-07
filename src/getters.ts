@@ -54,13 +54,14 @@ export function getOrCreateUser(id: BigInt): User {
   return user;
 }
 
-export function getOrCreatePayment(transactionId: BigInt, jobId: BigInt): Payment {
-  let payment = Payment.load(transactionId.toString());
+export function getOrCreatePayment(paymentId: string, jobId: BigInt): Payment {
+  let payment = Payment.load(paymentId);
   if (!payment) {
-    payment = new Payment(transactionId.toString());
+    payment = new Payment(paymentId.toString());
     payment.job = getOrCreateJob(jobId).id;
     payment.amount = ZERO;
     payment.rateToken = ZERO_ADDRESS;
+    payment.receiver = ZERO_ADDRESS;
   }
   return payment;
 }
