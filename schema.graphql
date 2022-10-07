@@ -47,7 +47,7 @@ enum ProposalStatus {
 }
 
 type Proposal @entity {
-  id: ID! # job token id
+  id: ID! # concatenation of jobId + employeeId
   job: Job! # job entity
   createdAt: BigInt # timestamp of block creation
   updatedAt: BigInt # timestamp of the last change
