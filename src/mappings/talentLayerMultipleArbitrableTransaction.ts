@@ -20,7 +20,7 @@ export function handleJobProposalConfirmedWithDeposit(
 
   job.status = "Confirmed";
   job.transactionId = event.params.transactionId.toString();
-  job.employer = User.load(event.params.employeeId.toString())!.id;
+  job.employee = User.load(event.params.employeeId.toString())!.id;
   job.save();
 
   proposal.status = "Validated";
@@ -34,10 +34,12 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
 }
 
 export function handlePayment(event: Payment): void {
-  const payment = getOrCreatePayment(event.params._transactionID, event.params._jobId);
+  const paymentId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+  const payment = getOrCreatePayment(paymentId, event.params._jobId);
+
   payment.job = Job.load(event.params._jobId.toString())!.id;
   payment.amount = event.params._amount;
-  payment.party = event.params._party;
+  payment.receiver = event.params._receiver;
   payment.rateToken = event.params._token;
   payment.save();
 }
