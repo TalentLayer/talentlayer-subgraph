@@ -1,36 +1,34 @@
 import { log } from "@graphprotocol/graph-ts";
-import { Job, User } from "../../generated/schema";
-import {
-  Approval,
-  ApprovalForAll,
-  Mint,
-  Transfer,
-} from "../../generated/TalentLayerReview/TalentLayerReview";
+import { User } from "../../generated/schema";
 import { createAndGetJob, createAndGetProposal } from "../getters";
 import {
   JobProposalConfirmedWithDeposit,
   PaymentCompleted,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
+import { generateProposalId } from "./utils";
 
 export function handleJobProposalConfirmedWithDeposit(
-  event: JobProposalConfirmedWithDeposit
+    { params }: JobProposalConfirmedWithDeposit
 ): void {
-  let job = createAndGetJob(event.params.id);
-  let proposal = createAndGetProposal(event.params.proposalId);
-  log.warning("!!!!!! proposal ID", [event.params.proposalId.toString()]);
-  log.warning("!!!!!! job ID", [event.params.id.toString()]);
+  const job = createAndGetJob(params.jobId);
+
+  const proposalId = generateProposalId(params.jobId.toString(), params.employeeId.toString());
+  const proposal = createAndGetProposal(proposalId);
+
+  log.warning("!!!!!! proposal ID", [proposalId]);
+  log.warning("!!!!!! job ID", [params.jobId.toString()]);
 
   job.status = "Confirmed";
-  job.transactionId = event.params.transactionId.toString();
-  job.employer = User.load(event.params.employeeId.toString())!.id;
+  job.transactionId = params.transactionId.toString();
+  job.employee = User.load(params.employeeId.toString())!.id;
   job.save();
 
   proposal.status = "Validated";
   proposal.save();
 }
 
-export function handlePaymentCompleted(event: PaymentCompleted): void {
-  let job = createAndGetJob(event.params._jobId);
+export function handlePaymentCompleted({ params }: PaymentCompleted): void {
+  const job = createAndGetJob(params._jobId);
   job.status = "Finished";
   job.save();
 }

@@ -118,7 +118,7 @@ dataSources:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
       eventHandlers:
-        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256,uint256)
+        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256)
           handler: handleJobProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
