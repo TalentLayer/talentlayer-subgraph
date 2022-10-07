@@ -1,4 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { BigInt } from "@graphprotocol/graph-ts";
 import { User, Review, Job, Proposal } from "../generated/schema";
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
@@ -13,10 +13,10 @@ export function createAndGetJob(id: BigInt): Job {
   return job;
 }
 
-export function createAndGetProposal(id: BigInt): Proposal {
-  let proposal = Proposal.load(id.toString());
+export function createAndGetProposal(id: string): Proposal {
+  let proposal = Proposal.load(id);
   if (!proposal) {
-    proposal = new Proposal(id.toString());
+    proposal = new Proposal(id);
     proposal.status = "Pending";
     proposal.save();
   }

@@ -10,12 +10,13 @@ import {
   ProposalUpdated,
 } from "../../generated/JobRegistry/JobRegistry";
 import { createAndGetJob, createAndGetProposal } from "../getters";
+import {generateProposalId} from "./utils";
 
-export function handleJobCreated(event: JobCreated): void {
-  let job = createAndGetJob(event.params.id);
-  job.employer = User.load(event.params.employerId.toString())!.id;
+export function handleJobCreated({ params, block }: JobCreated): void {
+  const job = createAndGetJob(params.id);
+  job.employer = User.load(params.employerId.toString())!.id;
 
-  let employeeId = event.params.employeeId.toString();
+  const employeeId = params.employeeId.toString();
   log.warning("employee: {}", [employeeId]);
   if (employeeId != "0") {
     job.employee = User.load(employeeId)!.id;
@@ -23,74 +24,77 @@ export function handleJobCreated(event: JobCreated): void {
     job.status = "Opened";
   }
 
-  job.sender = User.load(event.params.initiatorId.toString())!.id;
-  if (event.params.initiatorId == event.params.employerId) {
+  job.sender = User.load(params.initiatorId.toString())!.id;
+  if (params.initiatorId == params.employerId) {
     job.recipient = job.employee;
-  } else if (event.params.initiatorId == event.params.employeeId) {
+  } else if (params.initiatorId == params.employeeId) {
     job.recipient = job.employer;
   } else {
     log.error("Job created by neither employer nor employee, senderId: {}", [
-      event.params.initiatorId.toString(),
+      params.initiatorId.toString(),
     ]);
   }
 
-  job.uri = event.params.jobDataUri;
+  job.uri = params.jobDataUri;
 
-  job.createdAt = event.block.timestamp;
-  job.updatedAt = event.block.timestamp;
+  job.createdAt = block.timestamp;
+  job.updatedAt = block.timestamp;
 
   job.save();
 }
 
-export function handleJobConfirmed(event: JobConfirmed): void {
-  let job = createAndGetJob(event.params.id);
+export function handleJobConfirmed({ params, block }: JobConfirmed): void {
+  const job = createAndGetJob(params.id);
   job.status = "Confirmed";
-  job.updatedAt = event.block.timestamp;
+  job.updatedAt = block.timestamp;
   job.save();
 }
 
-export function handleJobFinished(event: JobFinished): void {
-  let job = createAndGetJob(event.params.id);
+export function handleJobFinished({ params, block }: JobFinished): void {
+  const job = createAndGetJob(params.id);
   job.status = "Finished";
-  job.updatedAt = event.block.timestamp;
+  job.updatedAt = block.timestamp;
   job.save();
 }
 
-export function handleJobRejected(event: JobRejected): void {
-  let job = createAndGetJob(event.params.id);
+export function handleJobRejected({ params, block }: JobRejected): void {
+  const job = createAndGetJob(params.id);
   job.status = "Rejected";
-  job.updatedAt = event.block.timestamp;
+  job.updatedAt = block.timestamp;
   job.save();
 }
 
-export function handleProposalCreated(event: ProposalCreated): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
+export function handleProposalCreated({ params, block }: ProposalCreated): void {
+  const proposalId = generateProposalId(params.jobId.toString(), params.employeeId.toString());
+  const proposal = createAndGetProposal(proposalId);
   proposal.status = "Pending";
 
-  proposal.rateToken = event.params.rateToken;
-  proposal.rateAmount = event.params.rateAmount;
-  proposal.uri = event.params.proposalDataUri;
-  proposal.job = Job.load(event.params.jobId.toString())!.id;
-  proposal.employee = User.load(event.params.employeeId.toString())!.id;
+  proposal.rateToken = params.rateToken;
+  proposal.rateAmount = params.rateAmount;
+  proposal.uri = params.proposalDataUri;
+  proposal.job = Job.load(params.jobId.toString())!.id;
+  proposal.employee = User.load(params.employeeId.toString())!.id;
 
-  proposal.createdAt = event.block.timestamp;
-  proposal.updatedAt = event.block.timestamp;
+  proposal.createdAt = block.timestamp;
+  proposal.updatedAt = block.timestamp;
 
   proposal.save();
 }
 
-export function handleProposalRejected(event: ProposalRejected): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
+export function handleProposalRejected({ params, block }: ProposalRejected): void {
+  const proposalId = generateProposalId(params.jobId.toString(), params.employeeId.toString());
+  const proposal = createAndGetProposal(proposalId);
   proposal.status = "Rejected";
-  proposal.updatedAt = event.block.timestamp;
+  proposal.updatedAt = block.timestamp;
   proposal.save();
 }
 
-export function handleProposalUpdated(event: ProposalUpdated): void {
-  let proposal = createAndGetProposal(event.params.employeeId);
-  proposal.rateToken = event.params.rateToken;
-  proposal.rateAmount = event.params.rateAmount;
-  proposal.uri = event.params.proposalDataUri;
-  proposal.updatedAt = event.block.timestamp;
+export function handleProposalUpdated({ params, block }: ProposalUpdated): void {
+  const proposalId = generateProposalId(params.jobId.toString(), params.employeeId.toString());
+  const proposal = createAndGetProposal(proposalId);
+  proposal.rateToken = params.rateToken;
+  proposal.rateAmount = params.rateAmount;
+  proposal.uri = params.proposalDataUri;
+  proposal.updatedAt = block.timestamp;
   proposal.save();
 }
