@@ -11,7 +11,8 @@ import {
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 import {generateProposalId, generateUniqueId} from "./utils";
 
-export function handleJobProposalConfirmedWithDeposit(event: JobProposalConfirmedWithDeposit): void {
+export function handleJobProposalConfirmedWithDeposit(
+    event: JobProposalConfirmedWithDeposit): void {
   const job = getOrCreateJob(event.params.jobId);
 
   const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
@@ -41,15 +42,15 @@ export function handlePayment(event: Payment): void {
 
   payment.job = Job.load(event.params._jobId.toString())!.id;
   payment.amount = event.params._amount;
+  payment.rateToken = event.params._token;
 
   if(event.params._paymentType === 0){
     payment.paymentType = 'Release';
   }
   if(event.params._paymentType === 1){
     payment.paymentType = 'Reimburse';
-  }
 
-  payment.transactionHash = event.transaction.hash.toHexString();
-  payment.rateToken = event.params._token;
+  }
+  payment.transactionHash = event.transaction.hash.toHex();
   payment.save();
 }
