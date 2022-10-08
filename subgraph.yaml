@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0xd78C3fae7AFE37DF386cD331CD6B446eD4095306"
+      address: "0x04aCf26C1721bcc633056E2Ec5EfD1dbe6e0689B"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
+      address: "0x1e211Bca92ba05f5c1c819Fec8f0ACce2B783FE3"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,7 +68,7 @@ dataSources:
     network: localhost
     source:
       abi: JobRegistry
-      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
+      address: "0xD2dDd6E7BE6b406eaF53235301a648734e66BE10"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -105,7 +105,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
+      address: "0xD303775AF6bfec1cF8ace669bDc248Be0dB01052"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -118,7 +118,7 @@ dataSources:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
       eventHandlers:
-        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256,uint256)
+        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256)
           handler: handleJobProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted

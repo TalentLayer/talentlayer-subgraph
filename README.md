@@ -10,6 +10,8 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
 {
   proposals {
     id
+    createdAt
+    updatedAt
     status
     uri
     rateToken
@@ -30,6 +32,8 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
   }
   jobs {
     id
+    createdAt
+    updatedAt
     status
     proposals {
       id

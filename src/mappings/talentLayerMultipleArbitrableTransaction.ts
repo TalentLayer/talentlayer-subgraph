@@ -9,14 +9,16 @@ import {
   JobProposalConfirmedWithDeposit, Payment,
   PaymentCompleted,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
+import {generateProposalId, generateUniqueId} from "./utils";
 
-export function handleJobProposalConfirmedWithDeposit(
-  event: JobProposalConfirmedWithDeposit
-): void {
-  const job = getOrCreateJob(event.params.id);
-  const proposal = getOrCreateProposal(event.params.proposalId);
-  log.warning("!!!!!! proposal ID", [event.params.proposalId.toString()]);
-  log.warning("!!!!!! job ID", [event.params.id.toString()]);
+export function handleJobProposalConfirmedWithDeposit(event: JobProposalConfirmedWithDeposit): void {
+  const job = getOrCreateJob(event.params.jobId);
+
+  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposal = getOrCreateProposal(proposalId);
+
+  log.warning("!!!!!! proposal ID", [proposalId]);
+  log.warning("!!!!!! job ID", [event.params.jobId.toString()]);
 
   job.status = "Confirmed";
   job.transactionId = event.params.transactionId.toString();
@@ -34,7 +36,7 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
 }
 
 export function handlePayment(event: Payment): void {
-  const paymentId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+  const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
   const payment = getOrCreatePayment(paymentId, event.params._jobId);
 
   payment.job = Job.load(event.params._jobId.toString())!.id;

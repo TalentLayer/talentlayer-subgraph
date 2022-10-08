@@ -13,6 +13,8 @@ enum PaymentType {
 
 type Job @entity {
   id: ID! # job token id
+  createdAt: BigInt # timestamp of block creation
+  updatedAt: BigInt # timestamp of the last change
   status: JobStatus! # job status
   employer: User # job employer
   employee: User # job employee
@@ -50,8 +52,10 @@ enum ProposalStatus {
 }
 
 type Proposal @entity {
-  id: ID! # employee TalentLayerId
+  id: ID! # concatenation of jobId + employee TalentLayerId
   job: Job! # job entity
+  createdAt: BigInt # timestamp of block creation
+  updatedAt: BigInt # timestamp of the last change
   status: ProposalStatus! # Proposal status
   employee: User # Proposal employee
   rateToken: Bytes # Rate token
