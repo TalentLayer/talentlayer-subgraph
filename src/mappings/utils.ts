@@ -3,5 +3,5 @@ export const generateProposalId = (jobId: string, employeeId: string): string =>
 }
 
 export const generateUniqueId = (transactionHash: string, logIndex: string): string => {
-    return transactionHash + "-" + logIndex;
+    return transactionHash + '-' + logIndex;
 }

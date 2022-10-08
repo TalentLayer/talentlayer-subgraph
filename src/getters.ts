@@ -14,9 +14,9 @@ export function getOrCreateJob(id: BigInt): Job {
 }
 
 export function getOrCreateProposal(id: string): Proposal {
-  let proposal = Proposal.load(id.toString());
+  let proposal = Proposal.load(id);
   if (!proposal) {
-    proposal = new Proposal(id.toString());
+    proposal = new Proposal(id);
     proposal.status = "Pending";
     proposal.save();
   }
