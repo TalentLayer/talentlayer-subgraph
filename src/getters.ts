@@ -13,7 +13,7 @@ export function getOrCreateJob(id: BigInt): Job {
   return job;
 }
 
-export function getOrCreateProposal(id: BigInt): Proposal {
+export function getOrCreateProposal(id: string): Proposal {
   let proposal = Proposal.load(id.toString());
   if (!proposal) {
     proposal = new Proposal(id.toString());
