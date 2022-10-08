@@ -25,7 +25,6 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
   }
   users(orderBy: id, orderDirection: desc) {
     id
-
     address
     uri
     handle
