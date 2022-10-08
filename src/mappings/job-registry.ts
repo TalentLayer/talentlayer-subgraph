@@ -44,21 +44,21 @@ export function handleJobCreated(event: JobCreated): void {
 }
 
 export function handleJobConfirmed(event: JobConfirmed): void {
-  let job = getOrCreateJob(event.params.id);
+  const job = getOrCreateJob(event.params.id);
   job.status = "Confirmed";
   job.updatedAt = event.block.timestamp;
   job.save();
 }
 
 export function handleJobFinished(event: JobFinished): void {
-  let job = getOrCreateJob(event.params.id);
+  const job = getOrCreateJob(event.params.id);
   job.status = "Finished";
   job.updatedAt = event.block.timestamp;
   job.save();
 }
 
 export function handleJobRejected(event: JobRejected): void {
-  let job = getOrCreateJob(event.params.id);
+  const job = getOrCreateJob(event.params.id);
   job.status = "Rejected";
   job.updatedAt = event.block.timestamp;
   job.save();

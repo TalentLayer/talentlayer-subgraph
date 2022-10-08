@@ -12,7 +12,7 @@ import {
 import { getOrCreateUser } from '../getters';
 
 export function handleAccountRecovered(event: AccountRecovered): void {
-  let user = getOrCreateUser(event.params._tokenId);
+  const user = getOrCreateUser(event.params._tokenId);
   user.address = event.params._newAddress.toHex();
   user.save();
 }
@@ -22,7 +22,7 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleCidUpdated(event: CidUpdated): void {
-  let user = getOrCreateUser(event.params._tokenId);
+  const user = getOrCreateUser(event.params._tokenId);
   user.uri = event.params._newCid;
   user.save();
 }
@@ -30,7 +30,7 @@ export function handleCidUpdated(event: CidUpdated): void {
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}
 
 export function handleMint(event: Mint): void {
-  let user = getOrCreateUser(event.params._tokenId);
+  const user = getOrCreateUser(event.params._tokenId);
   user.address = event.params._user.toHex();
   user.handle = event.params._handle;
   user.withPoh = event.params._withPoh;
@@ -40,7 +40,7 @@ export function handleMint(event: Mint): void {
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handlePohActivated(event: PohActivated): void {
-  let user = getOrCreateUser(event.params._tokenId);
+  const user = getOrCreateUser(event.params._tokenId);
   user.withPoh = true;
   user.save();
 }
