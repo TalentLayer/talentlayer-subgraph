@@ -33,13 +33,22 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   job.save();
 }
 
+// export function handlePayment({ params, transaction, logIndex }: Payment): void {
 export function handlePayment(event: Payment): void {
   const paymentId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
   const payment = getOrCreatePayment(paymentId, event.params._jobId);
 
   payment.job = Job.load(event.params._jobId.toString())!.id;
   payment.amount = event.params._amount;
-  payment.receiver = event.params._receiver;
+
+  if(event.params._paymentType === 0){
+    payment.paymentType = 'Release';
+  }
+  if(event.params._paymentType === 1){
+    payment.paymentType = 'Reimburse';
+  }
+
+  payment.transactionHash = event.transaction.hash.toHexString();
   payment.rateToken = event.params._token;
   payment.save();
 }
