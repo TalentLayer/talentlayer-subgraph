@@ -9,3 +9,23 @@ let ZERO_ADDRESS = Address.fromString(
 let ZERO_BIGDEC = BigDecimal.fromString('0');
 
 export { ONE, TEN, ZERO, ZERO_ADDRESS, ZERO_BIGDEC };
+
+// TODO: Converts enum values in i32. See if this can be solved.
+// export enum JobStatus {
+//     Filled= 'Filled',
+//     Confirmed ='Confirmed',
+//     Rejected = 'Rejected',
+//     Finished = 'Finished',
+//     Opened = 'Opened'
+// }
+//
+// export enum PaymentType {
+//     Release = 'Release',
+//     Reimburse = 'Reimburse'
+// }
+//
+// export enum ProposalStatus {
+//     Pending= 'Pending',
+//     Validated = 'Validated',
+//     Rejected = 'Rejected'
+// }
