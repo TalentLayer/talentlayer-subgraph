@@ -122,6 +122,6 @@ dataSources:
           handler: handleJobProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
-        - event: Payment(address,uint256,address,uint256)
+        - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts

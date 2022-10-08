@@ -61,7 +61,7 @@ export function getOrCreatePayment(paymentId: string, jobId: BigInt): Payment {
     payment.job = getOrCreateJob(jobId).id;
     payment.amount = ZERO;
     payment.rateToken = ZERO_ADDRESS;
-    payment.receiver = ZERO_ADDRESS;
+    payment.paymentType = '';
   }
   return payment;
 }
