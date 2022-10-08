@@ -49,8 +49,8 @@ export function handlePayment(event: Payment): void {
   }
   if(event.params._paymentType === 1){
     payment.paymentType = 'Reimburse';
-
   }
+
   payment.transactionHash = event.transaction.hash.toHex();
   payment.save();
 }
