@@ -33,7 +33,6 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   job.save();
 }
 
-// export function handlePayment({ params, transaction, logIndex }: Payment): void {
 export function handlePayment(event: Payment): void {
   const paymentId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
   const payment = getOrCreatePayment(paymentId, event.params._jobId);
