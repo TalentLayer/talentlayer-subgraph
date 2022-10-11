@@ -28,7 +28,7 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,bool)
+        - event: Mint(indexed address,uint256,string,bool,uint256)
           handler: handleMint
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
@@ -134,8 +134,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerPlatformID
-#      //TODO: TO BE CONFIRMED
-      address: "0x0000000000000000000000000000000000000000"
+      address: "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC"
       startBlock: 0
     mapping:
       kind: ethereum/events
