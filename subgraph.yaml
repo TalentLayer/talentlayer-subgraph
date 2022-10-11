@@ -37,6 +37,7 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mappings/talent-layer-id.ts
+
   - kind: ethereum/contract
     name: TalentLayerReview
     network: localhost
@@ -63,6 +64,7 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mappings/talent-layer-review.ts
+
   - kind: ethereum/contract
     name: JobRegistry
     network: localhost
@@ -100,6 +102,7 @@ dataSources:
         - event: ProposalRejected(uint256,uint256)
           handler: handleProposalRejected
       file: ./src/mappings/job-registry.ts
+
   - kind: ethereum/contract
     name: TalentLayerMultipleArbitrableTransaction
     network: localhost
@@ -124,4 +127,39 @@ dataSources:
           handler: handlePaymentCompleted
         - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
+      file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
+
+  - kind: ethereum/contract
+    name: TalentLayerPlatformId
+    network: localhost
+    source:
+      abi: TalentLayerPlatformID
+#      //TODO: TO BE CONFIRMED
+      address: "0x0000000000000000000000000000000000000000"
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Platform
+      abis:
+        - name: TalentLayerPlatformID
+          file: ./abis/TalentLayerPlatformID.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: CidUpdated(indexed uint256,string)
+          handler: handleCidUpdated
+        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
+            address)
+          handler: handleConsecutiveTransfer
+        - event: Mint(indexed address,uint256,string)
+          handler: handleMint
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts

@@ -1,5 +1,12 @@
 import { BigInt } from "@graphprotocol/graph-ts";
-import {User, Review, Job, Proposal, Payment} from "../generated/schema";
+import {
+  User,
+  Review,
+  Job,
+  Proposal,
+  Payment,
+  Platform
+} from "../generated/schema";
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
 export function getOrCreateJob(id: BigInt): Job {
@@ -64,4 +71,16 @@ export function getOrCreatePayment(paymentId: string, jobId: BigInt): Payment {
     payment.paymentType = '';
   }
   return payment;
+}
+
+export function getOrCreatePlatform(platformId: BigInt): Platform {
+  let platform = Platform.load(platformId.toString());
+  if (!platform) {
+    platform = new Platform(platformId.toString());
+    platform.address = ZERO_ADDRESS;
+    platform.name = "";
+    platform.uri = "";
+    platform.save();
+  }
+  return platform;
 }
