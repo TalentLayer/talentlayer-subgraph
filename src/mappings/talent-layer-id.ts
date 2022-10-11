@@ -34,6 +34,7 @@ export function handleMint(event: Mint): void {
   user.address = event.params._user.toHex();
   user.handle = event.params._handle;
   user.withPoh = event.params._withPoh;
+  user.platformId = event.params._platformId.toString();
   user.save();
 }
 

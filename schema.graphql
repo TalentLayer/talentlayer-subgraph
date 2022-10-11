@@ -34,6 +34,7 @@ type Review @entity {
 
 type User @entity {
   id: ID! # user token id
+  platformId: ID! # Platform Id on which user token was minted
   address: String! # wallet address of user
   uri: String! # metadata URI of profile
   handle: String! # handle of user
@@ -76,6 +77,6 @@ type Payment @entity {
 type Platform @entity {
   id: ID! # platform id
   address: Bytes! # wallet address of platform owner
-  name: String # name of the platform
+  name: String! # name of the platform
   uri: String # metadata URI of platform
 }
