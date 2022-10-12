@@ -30,6 +30,7 @@ type Review @entity {
   job: Job! # job this review is for
   to: User! # reviewed user
   uri: String! # metadata URI of review
+  platformId: ID! # Platform Id on which review token was minted
 }
 
 type User @entity {
