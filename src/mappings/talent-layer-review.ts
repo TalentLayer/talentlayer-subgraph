@@ -15,7 +15,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {}
 export function handleMint(event: Mint): void {
   const review = getOrCreateReview(
     event.params._tokenId,
-    event.params._jobId,
+    event.params._serviceId,
     event.params._toId
   );
   review.uri = event.params._reviewUri;

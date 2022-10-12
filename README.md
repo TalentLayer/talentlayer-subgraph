@@ -16,9 +16,9 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
     uri
     rateToken
     rateAmount
-    job {
+    service {
       id
-      employer {
+      buyer {
         handle
       }
     }
@@ -30,7 +30,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
     handle
     withPoh
   }
-  jobs {
+  services {
     id
     createdAt
     updatedAt
@@ -40,7 +40,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
       status
       rateAmount
       rateToken
-      employee {
+      seller {
         handle
       }
     }

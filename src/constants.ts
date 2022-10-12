@@ -11,7 +11,7 @@ let ZERO_BIGDEC = BigDecimal.fromString('0');
 export { ONE, TEN, ZERO, ZERO_ADDRESS, ZERO_BIGDEC };
 
 // TODO: Converts enum values in i32. See if this can be solved.
-// export enum JobStatus {
+// export enum ServiceStatus {
 //     Filled= 'Filled',
 //     Confirmed ='Confirmed',
 //     Rejected = 'Rejected',

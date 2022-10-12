@@ -64,10 +64,10 @@ dataSources:
           handler: handleTransfer
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
-    name: JobRegistry
+    name: ServiceRegistry
     network: localhost
     source:
-      abi: JobRegistry
+      abi: ServiceRegistry
       address: "0xD2dDd6E7BE6b406eaF53235301a648734e66BE10"
       startBlock: 0
     mapping:
@@ -75,22 +75,22 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Job
+        - Service
         - Proposal
       abis:
-        - name: JobRegistry
-          file: ./abis/JobRegistry.json
+        - name: ServiceRegistry
+          file: ./abis/ServiceRegistry.json
       eventHandlers:
-        - event: JobCreated(uint256,uint256,uint256,uint256,string,uint8)
-          handler: handleJobCreated
-        - event: JobEmployeeAssigned(uint256,uint256,uint8)
-          handler: handleJobEmployeeAssigned
-        - event: JobConfirmed(uint256,uint256,uint256,string)
-          handler: handleJobConfirmed
-        - event: JobRejected(uint256,uint256,uint256,string)
-          handler: handleJobRejected
-        - event: JobFinished(uint256,uint256,uint256,string)
-          handler: handleJobFinished
+        - event: ServiceCreated(uint256,uint256,uint256,uint256,string,uint8)
+          handler: handleServiceCreated
+        - event: ServiceSellerAssigned(uint256,uint256,uint8)
+          handler: handleServiceSellerAssigned
+        - event: ServiceConfirmed(uint256,uint256,uint256,string)
+          handler: handleServiceConfirmed
+        - event: ServiceRejected(uint256,uint256,uint256,string)
+          handler: handleServiceRejected
+        - event: ServiceFinished(uint256,uint256,uint256,string)
+          handler: handleServiceFinished
         - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256)
           handler: handleProposalCreated
         - event: ProposalUpdated(uint256,uint256,string,address,uint256)
@@ -99,7 +99,7 @@ dataSources:
           handler: handleProposalValidated
         - event: ProposalRejected(uint256,uint256)
           handler: handleProposalRejected
-      file: ./src/mappings/job-registry.ts
+      file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerMultipleArbitrableTransaction
     network: localhost
@@ -112,14 +112,14 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Job
+        - Service
         - Proposal
       abis:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
       eventHandlers:
-        - event: JobProposalConfirmedWithDeposit(uint256,uint256,uint256)
-          handler: handleJobProposalConfirmedWithDeposit
+        - event: ServiceProposalConfirmedWithDeposit(uint256,uint256,uint256)
+          handler: handleServiceProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
         - event: Payment(uint8,uint256,address,uint256)
