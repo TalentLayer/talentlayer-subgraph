@@ -23,6 +23,7 @@ type Job @entity {
   uri: String # metadata URI of job
   transactionId: String # Escrow transaction id of job
   proposals: [Proposal!] @derivedFrom(field: "job") # proposals for this job
+  platformId: ID! # Platform Id on which job token was minted
 }
 
 type Review @entity {
