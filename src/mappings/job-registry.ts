@@ -8,6 +8,7 @@ import {
   ProposalCreated,
   ProposalRejected,
   ProposalUpdated,
+  JobDataCreated,
 } from "../../generated/JobRegistry/JobRegistry";
 import { getOrCreateJob, getOrCreateProposal } from "../getters";
 import { generateProposalId } from "./utils";
@@ -35,10 +36,17 @@ export function handleJobCreated(event: JobCreated): void {
     ]);
   }
 
-  job.uri = event.params.jobDataUri;
-
   job.createdAt = event.block.timestamp;
   job.updatedAt = event.block.timestamp;
+
+  job.platformId = event.params.platformId.toString();
+
+  job.save();
+}
+export function handleJobDataCreated(event: JobDataCreated): void {
+  const job = getOrCreateJob(event.params.id);
+
+  job.uri = event.params.jobDataUri;
 
   job.save();
 }

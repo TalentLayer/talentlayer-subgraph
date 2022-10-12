@@ -83,8 +83,10 @@ dataSources:
         - name: JobRegistry
           file: ./abis/JobRegistry.json
       eventHandlers:
-        - event: JobCreated(uint256,uint256,uint256,uint256,string,uint8)
+        - event: JobCreated(uint256,uint256,uint256,uint256,uint256)
           handler: handleJobCreated
+        - event: JobDataCreated(uint256,string)
+          handler: handleJobDataCreated
         - event: JobEmployeeAssigned(uint256,uint256,uint8)
           handler: handleJobEmployeeAssigned
         - event: JobConfirmed(uint256,uint256,uint256,string)
