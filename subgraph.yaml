@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0x04aCf26C1721bcc633056E2Ec5EfD1dbe6e0689B"
+      address: "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -28,7 +28,7 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,bool)
+        - event: Mint(indexed address,uint256,string,bool,uint256)
           handler: handleMint
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0x1e211Bca92ba05f5c1c819Fec8f0ACce2B783FE3"
+      address: "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -58,7 +58,8 @@ dataSources:
           handler: handleApproval
         - event: ApprovalForAll(indexed address,indexed address,bool)
           handler: handleApprovalForAll
-        - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
+        - event: Mint(indexed uint256,indexed uint256,indexed
+            uint256,uint256,string,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
@@ -68,7 +69,7 @@ dataSources:
     network: localhost
     source:
       abi: JobRegistry
-      address: "0xD2dDd6E7BE6b406eaF53235301a648734e66BE10"
+      address: "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -81,8 +82,10 @@ dataSources:
         - name: JobRegistry
           file: ./abis/JobRegistry.json
       eventHandlers:
-        - event: JobCreated(uint256,uint256,uint256,uint256,string,uint8)
+        - event: JobCreated(uint256,uint256,uint256,uint256,uint256)
           handler: handleJobCreated
+        - event: JobDataCreated(uint256,string)
+          handler: handleJobDataCreated
         - event: JobEmployeeAssigned(uint256,uint256,uint8)
           handler: handleJobEmployeeAssigned
         - event: JobConfirmed(uint256,uint256,uint256,string)
@@ -105,7 +108,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0xD303775AF6bfec1cF8ace669bDc248Be0dB01052"
+      address: "0xf6597b08A75A9427F0C332601a196C379c3A27cE"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -125,3 +128,36 @@ dataSources:
         - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
+  - kind: ethereum/contract
+    name: TalentLayerPlatformID
+    network: localhost
+    source:
+      abi: TalentLayerPlatformID
+      address: "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC"
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Platform
+      abis:
+        - name: TalentLayerPlatformID
+          file: ./abis/TalentLayerPlatformID.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: CidUpdated(indexed uint256,string)
+          handler: handleCidUpdated
+        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
+            address)
+          handler: handleConsecutiveTransfer
+        - event: Mint(indexed address,uint256,string)
+          handler: handleMint
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/talent-layer-platform-id.ts
