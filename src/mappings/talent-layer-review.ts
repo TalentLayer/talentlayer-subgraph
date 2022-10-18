@@ -19,6 +19,7 @@ export function handleMint(event: Mint): void {
     event.params._toId
   );
   review.uri = event.params._reviewUri;
+  review.platformId = event.params._platformId.toString();
   review.save();
 
   let user = User.load(event.params._toId.toString());
