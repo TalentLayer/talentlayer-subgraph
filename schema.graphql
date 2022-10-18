@@ -78,6 +78,7 @@ type Payment @entity {
 
 type Platform @entity {
   id: ID! # platform id
+  createdAt: BigInt # timestamp of block creation
   address: Bytes! # wallet address of platform owner
   name: String! # name of the platform
   uri: String # metadata URI of platform
