@@ -2,22 +2,22 @@ import { BigInt } from "@graphprotocol/graph-ts";
 import {
   User,
   Review,
-  Job,
+  Service,
   Proposal,
   Payment,
   Platform
 } from "../generated/schema";
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
-export function getOrCreateJob(id: BigInt): Job {
-  let job = Job.load(id.toString());
-  if (!job) {
-    job = new Job(id.toString());
-    job.status = "Filled";
-    job.uri = "";
-    job.save();
+export function getOrCreateService(id: BigInt): Service {
+  let service = Service.load(id.toString());
+  if (!service) {
+    service = new Service(id.toString());
+    service.status = "Filled";
+    service.uri = "";
+    service.save();
   }
-  return job;
+  return service;
 }
 
 export function getOrCreateProposal(id: string): Proposal {
@@ -32,14 +32,14 @@ export function getOrCreateProposal(id: string): Proposal {
 
 export function getOrCreateReview(
   id: BigInt,
-  jobId: BigInt,
+  serviceId: BigInt,
   toId: BigInt
 ): Review {
   let review = Review.load(id.toString());
   if (!review) {
     review = new Review(id.toString());
     review.to = getOrCreateUser(toId).id;
-    review.job = getOrCreateJob(jobId).id;
+    review.service = getOrCreateService(serviceId).id;
     review.uri = "";
     review.save();
   }
@@ -61,11 +61,11 @@ export function getOrCreateUser(id: BigInt): User {
   return user;
 }
 
-export function getOrCreatePayment(paymentId: string, jobId: BigInt): Payment {
+export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Payment {
   let payment = Payment.load(paymentId);
   if (!payment) {
     payment = new Payment(paymentId.toString());
-    payment.job = getOrCreateJob(jobId).id;
+    payment.service = getOrCreateService(serviceId).id;
     payment.amount = ZERO;
     payment.rateToken = ZERO_ADDRESS;
     payment.paymentType = '';

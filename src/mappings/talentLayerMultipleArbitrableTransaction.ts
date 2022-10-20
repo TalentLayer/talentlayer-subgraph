@@ -1,46 +1,46 @@
 import { log } from "@graphprotocol/graph-ts";
-import {Job, User} from "../../generated/schema";
+import {Service, User} from "../../generated/schema";
 import {
-  getOrCreateJob,
+  getOrCreateService,
   getOrCreatePayment,
   getOrCreateProposal
 } from "../getters";
 import {
-  JobProposalConfirmedWithDeposit, Payment,
+  ServiceProposalConfirmedWithDeposit, Payment,
   PaymentCompleted,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 import {generateProposalId, generateUniqueId} from "./utils";
 
-export function handleJobProposalConfirmedWithDeposit(
-    event: JobProposalConfirmedWithDeposit): void {
-  const job = getOrCreateJob(event.params.jobId);
+export function handleServiceProposalConfirmedWithDeposit(
+    event: ServiceProposalConfirmedWithDeposit): void {
+  const service = getOrCreateService(event.params.serviceId);
 
-  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString());
   const proposal = getOrCreateProposal(proposalId);
 
   log.warning("!!!!!! proposal ID", [proposalId]);
-  log.warning("!!!!!! job ID", [event.params.jobId.toString()]);
+  log.warning("!!!!!! service ID", [event.params.serviceId.toString()]);
 
-  job.status = "Confirmed";
-  job.transactionId = event.params.transactionId.toString();
-  job.employee = User.load(event.params.employeeId.toString())!.id;
-  job.save();
+  service.status = "Confirmed";
+  service.transactionId = event.params.transactionId.toString();
+  service.seller = User.load(event.params.sellerId.toString())!.id;
+  service.save();
 
   proposal.status = "Validated";
   proposal.save();
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
-  const job = getOrCreateJob(event.params._jobId);
-  job.status = "Finished";
-  job.save();
+  const service = getOrCreateService(event.params._serviceId);
+  service.status = "Finished";
+  service.save();
 }
 
 export function handlePayment(event: Payment): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
-  const payment = getOrCreatePayment(paymentId, event.params._jobId);
+  const payment = getOrCreatePayment(paymentId, event.params._serviceId);
 
-  payment.job = Job.load(event.params._jobId.toString())!.id;
+  payment.service = Service.load(event.params._serviceId.toString())!.id;
   payment.amount = event.params._amount;
   payment.rateToken = event.params._token;
 
