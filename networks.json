@@ -8,7 +8,7 @@
       "address": "0x8221AB522db5d784C7aC322CD3E9bC733A724C89",
       "startBlock": 0
     },
-    "JobRegistry": {
+    "ServiceRegistry": {
       "address": "0xA86bb61901Ff6744DA6E55A8e780362f7ac1114e",
       "startBlock": 0
     },
@@ -30,7 +30,7 @@
       "address": "0x863751792aa2dab3554b08b5ba9b336b134ae3ed",
       "startBlock": 33354012
     },
-    "JobRegistry": {
+    "ServiceRegistry": {
       "address": "0x24cEd045b50cF811862B1c33dC6B1fbC8358F521",
       "startBlock": 33354012
     }
@@ -44,7 +44,7 @@
       "address": "0x24124D6F6AE8fB5e55Ff9d6B8E575825fC6f178B",
       "startBlock": 7611927
     },
-    "JobRegistry": {
+    "ServiceRegistry": {
       "address": "0x2e3c6135510C324C7d18a651dA573B8Cbd189657",
       "startBlock": 7611927
     },
