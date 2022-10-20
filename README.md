@@ -18,7 +18,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
     rateAmount
     job {
       id
-      employer {
+      buyer {
         handle
       }
     }
@@ -40,7 +40,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
       status
       rateAmount
       rateToken
-      employee {
+      seller {
         handle
       }
     }

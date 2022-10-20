@@ -6,7 +6,7 @@ import {
     Mint,
     OwnershipTransferred,
     Transfer,
-} from '../../generated/TalentLayerPlatformid/TalentLayerPlatformID';
+} from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID';
 import { getOrCreatePlatform } from '../getters';
 
 

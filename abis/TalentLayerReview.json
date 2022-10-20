@@ -294,7 +294,7 @@
           "type": "uint256"
         }
       ],
-      "name": "nftMintedByJobAndemployeeId",
+      "name": "nftMintedByJobAndsellerId",
       "outputs": [
         {
           "internalType": "uint256",
@@ -313,7 +313,7 @@
           "type": "uint256"
         }
       ],
-      "name": "nftMintedByJobAndemployerId",
+      "name": "nftMintedByJobAndbuyerId",
       "outputs": [
         {
           "internalType": "uint256",
