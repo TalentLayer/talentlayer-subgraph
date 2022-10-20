@@ -1,23 +1,23 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6",
+      "address": "0x50BFa18330317585Ba1deE7a1077c32A8088F033",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08",
+      "address": "0x8221AB522db5d784C7aC322CD3E9bC733A724C89",
       "startBlock": 0
     },
     "JobRegistry": {
-      "address": "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4",
+      "address": "0xA86bb61901Ff6744DA6E55A8e780362f7ac1114e",
       "startBlock": 0
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0xf6597b08A75A9427F0C332601a196C379c3A27cE",
+      "address": "0x2cef87A124095d476A6F44d5ebF0d8E2F0c5b4D6",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
+      "address": "0xC60efF34EfdCa4C37874e392240D9355967819A7",
       "startBlock": 0
     }
   },

@@ -15,7 +15,7 @@ export function handleJobProposalConfirmedWithDeposit(
     event: JobProposalConfirmedWithDeposit): void {
   const job = getOrCreateJob(event.params.jobId);
 
-  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.sellerId.toString());
   const proposal = getOrCreateProposal(proposalId);
 
   log.warning("!!!!!! proposal ID", [proposalId]);
@@ -23,7 +23,7 @@ export function handleJobProposalConfirmedWithDeposit(
 
   job.status = "Confirmed";
   job.transactionId = event.params.transactionId.toString();
-  job.employee = User.load(event.params.employeeId.toString())!.id;
+  job.seller = User.load(event.params.sellerId.toString())!.id;
   job.save();
 
   proposal.status = "Validated";

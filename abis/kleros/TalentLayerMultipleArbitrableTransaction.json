@@ -46,7 +46,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "employeeId",
+          "name": "sellerId",
           "type": "uint256"
         },
         {

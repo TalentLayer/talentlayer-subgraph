@@ -15,23 +15,23 @@ import { generateProposalId } from "./utils";
 
 export function handleJobCreated(event: JobCreated): void {
   const job = getOrCreateJob(event.params.id);
-  job.employer = User.load(event.params.employerId.toString())!.id;
+  job.buyer = User.load(event.params.buyerId.toString())!.id;
 
-  const employeeId = event.params.employeeId.toString();
-  log.warning("employee: {}", [employeeId]);
-  if (employeeId != "0") {
-    job.employee = User.load(employeeId)!.id;
+  const sellerId = event.params.sellerId.toString();
+  log.warning("seller: {}", [sellerId]);
+  if (sellerId != "0") {
+    job.seller = User.load(sellerId)!.id;
   } else {
     job.status = "Opened";
   }
 
   job.sender = User.load(event.params.initiatorId.toString())!.id;
-  if (event.params.initiatorId == event.params.employerId) {
-    job.recipient = job.employee;
-  } else if (event.params.initiatorId == event.params.employeeId) {
-    job.recipient = job.employer;
+  if (event.params.initiatorId == event.params.buyerId) {
+    job.recipient = job.seller;
+  } else if (event.params.initiatorId == event.params.sellerId) {
+    job.recipient = job.buyer;
   } else {
-    log.error("Job created by neither employer nor employee, senderId: {}", [
+    log.error("Job created by neither buyer nor seller, senderId: {}", [
       event.params.initiatorId.toString(),
     ]);
   }
@@ -73,7 +73,7 @@ export function handleJobRejected(event: JobRejected): void {
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.sellerId.toString());
   const proposal = getOrCreateProposal(proposalId);
   proposal.status = "Pending";
 
@@ -81,7 +81,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.rateAmount = event.params.rateAmount;
   proposal.uri = event.params.proposalDataUri;
   proposal.job = Job.load(event.params.jobId.toString())!.id;
-  proposal.employee = User.load(event.params.employeeId.toString())!.id;
+  proposal.seller = User.load(event.params.sellerId.toString())!.id;
 
   proposal.createdAt = event.block.timestamp;
   proposal.updatedAt = event.block.timestamp;
@@ -90,7 +90,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
-  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.sellerId.toString());
   const proposal = getOrCreateProposal(proposalId);
   proposal.status = "Rejected";
   proposal.updatedAt = event.block.timestamp;
@@ -98,7 +98,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
 }
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
-  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.employeeId.toString());
+  const proposalId = generateProposalId(event.params.jobId.toString(), event.params.sellerId.toString());
   const proposal = getOrCreateProposal(proposalId);
   proposal.rateToken = event.params.rateToken;
   proposal.rateAmount = event.params.rateAmount;

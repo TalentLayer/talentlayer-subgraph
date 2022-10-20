@@ -1,5 +1,5 @@
-export const generateProposalId = (jobId: string, employeeId: string): string => {
-    return jobId + '-' + employeeId;
+export const generateProposalId = (jobId: string, sellerId: string): string => {
+    return jobId + '-' + sellerId;
 }
 
 export const generateUniqueId = (transactionHash: string, logIndex: string): string => {

@@ -16,10 +16,10 @@ type Job @entity {
   createdAt: BigInt # timestamp of block creation
   updatedAt: BigInt # timestamp of the last change
   status: JobStatus! # job status
-  employer: User # job employer
-  employee: User # job employee
-  sender: User # user that created the job (employer or employee)
-  recipient: User # other participating user (employee or employer)
+  buyer: User # job buyer
+  seller: User # job seller
+  sender: User # user that created the job (buyer or seller)
+  recipient: User # other participating user (seller or buyer)
   uri: String # metadata URI of job
   transactionId: String # Escrow transaction id of job
   proposals: [Proposal!] @derivedFrom(field: "job") # proposals for this job
@@ -44,8 +44,8 @@ type User @entity {
   numReviews: BigInt! # number of reviews user has received
   rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
-  employerJobs: [Job!] @derivedFrom(field: "employer") # jobs user is an employer for
-  employeeJobs: [Job!] @derivedFrom(field: "employee") # jobs user is an employee for
+  buyerJobs: [Job!] @derivedFrom(field: "buyer") # jobs user is an buyer for
+  sellerJobs: [Job!] @derivedFrom(field: "seller") # jobs user is an seller for
 }
 
 enum ProposalStatus {
@@ -55,12 +55,12 @@ enum ProposalStatus {
 }
 
 type Proposal @entity {
-  id: ID! # concatenation of jobId + employee TalentLayerId
+  id: ID! # concatenation of jobId + seller TalentLayerId
   job: Job! # job entity
   createdAt: BigInt # timestamp of block creation
   updatedAt: BigInt # timestamp of the last change
   status: ProposalStatus! # Proposal status
-  employee: User # Proposal employee
+  seller: User # Proposal seller
   rateToken: Bytes # Rate token
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of job
