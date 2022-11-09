@@ -11,6 +11,7 @@ export function handleMint(event: Mint): void {
   const review = getOrCreateReview(event.params._tokenId, event.params._serviceId, event.params._toId)
   review.uri = event.params._reviewUri
   review.platformId = event.params._platformId.toString()
+  review.createdAt = event.block.timestamp
   review.save()
 
   let user = User.load(event.params._toId.toString())
