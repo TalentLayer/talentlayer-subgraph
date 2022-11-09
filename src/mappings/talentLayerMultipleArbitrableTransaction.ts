@@ -39,6 +39,7 @@ export function handlePayment(event: Payment): void {
   payment.service = Service.load(event.params._serviceId.toString())!.id
   payment.amount = event.params._amount
   payment.rateToken = event.params._token
+  payment.createdAt = event.block.timestamp
 
   if (event.params._paymentType === 0) {
     payment.paymentType = 'Release'
