@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0x3cFA019ABA55D30CDc7aaC9BfdC9C40Cea4b3c1C"
+      address: "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xe51CEcAbdC680A25AC30b58F86732512126c39BA"
+      address: "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -69,7 +69,7 @@ dataSources:
     network: localhost
     source:
       abi: ServiceRegistry
-      address: "0x2B75921A002Da4455ca97B9Bf5857ff0F97A7750"
+      address: "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -110,7 +110,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0x43B808F67Ebf792d5D24002cC1CFF249559Af0b3"
+      address: "0xf6597b08A75A9427F0C332601a196C379c3A27cE"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -136,7 +136,7 @@ dataSources:
     source:
       abi: TalentLayerPlatformID
       startBlock: 0
-      address: "0x2f9E87f44a9931632144c0CDe7a822071998baE1"
+      address: "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -163,3 +163,23 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mappings/talent-layer-platform-id.ts
+  - kind: ethereum/contract
+    name: simpleERC20
+    network: localhost
+    source:
+      abi: simpleERC20
+      startBlock: 0
+      address: "0x3220A910e4a2e437c2A1a5bb8799ff1143E144F0"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: simpleERC20
+          file: ./abis/simpleERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mappings/simpleERC20.ts
