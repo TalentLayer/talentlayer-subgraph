@@ -94,6 +94,8 @@ dataSources:
           handler: handleServiceRejected
         - event: ServiceFinished(uint256,uint256,uint256,string)
           handler: handleServiceFinished
+        - event: ServiceDetailedUpdated(indexed uint256,string)
+          handler: handleServiceDetailedUpdated
         - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256)
           handler: handleProposalCreated
         - event: ProposalUpdated(uint256,uint256,string,address,uint256)
