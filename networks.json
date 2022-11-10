@@ -1,23 +1,23 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0x50BFa18330317585Ba1deE7a1077c32A8088F033",
+      "address": "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0x8221AB522db5d784C7aC322CD3E9bC733A724C89",
+      "address": "0xBa3396d2Fca4AF75eDBf3920f13C225009162076",
       "startBlock": 0
     },
     "ServiceRegistry": {
-      "address": "0xA86bb61901Ff6744DA6E55A8e780362f7ac1114e",
+      "address": "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391",
       "startBlock": 0
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0x2cef87A124095d476A6F44d5ebF0d8E2F0c5b4D6",
+      "address": "0x70B32D098843fdbA39C662Df18313bcA5b50eF35",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "address": "0xC60efF34EfdCa4C37874e392240D9355967819A7",
+      "address": "0xBe16616Ffb87CC3845dC33bA7a7419768697D511",
       "startBlock": 0
     }
   },

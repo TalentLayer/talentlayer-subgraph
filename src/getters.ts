@@ -5,7 +5,9 @@ import {
   Service,
   Proposal,
   Payment,
-  Platform
+  Platform,
+  PlatformClaim,
+  FeePayment
 } from "../generated/schema";
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
@@ -83,4 +85,39 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.save();
   }
   return platform;
+}
+
+export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
+  let originPlatformFeePayment = FeePayment.load(paymentId);
+  if (!originPlatformFeePayment) {
+    originPlatformFeePayment = new FeePayment(paymentId);
+    originPlatformFeePayment.type = 'OriginPlatform';
+    originPlatformFeePayment.token = ZERO_ADDRESS;
+    originPlatformFeePayment.amount = ZERO;
+    originPlatformFeePayment.save();
+  }
+  return originPlatformFeePayment;
+}
+
+export function getOrCreatePlatformFee(paymentId: string): FeePayment {
+  let platformFeePayment = FeePayment.load(paymentId);
+  if (!platformFeePayment) {
+    platformFeePayment = new FeePayment(paymentId);
+    platformFeePayment.type = 'Platform';
+    platformFeePayment.token = ZERO_ADDRESS;
+    platformFeePayment.amount = ZERO;
+    platformFeePayment.save();
+  }
+  return platformFeePayment;
+}
+
+export function getOrCreateClaim(claimId: string): PlatformClaim {
+  let claim = PlatformClaim.load(claimId);
+  if (!claim) {
+    claim = new PlatformClaim(claimId);
+    claim.token = ZERO_ADDRESS;
+    claim.amount = ZERO;
+    claim.save();
+  }
+  return claim;
 }
