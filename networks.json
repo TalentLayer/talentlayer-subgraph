@@ -1,24 +1,28 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0x50BFa18330317585Ba1deE7a1077c32A8088F033",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0x8221AB522db5d784C7aC322CD3E9bC733A724C89",
+      "address": "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08",
       "startBlock": 0
     },
     "ServiceRegistry": {
-      "address": "0xA86bb61901Ff6744DA6E55A8e780362f7ac1114e",
+      "address": "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4",
       "startBlock": 0
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0x2cef87A124095d476A6F44d5ebF0d8E2F0c5b4D6",
+      "address": "0xf6597b08A75A9427F0C332601a196C379c3A27cE",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "address": "0xC60efF34EfdCa4C37874e392240D9355967819A7",
-      "startBlock": 0
+      "startBlock": 0,
+      "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
+    },
+    "simpleERC20": {
+      "startBlock": 0,
+      "address": "0x3220A910e4a2e437c2A1a5bb8799ff1143E144F0"
     }
   },
   "kovan": {
@@ -37,23 +41,22 @@
   },
   "goerli": {
     "TalentLayerID": {
-      "address": "0xbc183807fDaeaC824C38BFC9851a2224402a6a24",
+      "address": "0xCb4Ca10F187e928c42e944Fc6A544C9D0445C6F2",
       "startBlock": 7611927
     },
     "TalentLayerReview": {
-      "address": "0x24124D6F6AE8fB5e55Ff9d6B8E575825fC6f178B",
+      "address": "0x03e9ffD48D158dD262b6eAcc8c76edE384A389b9",
       "startBlock": 7611927
     },
     "ServiceRegistry": {
-      "address": "0x2e3c6135510C324C7d18a651dA573B8Cbd189657",
+      "address": "0x2D799C2Ba160Da3b8FbAad545d24F1418eF6AA16",
       "startBlock": 7611927
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0x0E357ce3Fb8C07800F1FEFF3dB0C0947799Fba0c",
       "startBlock": 7611927
     },
     "proofOfHumanityAddress": {
-      "address": "0x2C81B0E3797b860f9C395A60044Dc7341321c7E9",
+      "address": "0xD7F1A310EF95508a0D79bBcC2dfe99827D28544d",
       "startBlock": 7611927
     }
   }

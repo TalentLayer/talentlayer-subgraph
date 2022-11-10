@@ -1,5 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts'
-import { User, Review, Service, Proposal, Payment, Platform } from '../generated/schema'
+import { BigInt, ByteArray, Bytes } from '@graphprotocol/graph-ts'
+import { User, Review, Service, Proposal, Payment, Platform, Token } from '../generated/schema'
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from './constants'
 
 export function getOrCreateService(id: BigInt): Service {
@@ -72,4 +72,18 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.save()
   }
   return platform
+}
+
+// creation of getOrCreateToken function
+export function getOrCreateToken(tokenAddress: Bytes): Token {
+  let token = Token.load(tokenAddress.toHex())
+  if (!token) {
+    token = new Token(tokenAddress.toHex())
+    token.tokenAddress = tokenAddress
+    token.name = ''
+    token.code = ''
+    token.decimals = ZERO
+    token.save()
+  }
+  return token
 }
