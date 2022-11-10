@@ -5,7 +5,8 @@ import {
   getOrCreatePayment,
   getOrCreateProposal,
   getOrCreateOriginPlatformFee,
-  getOrCreatePlatformFee, getOrCreateClaim
+  getOrCreatePlatformFee,
+  getOrCreateClaim
 } from "../getters";
 import {
   ServiceProposalConfirmedWithDeposit,
