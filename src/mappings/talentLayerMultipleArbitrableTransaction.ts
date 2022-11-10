@@ -3,11 +3,16 @@ import {Service, User} from "../../generated/schema";
 import {
   getOrCreateService,
   getOrCreatePayment,
-  getOrCreateProposal
+  getOrCreateProposal,
+  getOrCreateOriginPlatformFee,
+  getOrCreatePlatformFee, getOrCreateClaim
 } from "../getters";
 import {
-  ServiceProposalConfirmedWithDeposit, Payment,
+  ServiceProposalConfirmedWithDeposit,
+  Payment,
   PaymentCompleted,
+  BalanceTransferred,
+  OriginPlatformFeeReleased, PlatformFeeReleased,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 import {generateProposalId, generateUniqueId} from "./utils";
 
@@ -53,4 +58,40 @@ export function handlePayment(event: Payment): void {
 
   payment.transactionHash = event.transaction.hash.toHex();
   payment.save();
+}
+
+export function handleBalanceTransferred(event: BalanceTransferred): void {
+  const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
+  const claim = getOrCreateClaim(claimId);
+  claim.platform = event.params._platformId.toString();
+  claim.token = event.params._token;
+  claim.amount = event.params._amount;
+
+  claim.transactionHash = event.transaction.hash.toHex();
+  claim.createdAt = event.block.timestamp;
+  claim.save();
+}
+
+export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased): void {
+  const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
+  const originPlatformFeePayment = getOrCreateOriginPlatformFee(paymentId);
+  originPlatformFeePayment.amount = event.params._amount;
+  originPlatformFeePayment.platform = event.params._platformId.toString();
+  originPlatformFeePayment.service = event.params._serviceId.toString();
+  originPlatformFeePayment.token = event.params._token;
+
+  originPlatformFeePayment.createdAt = event.block.timestamp;
+  originPlatformFeePayment.save();
+}
+
+export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
+  const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
+  const platformFeePayment = getOrCreatePlatformFee(paymentId);
+  platformFeePayment.amount = event.params._amount;
+  platformFeePayment.platform = event.params._platformId.toString();
+  platformFeePayment.service = event.params._serviceId.toString();
+  platformFeePayment.token = event.params._token;
+
+  platformFeePayment.createdAt = event.block.timestamp;
+  platformFeePayment.save();
 }
