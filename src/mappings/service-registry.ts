@@ -12,7 +12,7 @@ import {
   ServiceDataCreated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
 import { getOrCreateService, getOrCreateProposal } from '../getters'
-import { generateProposalId } from './utils'
+import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
@@ -79,7 +79,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
   proposal.status = 'Pending'
 
@@ -96,7 +96,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
-  const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
   proposal.status = 'Rejected'
   proposal.updatedAt = event.block.timestamp
@@ -104,7 +104,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
 }
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
-  const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
   proposal.rateToken = event.params.rateToken
   proposal.rateAmount = event.params.rateAmount

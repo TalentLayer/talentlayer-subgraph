@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts'
+import {BigInt, log} from '@graphprotocol/graph-ts'
 import { Service, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -6,7 +6,8 @@ import {
   getOrCreateProposal,
   getOrCreateOriginPlatformFee,
   getOrCreatePlatformFee,
-  getOrCreateClaim
+  getOrCreateClaim,
+  getOrCreatePlatformGain
 } from "../getters";
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -15,12 +16,12 @@ import {
   BalanceTransferred,
   OriginPlatformFeeReleased, PlatformFeeReleased,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
-import {generateProposalId, generateUniqueId} from "./utils";
+import {generateIdFromTwoElements, generateUniqueId} from "./utils";
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
 
-  const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
 
   log.warning('!!!!!! proposal ID', [proposalId])
@@ -83,6 +84,14 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
 
   originPlatformFeePayment.createdAt = event.block.timestamp;
   originPlatformFeePayment.save();
+
+  const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toString());
+  const platformGain = getOrCreatePlatformGain(platformGainId);
+  platformGain.platform = event.params._platformId.toString();
+  platformGain.token = event.params._token;
+  platformGain.totalOriginPlatformFeeGain = platformGain.totalOriginPlatformFeeGain.plus(event.params._amount);
+
+  platformGain.save();
 }
 
 export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
@@ -95,4 +104,12 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
 
   platformFeePayment.createdAt = event.block.timestamp;
   platformFeePayment.save();
+
+  const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex());
+  const platformGain = getOrCreatePlatformGain(platformGainId);
+  platformGain.platform = event.params._platformId.toString();
+  platformGain.token = event.params._token;
+  platformGain.totalPlatformFeeGain = platformGain.totalPlatformFeeGain.plus(event.params._amount);
+
+  platformGain.save();
 }
