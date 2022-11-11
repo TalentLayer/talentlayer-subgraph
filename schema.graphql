@@ -117,6 +117,6 @@ type PlatformGain @entity {
   id: ID! # concatenation of platformId + token address
   platform: Platform! # platform entity
   token: Bytes! # token address
-  totalOriginPlatformFeeGain: BigInt! # total gain
-  totalPlatformFeeGain: BigInt! # total gain
+  totalOriginPlatformFeeGain: BigInt! # total Origin Platform gain
+  totalPlatformFeeGain: BigInt! # total Platform gain
 }
