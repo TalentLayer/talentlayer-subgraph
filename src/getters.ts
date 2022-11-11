@@ -1,13 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import {
-  User,
-  Review,
-  Service,
-  Proposal,
-  Payment,
-  Platform,
-  PlatformClaim,
-  FeePayment
+  User, Review, Service, Proposal, Payment, Platform, FeeClaim, FeePayment, PlatformGain
 } from "../generated/schema";
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
@@ -107,13 +100,26 @@ export function getOrCreatePlatformFee(paymentId: string): FeePayment {
   return platformFeePayment;
 }
 
-export function getOrCreateClaim(claimId: string): PlatformClaim {
-  let claim = PlatformClaim.load(claimId);
+export function getOrCreateClaim(claimId: string): FeeClaim {
+  let claim = FeeClaim.load(claimId);
   if (!claim) {
-    claim = new PlatformClaim(claimId);
+    claim = new FeeClaim(claimId);
     claim.token = ZERO_ADDRESS;
     claim.amount = ZERO;
     claim.save();
   }
   return claim;
+}
+
+export function getOrCreatePlatformGain(gainId: string): PlatformGain {
+  let platformGain = PlatformGain.load(gainId);
+  if (!platformGain) {
+    platformGain = new PlatformGain(gainId);
+    platformGain.platform = ZERO.toString();
+    platformGain.token = ZERO_ADDRESS;
+    platformGain.totalOriginPlatformFeeGain = ZERO;
+    platformGain.totalPlatformFeeGain = ZERO;
+    platformGain.save();
+  }
+  return platformGain;
 }

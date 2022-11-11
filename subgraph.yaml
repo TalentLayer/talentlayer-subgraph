@@ -119,6 +119,9 @@ dataSources:
       entities:
         - Service
         - Proposal
+        - FeePayment
+        - FeeClaim
+        - PlatformGain
       abis:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
