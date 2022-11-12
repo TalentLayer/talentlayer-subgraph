@@ -1,4 +1,4 @@
-import {BigInt, log} from '@graphprotocol/graph-ts'
+import {log} from '@graphprotocol/graph-ts'
 import { Service, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -13,8 +13,9 @@ import {
   ServiceProposalConfirmedWithDeposit,
   Payment,
   PaymentCompleted,
-  BalanceTransferred,
-  OriginPlatformFeeReleased, PlatformFeeReleased,
+  OriginPlatformFeeReleased,
+  PlatformFeeReleased,
+  FeesClaimed,
 } from "../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction";
 import {generateIdFromTwoElements, generateUniqueId} from "./utils";
 
@@ -62,7 +63,7 @@ export function handlePayment(event: Payment): void {
   payment.save()
 }
 
-export function handleBalanceTransferred(event: BalanceTransferred): void {
+export function handleFeesClaimed(event: FeesClaimed): void {
   const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString());
   const claim = getOrCreateClaim(claimId);
   claim.platform = event.params._platformId.toString();
@@ -85,7 +86,7 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
   originPlatformFeePayment.createdAt = event.block.timestamp;
   originPlatformFeePayment.save();
 
-  const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toString());
+  const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex());
   const platformGain = getOrCreatePlatformGain(platformGainId);
   platformGain.platform = event.params._platformId.toString();
   platformGain.token = event.params._token;
