@@ -132,8 +132,8 @@ dataSources:
           handler: handlePaymentCompleted
         - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
-        - event: BalanceTransferred(uint256,indexed address,uint256)
-          handler: handleBalanceTransferred
+        - event: FeesClaimed(uint256,indexed address,uint256)
+          handler: handleFeesClaimed
         - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginPlatformFeeReleased
         - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)

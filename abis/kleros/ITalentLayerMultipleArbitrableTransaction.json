@@ -113,6 +113,86 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "getClaimableFeeBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTransactionDetails",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "receiver",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "serviceId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint16",
+              "name": "protocolFee",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "originPlatformFee",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "platformFee",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct ITalentLayerMultipleArbitrableTransaction.Transaction",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "_transactionId",
           "type": "uint256"
@@ -142,6 +222,45 @@
         }
       ],
       "name": "release",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "_originPlatformFee",
+          "type": "uint16"
+        }
+      ],
+      "name": "updateOriginPlatformFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "_protocolFee",
+          "type": "uint16"
+        }
+      ],
+      "name": "updateProtocolFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_protocolWallet",
+          "type": "address"
+        }
+      ],
+      "name": "updateProtocolWallet",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
