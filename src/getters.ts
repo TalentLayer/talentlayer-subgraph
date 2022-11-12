@@ -1,6 +1,8 @@
-import { BigInt, ByteArray, Bytes } from '@graphprotocol/graph-ts'
+import { BigInt, ByteArray, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
 import { User, Review, Service, Proposal, Payment, Platform, Token } from '../generated/schema'
-import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from './constants'
+import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
+import { simpleERC20 as simpleERC20Contract } from '../generated/simpleERC20/simpleERC20'
+import { ERC20 } from '../generated/simpleERC20/ERC20'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -56,7 +58,7 @@ export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Paymen
     payment = new Payment(paymentId.toString())
     payment.service = getOrCreateService(serviceId).id
     payment.amount = ZERO
-    payment.rateToken = ZERO_ADDRESS
+    payment.rateToken = ZERO_TOKEN_ADDRESS
     payment.paymentType = ''
   }
   return payment
@@ -76,13 +78,23 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
 
 // creation of getOrCreateToken function
 export function getOrCreateToken(tokenAddress: Bytes): Token {
+  //we get the token contract to get all the information about the token
+  let contract = simpleERC20Contract.bind(Address.fromBytes(tokenAddress))
+
   let token = Token.load(tokenAddress.toHex())
+
   if (!token) {
     token = new Token(tokenAddress.toHex())
-    token.tokenAddress = tokenAddress
-    token.name = ''
-    token.code = ''
-    token.decimals = ZERO
+
+    // token.tokenAddress = tokenAddress
+    // token.name = ''
+    // token.symbol = ''
+    // token.decimals = ZERO
+
+    token.symbol = contract.symbol()
+    token.name = contract.name()
+    token.decimals = BigInt.fromI32(contract.decimals())
+
     token.save()
   }
   return token
