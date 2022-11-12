@@ -1,5 +1,5 @@
-import { log } from '@graphprotocol/graph-ts'
-import { Service, User } from '../../generated/schema'
+import { BigDecimal, log, BigInt, Bytes, Address } from '@graphprotocol/graph-ts'
+import { Service, User, Token } from '../../generated/schema'
 import {
   ServiceCreated,
   ServiceConfirmed,
@@ -11,8 +11,9 @@ import {
   ProposalUpdated,
   ServiceDataCreated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
-import { getOrCreateService, getOrCreateProposal } from '../getters'
+import { getOrCreateService, getOrCreateProposal, getOrCreateToken } from '../getters'
 import { generateProposalId } from './utils'
+// import { simpleERC20 } from '../../generated/simpleERC20/simpleERC20'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
@@ -83,7 +84,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   const proposal = getOrCreateProposal(proposalId)
   proposal.status = 'Pending'
 
-  proposal.rateToken = event.params.rateToken
+  proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
   proposal.service = Service.load(event.params.serviceId.toString())!.id
@@ -93,6 +94,24 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.updatedAt = event.block.timestamp
 
   proposal.save()
+
+  // we get the token address
+  const tokenAddress = event.params.rateToken
+
+  // we get the token contract to fill the entity
+  let token = getOrCreateToken(tokenAddress)
+
+  //we get the token contract to get all the information about the token
+  // let contract = simpleERC20.bind(tokenAddress)
+
+  //we check if the token exist then fill the Token entity
+  // if (!token) {
+  //   token = new Token(proposal.rateToken)
+  //   token.symbol = contract.symbol()
+  //   token.name = contract.name()
+  //   token.decimals = BigInt.fromI32(contract.decimals())
+  //   token.save()
+  // }
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
@@ -106,7 +125,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
 export function handleProposalUpdated(event: ProposalUpdated): void {
   const proposalId = generateProposalId(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
-  proposal.rateToken = event.params.rateToken
+  proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
   proposal.updatedAt = event.block.timestamp

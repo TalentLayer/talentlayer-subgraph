@@ -14,7 +14,12 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
     updatedAt
     status
     uri
-    rateToken
+    rateToken {
+      id
+      name
+      tokenAddress
+      decimals
+    }
     rateAmount
     service {
       id
@@ -39,10 +44,22 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
       id
       status
       rateAmount
-      rateToken
+      rateToken {
+        id
+        name
+      }
       seller {
         handle
       }
+    }
+  }
+  payments {
+    id
+    rateToken {
+      decimals
+      id
+      name
+      tokenAddress
     }
   }
 }
