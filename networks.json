@@ -19,10 +19,6 @@
     "TalentLayerPlatformID": {
       "startBlock": 0,
       "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
-    },
-    "simpleERC20": {
-      "startBlock": 0,
-      "address": "0x3220A910e4a2e437c2A1a5bb8799ff1143E144F0"
     }
   },
   "kovan": {

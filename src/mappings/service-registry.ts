@@ -1,4 +1,4 @@
-import { BigDecimal, log, BigInt, Bytes, Address } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
 import { Service, User, Token } from '../../generated/schema'
 import {
   ServiceCreated,
@@ -13,7 +13,6 @@ import {
 } from '../../generated/ServiceRegistry/ServiceRegistry'
 import { getOrCreateService, getOrCreateProposal, getOrCreateToken } from '../getters'
 import { generateProposalId } from './utils'
-// import { simpleERC20 } from '../../generated/simpleERC20/simpleERC20'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
@@ -97,21 +96,8 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   // we get the token address
   const tokenAddress = event.params.rateToken
-
   // we get the token contract to fill the entity
   let token = getOrCreateToken(tokenAddress)
-
-  //we get the token contract to get all the information about the token
-  // let contract = simpleERC20.bind(tokenAddress)
-
-  //we check if the token exist then fill the Token entity
-  // if (!token) {
-  //   token = new Token(proposal.rateToken)
-  //   token.symbol = contract.symbol()
-  //   token.name = contract.name()
-  //   token.decimals = BigInt.fromI32(contract.decimals())
-  //   token.save()
-  // }
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
