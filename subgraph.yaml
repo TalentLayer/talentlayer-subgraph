@@ -121,6 +121,9 @@ dataSources:
       entities:
         - Service
         - Proposal
+        - FeePayment
+        - FeeClaim
+        - PlatformGain
       abis:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
@@ -133,12 +136,19 @@ dataSources:
           handler: handlePaymentCompleted
         - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
+        - event: FeesClaimed(uint256,indexed address,uint256)
+          handler: handleFeesClaimed
+        - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handleOriginPlatformFeeReleased
+        - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handlePlatformFeeReleased
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
     network: localhost
     source:
       abi: TalentLayerPlatformID
+      address: "0xBe16616Ffb87CC3845dC33bA7a7419768697D511"
       startBlock: 0
       address: "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
     mapping:

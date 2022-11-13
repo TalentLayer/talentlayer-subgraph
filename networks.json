@@ -1,24 +1,24 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
+      "address": "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08",
+      "address": "0xBa3396d2Fca4AF75eDBf3920f13C225009162076",
       "startBlock": 0
     },
     "ServiceRegistry": {
-      "address": "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4",
+      "address": "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391",
       "startBlock": 0
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0xf6597b08A75A9427F0C332601a196C379c3A27cE",
+      "address": "0x70B32D098843fdbA39C662Df18313bcA5b50eF35",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "startBlock": 0,
-      "address": "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
+      "address": "0xBe16616Ffb87CC3845dC33bA7a7419768697D511",
+      "startBlock": 0
     }
   },
   "kovan": {
