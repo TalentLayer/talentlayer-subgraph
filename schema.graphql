@@ -86,7 +86,7 @@ type Platform @entity {
   uri: String # metadata URI of platform
   feePayments: [FeePayment!] @derivedFrom(field: "platform") # Platform-related fee payments
   totalPlatformGains: [PlatformGain!] @derivedFrom(field: "platform") # Platform-related total gains per token
-  FeeClaims: [FeeClaim!] @derivedFrom(field: "platform") # Platform-related fee claims
+  feeClaims: [FeeClaim!] @derivedFrom(field: "platform") # Platform-related fee claims
 }
 
 enum FeeType {
