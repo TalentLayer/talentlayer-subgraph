@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0x3cFA019ABA55D30CDc7aaC9BfdC9C40Cea4b3c1C"
+      address: "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xe51CEcAbdC680A25AC30b58F86732512126c39BA"
+      address: "0xBa3396d2Fca4AF75eDBf3920f13C225009162076"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -69,7 +69,7 @@ dataSources:
     network: localhost
     source:
       abi: ServiceRegistry
-      address: "0x2B75921A002Da4455ca97B9Bf5857ff0F97A7750"
+      address: "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -110,7 +110,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0x43B808F67Ebf792d5D24002cC1CFF249559Af0b3"
+      address: "0x70B32D098843fdbA39C662Df18313bcA5b50eF35"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -119,6 +119,9 @@ dataSources:
       entities:
         - Service
         - Proposal
+        - FeePayment
+        - FeeClaim
+        - PlatformGain
       abis:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
@@ -129,14 +132,20 @@ dataSources:
           handler: handlePaymentCompleted
         - event: Payment(uint8,uint256,address,uint256)
           handler: handlePayment
+        - event: FeesClaimed(uint256,indexed address,uint256)
+          handler: handleFeesClaimed
+        - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handleOriginPlatformFeeReleased
+        - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handlePlatformFeeReleased
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
     network: localhost
     source:
       abi: TalentLayerPlatformID
+      address: "0xBe16616Ffb87CC3845dC33bA7a7419768697D511"
       startBlock: 0
-      address: "0x2f9E87f44a9931632144c0CDe7a822071998baE1"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

@@ -1,6 +1,8 @@
-import { BigInt } from '@graphprotocol/graph-ts'
-import { User, Review, Service, Proposal, Payment, Platform } from '../generated/schema'
-import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from './constants'
+import { BigInt } from "@graphprotocol/graph-ts";
+import {
+  User, Review, Service, Proposal, Payment, Platform, FeeClaim, FeePayment, PlatformGain
+} from "../generated/schema";
+import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -72,4 +74,52 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.save()
   }
   return platform
+}
+
+export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
+  let originPlatformFeePayment = FeePayment.load(paymentId);
+  if (!originPlatformFeePayment) {
+    originPlatformFeePayment = new FeePayment(paymentId);
+    originPlatformFeePayment.type = 'OriginPlatform';
+    originPlatformFeePayment.token = ZERO_ADDRESS;
+    originPlatformFeePayment.amount = ZERO;
+    originPlatformFeePayment.save();
+  }
+  return originPlatformFeePayment;
+}
+
+export function getOrCreatePlatformFee(paymentId: string): FeePayment {
+  let platformFeePayment = FeePayment.load(paymentId);
+  if (!platformFeePayment) {
+    platformFeePayment = new FeePayment(paymentId);
+    platformFeePayment.type = 'Platform';
+    platformFeePayment.token = ZERO_ADDRESS;
+    platformFeePayment.amount = ZERO;
+    platformFeePayment.save();
+  }
+  return platformFeePayment;
+}
+
+export function getOrCreateClaim(claimId: string): FeeClaim {
+  let claim = FeeClaim.load(claimId);
+  if (!claim) {
+    claim = new FeeClaim(claimId);
+    claim.token = ZERO_ADDRESS;
+    claim.amount = ZERO;
+    claim.save();
+  }
+  return claim;
+}
+
+export function getOrCreatePlatformGain(gainId: string): PlatformGain {
+  let platformGain = PlatformGain.load(gainId);
+  if (!platformGain) {
+    platformGain = new PlatformGain(gainId);
+    platformGain.platform = ZERO.toString();
+    platformGain.token = ZERO_ADDRESS;
+    platformGain.totalOriginPlatformFeeGain = ZERO;
+    platformGain.totalPlatformFeeGain = ZERO;
+    platformGain.save();
+  }
+  return platformGain;
 }
