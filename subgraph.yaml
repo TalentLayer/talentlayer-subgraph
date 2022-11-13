@@ -81,6 +81,8 @@ dataSources:
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: ServiceCreated(uint256,uint256,uint256,uint256,uint256)
           handler: handleServiceCreated
@@ -122,6 +124,8 @@ dataSources:
       abis:
         - name: TalentLayerMultipleArbitrableTransaction
           file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: ServiceProposalConfirmedWithDeposit(uint256,uint256,uint256)
           handler: handleServiceProposalConfirmedWithDeposit
@@ -163,25 +167,3 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mappings/talent-layer-platform-id.ts
-  - kind: ethereum/contract
-    name: simpleERC20
-    network: localhost
-    source:
-      abi: simpleERC20
-      startBlock: 0
-      address: "0x3220A910e4a2e437c2A1a5bb8799ff1143E144F0"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Token
-      abis:
-        - name: simpleERC20
-          file: ./abis/simpleERC20.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-      file: ./src/mappings/simpleERC20.ts

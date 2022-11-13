@@ -1,8 +1,7 @@
-import { BigInt, ByteArray, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
+import { BigInt, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
 import { User, Review, Service, Proposal, Payment, Platform, Token } from '../generated/schema'
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
-import { simpleERC20 as simpleERC20Contract } from '../generated/simpleERC20/simpleERC20'
-import { ERC20 } from '../generated/simpleERC20/ERC20'
+import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -78,22 +77,39 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
 
 // creation of getOrCreateToken function
 export function getOrCreateToken(tokenAddress: Bytes): Token {
-  //we get the token contract to get all the information about the token
-  let contract = simpleERC20Contract.bind(Address.fromBytes(tokenAddress))
-
+  let contract = ERC20.bind(Address.fromBytes(tokenAddress))
   let token = Token.load(tokenAddress.toHex())
 
   if (!token) {
     token = new Token(tokenAddress.toHex())
+    token.tokenAddress = tokenAddress
 
-    // token.tokenAddress = tokenAddress
-    // token.name = ''
-    // token.symbol = ''
-    // token.decimals = ZERO
+    let callResultSymbol = contract.try_symbol()
+    if (callResultSymbol.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultSymbol.value
+      log.info('Symbol {}', [result])
+      token.symbol = result
+    }
 
-    token.symbol = contract.symbol()
-    token.name = contract.name()
-    token.decimals = BigInt.fromI32(contract.decimals())
+    let callResultName = contract.try_name()
+    if (callResultName.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultName.value
+      log.info('Name {}', [result])
+      token.name = result
+    }
+
+    let callResultDecimal = contract.try_decimals()
+    if (callResultDecimal.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultDecimal.value
+      log.info('decimals {}', [result.toString()])
+      token.decimals = BigInt.fromI32(result)
+    }
 
     token.save()
   }
