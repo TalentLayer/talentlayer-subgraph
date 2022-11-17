@@ -5,3 +5,9 @@ regenerate:
 	npm run remove-local
 	npm run create-local
 	npm run deploy-local
+
+sub:
+	npm run remove-local
+	npm run create-local
+	npm run deploy-local
+
