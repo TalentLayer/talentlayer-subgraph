@@ -1,8 +1,8 @@
-import { BigInt } from "@graphprotocol/graph-ts";
-import {
-  User, Review, Service, Proposal, Payment, Platform, FeeClaim, FeePayment, PlatformGain
-} from "../generated/schema";
-import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC } from "./constants";
+import { BigInt, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
+import { User, Review, Service, Proposal, Payment, Platform, Token,FeeClaim, FeePayment, PlatformGain } from '../generated/schema'
+import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
+import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
+
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -58,7 +58,7 @@ export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Paymen
     payment = new Payment(paymentId.toString())
     payment.service = getOrCreateService(serviceId).id
     payment.amount = ZERO
-    payment.rateToken = ZERO_ADDRESS
+    payment.rateToken = ZERO_TOKEN_ADDRESS
     payment.paymentType = ''
   }
   return payment
@@ -75,6 +75,46 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
   }
   return platform
 }
+
+// creation of getOrCreateToken function
+export function getOrCreateToken(tokenAddress: Bytes): Token {
+  let contract = ERC20.bind(Address.fromBytes(tokenAddress))
+  let token = Token.load(tokenAddress.toHex())
+
+  if (!token) {
+    token = new Token(tokenAddress.toHex())
+    token.tokenAddress = tokenAddress
+
+    let callResultSymbol = contract.try_symbol()
+    if (callResultSymbol.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultSymbol.value
+      log.info('Symbol {}', [result])
+      token.symbol = result
+    }
+
+    let callResultName = contract.try_name()
+    if (callResultName.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultName.value
+      log.info('Name {}', [result])
+      token.name = result
+    }
+
+    let callResultDecimal = contract.try_decimals()
+    if (callResultDecimal.reverted) {
+      log.info('Reverted {}', ['Reverted'])
+    } else {
+      let result = callResultDecimal.value
+      log.info('decimals {}', [result.toString()])
+      token.decimals = BigInt.fromI32(result)
+    }
+    token.save()
+  }
+  return token
+ }
 
 export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
   let originPlatformFeePayment = FeePayment.load(paymentId);

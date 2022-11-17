@@ -1,5 +1,5 @@
 import { log } from '@graphprotocol/graph-ts'
-import { Service, User } from '../../generated/schema'
+import { Service, User, Token } from '../../generated/schema'
 import {
   ServiceCreated,
   ServiceConfirmed,
@@ -11,7 +11,7 @@ import {
   ProposalUpdated,
   ServiceDataCreated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
-import { getOrCreateService, getOrCreateProposal } from '../getters'
+import { getOrCreateService, getOrCreateProposal, getOrCreateToken } from '../getters'
 import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
@@ -83,7 +83,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   const proposal = getOrCreateProposal(proposalId)
   proposal.status = 'Pending'
 
-  proposal.rateToken = event.params.rateToken
+  proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
   proposal.service = Service.load(event.params.serviceId.toString())!.id
@@ -93,6 +93,11 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.updatedAt = event.block.timestamp
 
   proposal.save()
+
+  // we get the token address
+  const tokenAddress = event.params.rateToken
+  // we get the token contract to fill the entity
+  let token = getOrCreateToken(tokenAddress)
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {
@@ -106,7 +111,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
 export function handleProposalUpdated(event: ProposalUpdated): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
-  proposal.rateToken = event.params.rateToken
+  proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
   proposal.updatedAt = event.block.timestamp

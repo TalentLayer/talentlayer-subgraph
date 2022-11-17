@@ -37,23 +37,22 @@
   },
   "goerli": {
     "TalentLayerID": {
-      "address": "0xbc183807fDaeaC824C38BFC9851a2224402a6a24",
+      "address": "0xCb4Ca10F187e928c42e944Fc6A544C9D0445C6F2",
       "startBlock": 7611927
     },
     "TalentLayerReview": {
-      "address": "0x24124D6F6AE8fB5e55Ff9d6B8E575825fC6f178B",
+      "address": "0x03e9ffD48D158dD262b6eAcc8c76edE384A389b9",
       "startBlock": 7611927
     },
     "ServiceRegistry": {
-      "address": "0x2e3c6135510C324C7d18a651dA573B8Cbd189657",
+      "address": "0x2D799C2Ba160Da3b8FbAad545d24F1418eF6AA16",
       "startBlock": 7611927
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0x0E357ce3Fb8C07800F1FEFF3dB0C0947799Fba0c",
       "startBlock": 7611927
     },
     "proofOfHumanityAddress": {
-      "address": "0x2C81B0E3797b860f9C395A60044Dc7341321c7E9",
+      "address": "0xD7F1A310EF95508a0D79bBcC2dfe99827D28544d",
       "startBlock": 7611927
     }
   }
