@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC"
+      address: '0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -42,7 +42,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08"
+      address: '0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -69,7 +69,7 @@ dataSources:
     network: localhost
     source:
       abi: ServiceRegistry
-      address: "0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4"
+      address: '0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -112,7 +112,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: "0xf6597b08A75A9427F0C332601a196C379c3A27cE"
+      address: '0xf6597b08A75A9427F0C332601a196C379c3A27cE'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -148,9 +148,8 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerPlatformID
-      address: "0xBe16616Ffb87CC3845dC33bA7a7419768697D511"
+      address: '0xBe16616Ffb87CC3845dC33bA7a7419768697D511'
       startBlock: 0
-      address: "0x48C45A025D154b40AffB41bc3bDEecb689edE7E6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
