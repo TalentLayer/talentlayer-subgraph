@@ -1,8 +1,18 @@
 import { BigInt, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
-import { User, Review, Service, Proposal, Payment, Platform, Token,FeeClaim, FeePayment, PlatformGain } from '../generated/schema'
+import {
+  User,
+  Review,
+  Service,
+  Proposal,
+  Payment,
+  Platform,
+  Token,
+  FeeClaim,
+  FeePayment,
+  PlatformGain,
+} from '../generated/schema'
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
-
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -114,52 +124,52 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
     token.save()
   }
   return token
- }
+}
 
 export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
-  let originPlatformFeePayment = FeePayment.load(paymentId);
+  let originPlatformFeePayment = FeePayment.load(paymentId)
   if (!originPlatformFeePayment) {
-    originPlatformFeePayment = new FeePayment(paymentId);
-    originPlatformFeePayment.type = 'OriginPlatform';
-    originPlatformFeePayment.token = ZERO_ADDRESS;
-    originPlatformFeePayment.amount = ZERO;
-    originPlatformFeePayment.save();
+    originPlatformFeePayment = new FeePayment(paymentId)
+    originPlatformFeePayment.type = 'OriginPlatform'
+    originPlatformFeePayment.token = ZERO_TOKEN_ADDRESS
+    originPlatformFeePayment.amount = ZERO
+    originPlatformFeePayment.save()
   }
-  return originPlatformFeePayment;
+  return originPlatformFeePayment
 }
 
 export function getOrCreatePlatformFee(paymentId: string): FeePayment {
-  let platformFeePayment = FeePayment.load(paymentId);
+  let platformFeePayment = FeePayment.load(paymentId)
   if (!platformFeePayment) {
-    platformFeePayment = new FeePayment(paymentId);
-    platformFeePayment.type = 'Platform';
-    platformFeePayment.token = ZERO_ADDRESS;
-    platformFeePayment.amount = ZERO;
-    platformFeePayment.save();
+    platformFeePayment = new FeePayment(paymentId)
+    platformFeePayment.type = 'Platform'
+    platformFeePayment.token = ZERO_TOKEN_ADDRESS
+    platformFeePayment.amount = ZERO
+    platformFeePayment.save()
   }
-  return platformFeePayment;
+  return platformFeePayment
 }
 
 export function getOrCreateClaim(claimId: string): FeeClaim {
-  let claim = FeeClaim.load(claimId);
+  let claim = FeeClaim.load(claimId)
   if (!claim) {
-    claim = new FeeClaim(claimId);
-    claim.token = ZERO_ADDRESS;
-    claim.amount = ZERO;
-    claim.save();
+    claim = new FeeClaim(claimId)
+    claim.token = ZERO_TOKEN_ADDRESS
+    claim.amount = ZERO
+    claim.save()
   }
-  return claim;
+  return claim
 }
 
 export function getOrCreatePlatformGain(gainId: string): PlatformGain {
-  let platformGain = PlatformGain.load(gainId);
+  let platformGain = PlatformGain.load(gainId)
   if (!platformGain) {
-    platformGain = new PlatformGain(gainId);
-    platformGain.platform = ZERO.toString();
-    platformGain.token = ZERO_ADDRESS;
-    platformGain.totalOriginPlatformFeeGain = ZERO;
-    platformGain.totalPlatformFeeGain = ZERO;
-    platformGain.save();
+    platformGain = new PlatformGain(gainId)
+    platformGain.platform = ZERO.toString()
+    platformGain.token = ZERO_TOKEN_ADDRESS
+    platformGain.totalOriginPlatformFeeGain = ZERO
+    platformGain.totalPlatformFeeGain = ZERO
+    platformGain.save()
   }
-  return platformGain;
+  return platformGain
 }

@@ -68,7 +68,7 @@ export function handleFeesClaimed(event: FeesClaimed): void {
   const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const claim = getOrCreateClaim(claimId)
   claim.platform = event.params._platformId.toString()
-  claim.token = event.params._token
+  claim.token = event.params._token.toString()
   claim.amount = event.params._amount
 
   claim.transactionHash = event.transaction.hash.toHex()
@@ -82,7 +82,7 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
   originPlatformFeePayment.amount = event.params._amount
   originPlatformFeePayment.platform = event.params._platformId.toString()
   originPlatformFeePayment.service = event.params._serviceId.toString()
-  originPlatformFeePayment.token = event.params._token
+  originPlatformFeePayment.token = event.params._token.toString()
 
   originPlatformFeePayment.createdAt = event.block.timestamp
   originPlatformFeePayment.save()
@@ -90,7 +90,7 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
-  platformGain.token = event.params._token
+  platformGain.token = event.params._token.toString()
   platformGain.totalOriginPlatformFeeGain = platformGain.totalOriginPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
@@ -102,7 +102,7 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   platformFeePayment.amount = event.params._amount
   platformFeePayment.platform = event.params._platformId.toString()
   platformFeePayment.service = event.params._serviceId.toString()
-  platformFeePayment.token = event.params._token
+  platformFeePayment.token = event.params._token.toString()
 
   platformFeePayment.createdAt = event.block.timestamp
   platformFeePayment.save()
@@ -110,7 +110,7 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
-  platformGain.token = event.params._token
+  platformGain.token = event.params._token.toString()
   platformGain.totalPlatformFeeGain = platformGain.totalPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
