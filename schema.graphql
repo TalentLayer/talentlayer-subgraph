@@ -70,7 +70,7 @@ type Proposal @entity {
   updatedAt: BigInt # timestamp of the last change
   status: ProposalStatus! # Proposal status
   seller: User # Proposal seller
-  rateToken: Token! # Rate token
+  rateToken: Token # Rate token
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of service
 }
