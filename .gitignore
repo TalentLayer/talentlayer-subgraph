@@ -4,3 +4,4 @@ generated
 data
 pnpm-lock.yaml
 .vscode/settings.json
+.DS_Store
