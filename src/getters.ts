@@ -68,7 +68,6 @@ export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Paymen
     payment = new Payment(paymentId.toString())
     payment.service = getOrCreateService(serviceId).id
     payment.amount = ZERO
-    payment.rateToken = ZERO_TOKEN_ADDRESS
     payment.paymentType = ''
   }
   return payment
@@ -93,34 +92,41 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
 
   if (!token) {
     token = new Token(tokenAddress.toHex())
-    token.tokenAddress = tokenAddress
+    token.address = tokenAddress
 
-    let callResultSymbol = contract.try_symbol()
-    if (callResultSymbol.reverted) {
-      log.info('Reverted {}', ['Reverted'])
+    if (tokenAddress.toHex() == ZERO_TOKEN_ADDRESS) {
+      token.symbol = 'ETH'
+      token.name = 'Ether'
+      token.decimals = BigInt.fromString('18')
     } else {
-      let result = callResultSymbol.value
-      log.info('Symbol {}', [result])
-      token.symbol = result
+      let callResultSymbol = contract.try_symbol()
+      if (callResultSymbol.reverted) {
+        log.info('Reverted {}', ['Reverted'])
+      } else {
+        let result = callResultSymbol.value
+        log.info('Symbol {}', [result])
+        token.symbol = result
+      }
+
+      let callResultName = contract.try_name()
+      if (callResultName.reverted) {
+        log.info('Reverted {}', ['Reverted'])
+      } else {
+        let result = callResultName.value
+        log.info('Name {}', [result])
+        token.name = result
+      }
+
+      let callResultDecimal = contract.try_decimals()
+      if (callResultDecimal.reverted) {
+        log.info('Reverted {}', ['Reverted'])
+      } else {
+        let result = callResultDecimal.value
+        log.info('decimals {}', [result.toString()])
+        token.decimals = BigInt.fromI32(result)
+      }
     }
 
-    let callResultName = contract.try_name()
-    if (callResultName.reverted) {
-      log.info('Reverted {}', ['Reverted'])
-    } else {
-      let result = callResultName.value
-      log.info('Name {}', [result])
-      token.name = result
-    }
-
-    let callResultDecimal = contract.try_decimals()
-    if (callResultDecimal.reverted) {
-      log.info('Reverted {}', ['Reverted'])
-    } else {
-      let result = callResultDecimal.value
-      log.info('decimals {}', [result.toString()])
-      token.decimals = BigInt.fromI32(result)
-    }
     token.save()
   }
   return token
@@ -131,7 +137,6 @@ export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
   if (!originPlatformFeePayment) {
     originPlatformFeePayment = new FeePayment(paymentId)
     originPlatformFeePayment.type = 'OriginPlatform'
-    originPlatformFeePayment.token = ZERO_TOKEN_ADDRESS
     originPlatformFeePayment.amount = ZERO
     originPlatformFeePayment.save()
   }
@@ -143,7 +148,6 @@ export function getOrCreatePlatformFee(paymentId: string): FeePayment {
   if (!platformFeePayment) {
     platformFeePayment = new FeePayment(paymentId)
     platformFeePayment.type = 'Platform'
-    platformFeePayment.token = ZERO_TOKEN_ADDRESS
     platformFeePayment.amount = ZERO
     platformFeePayment.save()
   }
@@ -154,7 +158,6 @@ export function getOrCreateClaim(claimId: string): FeeClaim {
   let claim = FeeClaim.load(claimId)
   if (!claim) {
     claim = new FeeClaim(claimId)
-    claim.token = ZERO_TOKEN_ADDRESS
     claim.amount = ZERO
     claim.save()
   }
@@ -166,7 +169,6 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
   if (!platformGain) {
     platformGain = new PlatformGain(gainId)
     platformGain.platform = ZERO.toString()
-    platformGain.token = ZERO_TOKEN_ADDRESS
     platformGain.totalOriginPlatformFeeGain = ZERO
     platformGain.totalPlatformFeeGain = ZERO
     platformGain.save()
