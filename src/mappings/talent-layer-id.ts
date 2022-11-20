@@ -9,7 +9,7 @@ import {
   PohActivated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
-import { getOrCreateUser } from '../getters'
+import { getOrCreatePlatform, getOrCreateUser } from '../getters'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -34,7 +34,8 @@ export function handleMint(event: Mint): void {
   user.address = event.params._user.toHex()
   user.handle = event.params._handle
   user.withPoh = event.params._withPoh
-  user.platformId = event.params._platformId.toString()
+  const platform = getOrCreatePlatform(event.params._platformId)
+  user.platform = platform.id
   user.save()
 }
 
