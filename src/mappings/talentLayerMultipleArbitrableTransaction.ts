@@ -47,10 +47,10 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
 export function handlePayment(event: Payment): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const payment = getOrCreatePayment(paymentId, event.params._serviceId)
-  const token = getOrCreateToken(event.params._token)
+  const token = event.params._token
 
   payment.amount = event.params._amount
-  payment.rateToken = token.id
+  payment.rateToken = getOrCreateToken(token).id
   payment.createdAt = event.block.timestamp
 
   if (event.params._paymentType === 0) {
@@ -67,8 +67,9 @@ export function handlePayment(event: Payment): void {
 export function handleFeesClaimed(event: FeesClaimed): void {
   const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const claim = getOrCreateClaim(claimId)
+  const token = event.params._token
   claim.platform = event.params._platformId.toString()
-  claim.token = event.params._token
+  claim.token = getOrCreateToken(token).id
   claim.amount = event.params._amount
 
   claim.transactionHash = event.transaction.hash.toHex()
@@ -79,10 +80,11 @@ export function handleFeesClaimed(event: FeesClaimed): void {
 export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const originPlatformFeePayment = getOrCreateOriginPlatformFee(paymentId)
+  const token = event.params._token
   originPlatformFeePayment.amount = event.params._amount
   originPlatformFeePayment.platform = event.params._platformId.toString()
   originPlatformFeePayment.service = event.params._serviceId.toString()
-  originPlatformFeePayment.token = event.params._token
+  originPlatformFeePayment.token = getOrCreateToken(token).id
 
   originPlatformFeePayment.createdAt = event.block.timestamp
   originPlatformFeePayment.save()
@@ -90,7 +92,7 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
-  platformGain.token = event.params._token
+  platformGain.token = getOrCreateToken(token).id
   platformGain.totalOriginPlatformFeeGain = platformGain.totalOriginPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
@@ -99,10 +101,11 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
 export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const platformFeePayment = getOrCreatePlatformFee(paymentId)
+  const token = event.params._token
   platformFeePayment.amount = event.params._amount
   platformFeePayment.platform = event.params._platformId.toString()
   platformFeePayment.service = event.params._serviceId.toString()
-  platformFeePayment.token = event.params._token
+  platformFeePayment.token = getOrCreateToken(token).id
 
   platformFeePayment.createdAt = event.block.timestamp
   platformFeePayment.save()
@@ -110,7 +113,7 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
-  platformGain.token = event.params._token
+  platformGain.token = getOrCreateToken(token).id
   platformGain.totalPlatformFeeGain = platformGain.totalPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()

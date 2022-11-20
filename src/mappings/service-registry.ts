@@ -109,9 +109,10 @@ export function handleProposalRejected(event: ProposalRejected): void {
 }
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
+  const token = event.params.rateToken
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId)
-  proposal.rateToken = event.params.rateToken.toHexString()
+  proposal.rateToken = getOrCreateToken(token).id
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
   proposal.updatedAt = event.block.timestamp
