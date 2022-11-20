@@ -11,7 +11,7 @@ import {
   ProposalUpdated,
   ServiceDataCreated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
-import { getOrCreateService, getOrCreateProposal, getOrCreateToken } from '../getters'
+import { getOrCreateService, getOrCreateProposal, getOrCreateToken, getOrCreatePlatform } from '../getters'
 import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
@@ -38,7 +38,8 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
 
-  service.platformId = event.params.platformId.toString()
+  const platform = getOrCreatePlatform(event.params.platformId)
+  service.platform = platform.id
 
   service.save()
 }

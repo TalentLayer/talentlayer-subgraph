@@ -1,6 +1,6 @@
 import { User } from '../../generated/schema'
 import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
-import { getOrCreateReview } from '../getters'
+import { getOrCreatePlatform, getOrCreateReview } from '../getters'
 import { ONE } from '../constants'
 
 export function handleApproval(event: Approval): void {}
@@ -10,7 +10,8 @@ export function handleApprovalForAll(event: ApprovalForAll): void {}
 export function handleMint(event: Mint): void {
   const review = getOrCreateReview(event.params._tokenId, event.params._serviceId, event.params._toId)
   review.uri = event.params._reviewUri
-  review.platformId = event.params._platformId.toString()
+  const platform = getOrCreatePlatform(event.params._platformId)
+  review.platform = platform.id
   review.createdAt = event.block.timestamp
   review.save()
 
