@@ -17,7 +17,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
     rateToken {
       id
       name
-      tokenAddress
+      address
       decimals
     }
     rateAmount
@@ -59,7 +59,7 @@ https://docs.indie.talentlayer.org/developers/local-environment-setup
       decimals
       id
       name
-      tokenAddress
+      address
     }
   }
 }
