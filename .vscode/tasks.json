@@ -1,0 +1,22 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Regenerate",
+      "type": "shell",
+      "command": "make"
+    },
+    {
+      "label": "Local",
+      "type": "shell",
+      "command": "make sub"
+    },
+    {
+      "label": "Deploy-Goerly",
+      "type": "shell",
+      "command": "make deploy-goerli"
+    }
+  ]
+}
