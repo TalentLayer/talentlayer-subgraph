@@ -81,7 +81,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 
 export function handleProposalCreated(event: ProposalCreated): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId)
+  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
 
   proposal.rateToken = event.params.rateToken.toHexString()
@@ -103,7 +103,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
 export function handleProposalRejected(event: ProposalRejected): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId)
+  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Rejected'
   proposal.updatedAt = event.block.timestamp
   proposal.save()
@@ -112,7 +112,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
 export function handleProposalUpdated(event: ProposalUpdated): void {
   const token = event.params.rateToken
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId)
+  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.rateToken = getOrCreateToken(token).id
   proposal.rateAmount = event.params.rateAmount
   proposal.uri = event.params.proposalDataUri
