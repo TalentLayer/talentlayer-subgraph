@@ -24,7 +24,7 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   const service = getOrCreateService(event.params.serviceId)
 
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId)
+  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
 
   log.warning('!!!!!! proposal ID', [proposalId])
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])

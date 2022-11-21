@@ -25,11 +25,14 @@ export function getOrCreateService(id: BigInt): Service {
   return service
 }
 
-export function getOrCreateProposal(id: string): Proposal {
+export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   let proposal = Proposal.load(id)
   if (!proposal) {
     proposal = new Proposal(id)
     proposal.status = 'Pending'
+    proposal.uri = ''
+    proposal.service = getOrCreateService(serviceId).id
+    proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
     proposal.save()
   }
   return proposal
@@ -168,7 +171,6 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
   let platformGain = PlatformGain.load(gainId)
   if (!platformGain) {
     platformGain = new PlatformGain(gainId)
-    platformGain.platform = ZERO.toString()
     platformGain.totalOriginPlatformFeeGain = ZERO
     platformGain.totalPlatformFeeGain = ZERO
     platformGain.save()
