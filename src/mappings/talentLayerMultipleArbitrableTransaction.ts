@@ -9,6 +9,7 @@ import {
   getOrCreatePlatformFee,
   getOrCreateClaim,
   getOrCreatePlatformGain,
+  getOrCreateUserGain,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -55,6 +56,16 @@ export function handlePayment(event: Payment): void {
 
   if (event.params._paymentType === 0) {
     payment.paymentType = 'Release'
+
+    const service = getOrCreateService(event.params._serviceId)
+    if (service.seller) {
+      const userGainId = generateIdFromTwoElements(service.seller!, event.params._token.toHex())
+      const userGain = getOrCreateUserGain(userGainId)
+      userGain.token = getOrCreateToken(token).id
+      userGain.totalUserGain = userGain.totalUserGain.plus(event.params._amount)
+
+      userGain.save()
+    }
   }
   if (event.params._paymentType === 1) {
     payment.paymentType = 'Reimburse'

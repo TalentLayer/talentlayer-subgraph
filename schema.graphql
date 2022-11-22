@@ -36,7 +36,7 @@ type Review @entity {
 }
 
 type Token @entity {
-  id: ID! # token id 
+  id: ID! # token id
   address: Bytes! # token entity
   symbol: String! # token code
   name: String! # token name
@@ -127,4 +127,10 @@ type PlatformGain @entity {
   token: Token # token entity
   totalOriginPlatformFeeGain: BigInt! # total Origin Platform gain
   totalPlatformFeeGain: BigInt! # total Platform gain
+}
+
+type UserGain @entity {
+  id: ID! # concatenation of userId + token entity
+  token: Token # token entity
+  totalUserGain: BigInt! # total User gain
 }
