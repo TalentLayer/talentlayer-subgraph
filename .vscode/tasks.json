@@ -6,7 +6,8 @@
     {
       "label": "Regenerate",
       "type": "shell",
-      "command": "make"
+      "command": "make",
+      "problemMatcher": []
     },
     {
       "label": "Local",
