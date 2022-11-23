@@ -1,13 +1,13 @@
+import { MintFeeUpdated } from '../../generated/TalentLayerID/TalentLayerID'
 import {
   Approval,
   ApprovalForAll,
   CidUpdated,
   ConsecutiveTransfer,
   Mint,
-  OwnershipTransferred,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
-import { getOrCreatePlatform } from '../getters'
+import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
 
 export function handleApproval(event: Approval): void {}
 
@@ -31,6 +31,10 @@ export function handleMint(event: Mint): void {
   platform.save()
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
-
 export function handleTransfer(event: Transfer): void {}
+
+export function handleMintFeeUpdated(event: MintFeeUpdated): void {
+  const protocol = getOrCreateProtocol('1')
+  protocol.platformMintFee = event.params._mintFee
+  protocol.save()
+}
