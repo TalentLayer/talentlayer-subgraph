@@ -10,6 +10,7 @@ import {
   FeeClaim,
   FeePayment,
   PlatformGain,
+  Protocol,
 } from '../generated/schema'
 import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
@@ -176,4 +177,15 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
     platformGain.save()
   }
   return platformGain
+}
+
+export function getOrCreateProtocol(protocolId: string): Protocol {
+  let protocol = Protocol.load(protocolId)
+  if (!protocol) {
+    protocol = new Protocol(protocolId)
+    protocol.userMintFee = ZERO
+    protocol.platformMintFee = ZERO
+    protocol.escrowFee = ZERO
+  }
+  return protocol
 }
