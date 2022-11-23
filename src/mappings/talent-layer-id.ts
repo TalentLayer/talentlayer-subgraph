@@ -52,7 +52,7 @@ export function handlePohActivated(event: PohActivated): void {
 export function handleTransfer(event: Transfer): void {}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
-  const protocol = getOrCreateProtocol(PROTOCOL_ID)
+  const protocol = getOrCreateProtocol()
   protocol.userMintFee = event.params._mintFee
   protocol.save()
 }

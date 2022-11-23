@@ -123,7 +123,7 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
 }
 
 export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
-  const protocol = getOrCreateProtocol(PROTOCOL_ID)
+  const protocol = getOrCreateProtocol()
   protocol.escrowFee = event.params._protocolFee
   protocol.save()
 }
