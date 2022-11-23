@@ -7,7 +7,6 @@ import {
   Mint,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
-import { PROTOCOL_ID } from '../constants'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
 
 export function handleApproval(event: Approval): void {}

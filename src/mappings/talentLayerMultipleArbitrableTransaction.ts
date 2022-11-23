@@ -21,7 +21,6 @@ import {
   ProtocolFeeUpdated,
 } from '../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
-import { PROTOCOL_ID } from '../constants'
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
