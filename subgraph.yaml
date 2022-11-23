@@ -175,8 +175,6 @@ dataSources:
           handler: handleConsecutiveTransfer
         - event: Mint(indexed address,uint256,string)
           handler: handleMint
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
