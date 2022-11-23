@@ -10,6 +10,7 @@ import {
   PohActivated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
+import { PROTOCOL_ID } from '../constants'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
@@ -51,7 +52,7 @@ export function handlePohActivated(event: PohActivated): void {
 export function handleTransfer(event: Transfer): void {}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
-  const protocol = getOrCreateProtocol('1')
+  const protocol = getOrCreateProtocol(PROTOCOL_ID)
   protocol.userMintFee = event.params._mintFee
   protocol.save()
 }

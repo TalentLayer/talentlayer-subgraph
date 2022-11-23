@@ -21,6 +21,7 @@ import {
   ProtocolFeeUpdated,
 } from '../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
+import { PROTOCOL_ID } from '../constants'
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
@@ -122,7 +123,7 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
 }
 
 export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
-  const protocol = getOrCreateProtocol('1')
-  protocol.platformMintFee = event.params._protocolFee
+  const protocol = getOrCreateProtocol(PROTOCOL_ID)
+  protocol.escrowFee = event.params._protocolFee
   protocol.save()
 }

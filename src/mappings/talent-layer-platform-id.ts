@@ -7,6 +7,7 @@ import {
   Mint,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
+import { PROTOCOL_ID } from '../constants'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
 
 export function handleApproval(event: Approval): void {}
@@ -34,7 +35,7 @@ export function handleMint(event: Mint): void {
 export function handleTransfer(event: Transfer): void {}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
-  const protocol = getOrCreateProtocol('1')
+  const protocol = getOrCreateProtocol(PROTOCOL_ID)
   protocol.platformMintFee = event.params._mintFee
   protocol.save()
 }
