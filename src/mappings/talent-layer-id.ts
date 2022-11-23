@@ -10,7 +10,6 @@ import {
   PohActivated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
-import { PROTOCOL_ID } from '../constants'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
