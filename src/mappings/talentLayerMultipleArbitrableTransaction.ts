@@ -9,6 +9,7 @@ import {
   getOrCreatePlatformFee,
   getOrCreateClaim,
   getOrCreatePlatformGain,
+  getOrCreateProtocol,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -17,6 +18,7 @@ import {
   OriginPlatformFeeReleased,
   PlatformFeeReleased,
   FeesClaimed,
+  ProtocolFeeUpdated,
 } from '../../generated/TalentLayerMultipleArbitrableTransaction/TalentLayerMultipleArbitrableTransaction'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 
@@ -117,4 +119,10 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   platformGain.totalPlatformFeeGain = platformGain.totalPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
+}
+
+export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
+  const protocol = getOrCreateProtocol('1')
+  protocol.platformMintFee = event.params._protocolFee
+  protocol.save()
 }
