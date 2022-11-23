@@ -35,7 +35,7 @@ export function handleMint(event: Mint): void {
 export function handleTransfer(event: Transfer): void {}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
-  const protocol = getOrCreateProtocol(PROTOCOL_ID)
+  const protocol = getOrCreateProtocol()
   protocol.platformMintFee = event.params._mintFee
   protocol.save()
 }
