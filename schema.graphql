@@ -132,5 +132,5 @@ type PlatformGain @entity {
 type UserGain @entity {
   id: ID! # concatenation of userId + token entity
   token: Token # token entity
-  totalUserGain: BigInt! # total User gain
+  totalGain: BigInt! # total User gain
 }
