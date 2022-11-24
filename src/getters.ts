@@ -183,7 +183,7 @@ export function getOrCreateUserGain(gainId: string): UserGain {
   let userGain = UserGain.load(gainId)
   if (!userGain) {
     userGain = new UserGain(gainId)
-    userGain.totalUserGain = ZERO
+    userGain.totalGain = ZERO
     userGain.save()
   }
   return userGain
