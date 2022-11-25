@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt, log } from '@graphprotocol/graph-ts'
 import { Service, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -58,12 +58,13 @@ export function handlePayment(event: Payment): void {
     payment.paymentType = 'Release'
 
     const service = getOrCreateService(event.params._serviceId)
-    if (service.seller) {
-      const userGainId = generateIdFromTwoElements(service.seller!, event.params._token.toHex())
-      const userGain = getOrCreateUserGain(userGainId)
+    const seller = service.seller
+    if (seller) {
+      const userGainId = generateIdFromTwoElements(seller, event.params._token.toHex())
+      const userGain = getOrCreateUserGain(userGainId, BigInt.fromString(seller))
       userGain.token = getOrCreateToken(token).id
-      userGain.totalUserGain = userGain.totalUserGain.plus(event.params._amount)
-
+      userGain.user = seller!
+      userGain.totalGain = userGain.totalGain.plus(event.params._amount)
       userGain.save()
     }
   }
