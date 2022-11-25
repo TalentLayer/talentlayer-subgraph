@@ -179,11 +179,12 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
   return platformGain
 }
 
-export function getOrCreateUserGain(gainId: string): UserGain {
+export function getOrCreateUserGain(gainId: string, userId: BigInt): UserGain {
   let userGain = UserGain.load(gainId)
   if (!userGain) {
     userGain = new UserGain(gainId)
     userGain.totalGain = ZERO
+    userGain.user = getOrCreateUser(userId).id
     userGain.save()
   }
   return userGain
