@@ -1,3 +1,4 @@
+import { BigInt } from '@graphprotocol/graph-ts'
 import { MintFeeUpdated } from '../../generated/TalentLayerID/TalentLayerID'
 import {
   Approval,
@@ -29,6 +30,11 @@ export function handleMint(event: Mint): void {
   platform.createdAt = event.block.timestamp
 
   platform.save()
+
+  const protocol = getOrCreateProtocol()
+  const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
+  protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
+  protocol.save()
 }
 
 export function handleTransfer(event: Transfer): void {}
