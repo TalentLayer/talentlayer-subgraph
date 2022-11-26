@@ -1,3 +1,4 @@
+import { BigInt } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -38,6 +39,11 @@ export function handleMint(event: Mint): void {
   const platform = getOrCreatePlatform(event.params._platformId)
   user.platform = platform.id
   user.save()
+
+  const protocol = getOrCreateProtocol()
+  const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
+  protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
+  protocol.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
