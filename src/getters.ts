@@ -185,7 +185,7 @@ export function getOrCreateProtocol(): Protocol {
     protocol = new Protocol(PROTOCOL_ID)
     protocol.userMintFee = ZERO
     protocol.platformMintFee = ZERO
-    protocol.escrowFee = ZERO
+    protocol.escrowFee = 0
   }
   return protocol
 }

@@ -144,7 +144,7 @@ dataSources:
           handler: handleOriginPlatformFeeReleased
         - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
           handler: handlePlatformFeeReleased
-        - event: ProtocolFeeUpdated(uint256)
+        - event: ProtocolFeeUpdated(uint16)
           handler: handleProtocolFeeUpdated
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
   - kind: ethereum/contract
