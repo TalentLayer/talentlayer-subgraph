@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Regenerate",
+      "type": "shell",
+      "command": "make",
+      "problemMatcher": []
+    },
+    {
+      "label": "Local",
+      "type": "shell",
+      "command": "make sub"
+    },
+    {
+      "label": "Deploy-Goerly",
+      "type": "shell",
+      "command": "make deploy-goerli"
+    }
+  ]
+}
