@@ -10,6 +10,7 @@ import {
   FeeClaim,
   FeePayment,
   PlatformGain,
+  UserGain,
   Protocol,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
@@ -177,6 +178,17 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
     platformGain.save()
   }
   return platformGain
+}
+
+export function getOrCreateUserGain(gainId: string, userId: BigInt): UserGain {
+  let userGain = UserGain.load(gainId)
+  if (!userGain) {
+    userGain = new UserGain(gainId)
+    userGain.totalGain = ZERO
+    userGain.user = getOrCreateUser(userId).id
+    userGain.save()
+  }
+  return userGain
 }
 
 export function getOrCreateProtocol(): Protocol {
