@@ -11,8 +11,9 @@ import {
   FeePayment,
   PlatformGain,
   UserGain,
+  Protocol,
 } from '../generated/schema'
-import { ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
+import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
 
 export function getOrCreateService(id: BigInt): Service {
@@ -188,4 +189,16 @@ export function getOrCreateUserGain(gainId: string, userId: BigInt): UserGain {
     userGain.save()
   }
   return userGain
+}
+
+export function getOrCreateProtocol(): Protocol {
+  let protocol = Protocol.load(PROTOCOL_ID)
+  if (!protocol) {
+    protocol = new Protocol(PROTOCOL_ID)
+    protocol.userMintFee = ZERO
+    protocol.platformMintFee = ZERO
+    protocol.escrowFee = 0
+    protocol.totalMintFees = ZERO
+  }
+  return protocol
 }
