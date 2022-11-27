@@ -1,3 +1,4 @@
+import { BigInt } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -5,11 +6,12 @@ import {
   CidUpdated,
   ConsecutiveTransfer,
   Mint,
+  MintFeeUpdated,
   OwnershipTransferred,
   PohActivated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
-import { getOrCreatePlatform, getOrCreateUser } from '../getters'
+import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -37,6 +39,11 @@ export function handleMint(event: Mint): void {
   const platform = getOrCreatePlatform(event.params._platformId)
   user.platform = platform.id
   user.save()
+
+  const protocol = getOrCreateProtocol()
+  const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
+  protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
+  protocol.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
@@ -48,3 +55,9 @@ export function handlePohActivated(event: PohActivated): void {
 }
 
 export function handleTransfer(event: Transfer): void {}
+
+export function handleMintFeeUpdated(event: MintFeeUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.userMintFee = event.params._mintFee
+  protocol.save()
+}

@@ -28,7 +28,7 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,bool,uint256)
+        - event: Mint(indexed address,uint256,string,bool,uint256,uint256)
           handler: handleMint
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
@@ -36,6 +36,8 @@ dataSources:
           handler: handlePohActivated
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: MintFeeUpdated(uint256)
+          handler: handleMintFeeUpdated
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
@@ -142,6 +144,8 @@ dataSources:
           handler: handleOriginPlatformFeeReleased
         - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
           handler: handlePlatformFeeReleased
+        - event: ProtocolFeeUpdated(uint16)
+          handler: handleProtocolFeeUpdated
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
@@ -169,10 +173,10 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string)
+        - event: Mint(indexed address,uint256,string,uint256)
           handler: handleMint
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: MintFeeUpdated(uint256)
+          handler: handleMintFeeUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
