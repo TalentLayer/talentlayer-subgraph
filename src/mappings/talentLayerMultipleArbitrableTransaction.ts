@@ -63,7 +63,6 @@ export function handlePayment(event: Payment): void {
       const userGainId = generateIdFromTwoElements(seller, event.params._token.toHex())
       const userGain = getOrCreateUserGain(userGainId, BigInt.fromString(seller))
       userGain.token = getOrCreateToken(token).id
-      userGain.user = seller!
       userGain.totalGain = userGain.totalGain.plus(event.params._amount)
       userGain.save()
     }
