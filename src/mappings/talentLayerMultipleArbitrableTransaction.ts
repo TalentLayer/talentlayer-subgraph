@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt, log } from '@graphprotocol/graph-ts'
 import { Service, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -9,6 +9,7 @@ import {
   getOrCreatePlatformFee,
   getOrCreateClaim,
   getOrCreatePlatformGain,
+  getOrCreateUserGain,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -55,6 +56,17 @@ export function handlePayment(event: Payment): void {
 
   if (event.params._paymentType === 0) {
     payment.paymentType = 'Release'
+
+    const service = getOrCreateService(event.params._serviceId)
+    const seller = service.seller
+    if (seller) {
+      const userGainId = generateIdFromTwoElements(seller, event.params._token.toHex())
+      const userGain = getOrCreateUserGain(userGainId, BigInt.fromString(seller))
+      userGain.token = getOrCreateToken(token).id
+      userGain.user = seller!
+      userGain.totalGain = userGain.totalGain.plus(event.params._amount)
+      userGain.save()
+    }
   }
   if (event.params._paymentType === 1) {
     payment.paymentType = 'Reimburse'
