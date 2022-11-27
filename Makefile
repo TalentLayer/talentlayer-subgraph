@@ -12,6 +12,7 @@ sub:
 	npm run deploy-local
 
 # To launch this command, you need first to auth with the graph-cli and the subgraph
+# Goerli hosted subgraph: https://thegraph.com/hosted-service/subgraph/talentlayer/talent-layer-protocol
 deploy-goerli: 
 	graph codegen
 	graph build --network goerli
