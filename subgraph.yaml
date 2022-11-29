@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: localhost
+    network: fuji
     source:
       abi: TalentLayerID
-      address: '0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC'
-      startBlock: 0
+      address: "0xD1B87CCe7f9FA272c6643Fa89085F135A2AbB234"
+      startBlock: 16313000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -39,11 +39,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: localhost
+    network: fuji
     source:
       abi: TalentLayerReview
-      address: '0x5B5C32217dc6c13828F75221949fC6D1Bd6C6A08'
-      startBlock: 0
+      address: "0xc9c87d5b85fd88d375000f9e3e26195690934F50"
+      startBlock: 16313000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -66,11 +66,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: ServiceRegistry
-    network: localhost
+    network: fuji
     source:
       abi: ServiceRegistry
-      address: '0xdA1DA2364707Bdd242be34b9D8c2D8cf504B52f4'
-      startBlock: 0
+      address: "0x9Af3080e73FB1054896e3799a786F0063965bA46"
+      startBlock: 16313000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -109,11 +109,11 @@ dataSources:
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerMultipleArbitrableTransaction
-    network: localhost
+    network: fuji
     source:
       abi: TalentLayerMultipleArbitrableTransaction
-      address: '0xf6597b08A75A9427F0C332601a196C379c3A27cE'
-      startBlock: 0
+      startBlock: 16313000
+      address: "0x754278520467fAdBB1D0230E082E436E70505EE2"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -145,11 +145,11 @@ dataSources:
       file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: localhost
+    network: fuji
     source:
       abi: TalentLayerPlatformID
-      address: '0xBe16616Ffb87CC3845dC33bA7a7419768697D511'
-      startBlock: 0
+      address: "0xC30859CFa06D0cB9D66837feBB36a856BF78865E"
+      startBlock: 16313000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

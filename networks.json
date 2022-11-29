@@ -1,23 +1,23 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0xBa3396d2Fca4AF75eDBf3920f13C225009162076",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     },
     "ServiceRegistry": {
-      "address": "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "address": "0x70B32D098843fdbA39C662Df18313bcA5b50eF35",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "address": "0xBe16616Ffb87CC3845dC33bA7a7419768697D511",
+      "address": "0x1eC0abD9539638FDb05EeD904Ca6F617BfBD6DCC",
       "startBlock": 0
     }
   },
@@ -54,6 +54,32 @@
     "proofOfHumanityAddress": {
       "address": "0xD7F1A310EF95508a0D79bBcC2dfe99827D28544d",
       "startBlock": 7611927
+    }
+  },
+  "fuji": {
+    "TalentLayerID": {
+      "address": "0xD1B87CCe7f9FA272c6643Fa89085F135A2AbB234",
+      "startBlock": 16313000 
+    },
+    "TalentLayerReview": {
+      "address": "0xc9c87d5b85fd88d375000f9e3e26195690934F50",
+      "startBlock": 16313000
+    },
+    "ServiceRegistry": {
+      "address": "0x9Af3080e73FB1054896e3799a786F0063965bA46",
+      "startBlock": 16313000
+    },
+    "TalentLayerMultipleArbitrableTransaction": {
+      "startBlock": 16313000,
+      "address": "0x754278520467fAdBB1D0230E082E436E70505EE2"
+    },
+    "proofOfHumanityAddress": {
+      "address": "0x52B21E28B98B558bF5DddFd3dB9653449F8067D6",
+      "startBlock": 16313000
+    },
+    "TalentLayerPlatformID": {
+      "address": "0xC30859CFa06D0cB9D66837feBB36a856BF78865E",
+      "startBlock": 16313000
     }
   }
 }
