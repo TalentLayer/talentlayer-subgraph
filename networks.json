@@ -23,28 +23,28 @@
   },
   "goerli": {
     "TalentLayerID": {
-      "address": "0x2F9EBAc36cc020B81c4c624AbcfeC7DC8958Cf54",
-      "startBlock": 7988557
+      "address": "0x67c3AC531084aB5E6E04d4bB0FC7766e27b81546",
+      "startBlock": 8090615
     },
     "TalentLayerReview": {
-      "address": "0x66676968c176aA328124f04f53F8653db6b35ff9",
-      "startBlock": 7988557
+      "address": "0x59ff1f3ff159c17C48558cCf8269FF17aA0B8C8D",
+      "startBlock": 8090615
     },
     "ServiceRegistry": {
-      "address": "0x8E86d82214c391281a908e3e31a766fcb9FaB3cA",
-      "startBlock": 7988557
+      "address": "0x6f97FB242d2D3bCA9d19c05c975F6Ec8caB4d1a4",
+      "startBlock": 8090615
     },
     "TalentLayerMultipleArbitrableTransaction": {
-      "startBlock": 7988557,
-      "address": "0x182980458E0F93167Fab56c494776b694A07C030"
+      "startBlock": 8090615,
+      "address": "0x4A6F0208a0b636E3A4918cb0A5B1367E4B338aD8"
     },
     "proofOfHumanityAddress": {
-      "address": "0x8112eC56837aA0A9Cfea9eA273B0eaa61B160ABD",
-      "startBlock": 7988557
+      "address": "0xAEbc3646709765691045B56ae89556907852DbEE",
+      "startBlock": 8090615
     },
     "TalentLayerPlatformID": {
-      "address": "0xc0aB487a8e374807B86291CE5BE4b0dE4540529d",
-      "startBlock": 7988557
+      "address": "0x29AcBBbfAb5e1AF98557C53CCcEF0C050FA18Bc8",
+      "startBlock": 8090615
     }
   },
   "fuji": {
