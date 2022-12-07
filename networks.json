@@ -46,5 +46,31 @@
       "address": "0x29AcBBbfAb5e1AF98557C53CCcEF0C050FA18Bc8",
       "startBlock": 8090615
     }
+  },
+  "fuji": {
+    "TalentLayerID": {
+      "address": "0x9a76eA2C056B6Bee5A1179BBece77D28FceE48C4",
+      "startBlock": 16571490
+    },
+    "TalentLayerReview": {
+      "address": "0xD8c4fD1D8Dd2f3a6E4d26BeB167e73D9E28db7F0",
+      "startBlock": 16571490
+    },
+    "ServiceRegistry": {
+      "address": "0x9EA2678d5A69CEDEc52ecafA367659b1d2Ff7824",
+      "startBlock": 16571490
+    },
+    "TalentLayerMultipleArbitrableTransaction": {
+      "address": "0x8754a129D3F53222dd94Ce45749134c15C9Ed119",
+      "startBlock": 16571490
+    },
+    "proofOfHumanityAddress": {
+      "address": "0x435e586D8408f4dBCbF418208878041D700FE06A",
+      "startBlock": 16571490
+    },
+    "TalentLayerPlatformID": {
+      "address": "0x8799479a39b6e563969126328e2323cbA01e8742",
+      "startBlock": 16571490
+    }
   }
 }
