@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "ITalentLayerMultipleArbitrableTransaction",
-  "sourceName": "contracts/kleros/ITalentLayerMultipleArbitrableTransaction.sol",
+  "contractName": "ITalentLayerEscrow",
+  "sourceName": "contracts/kleros/ITalentLayerEscrow.sol",
   "abi": [
     {
       "inputs": [
@@ -182,7 +182,7 @@
               "type": "uint16"
             }
           ],
-          "internalType": "struct ITalentLayerMultipleArbitrableTransaction.Transaction",
+          "internalType": "struct ITalentLayerEscrow.Transaction",
           "name": "",
           "type": "tuple"
         }
