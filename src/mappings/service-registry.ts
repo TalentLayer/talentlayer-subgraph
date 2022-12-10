@@ -51,27 +51,6 @@ export function handleServiceDataCreated(event: ServiceDataCreated): void {
   service.save()
 }
 
-export function handleServiceConfirmed(event: ServiceConfirmed): void {
-  const service = getOrCreateService(event.params.id)
-  service.status = 'Confirmed'
-  service.updatedAt = event.block.timestamp
-  service.save()
-}
-
-export function handleServiceFinished(event: ServiceFinished): void {
-  const service = getOrCreateService(event.params.id)
-  service.status = 'Finished'
-  service.updatedAt = event.block.timestamp
-  service.save()
-}
-
-export function handleServiceRejected(event: ServiceRejected): void {
-  const service = getOrCreateService(event.params.id)
-  service.status = 'Rejected'
-  service.updatedAt = event.block.timestamp
-  service.save()
-}
-
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
   const service = getOrCreateService(event.params.id)
   service.uri = event.params.newServiceDataUri
