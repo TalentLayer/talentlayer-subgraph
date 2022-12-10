@@ -150,6 +150,8 @@ dataSources:
           handler: handleTransactionCreated
         - event: ArbitrationFeePaid(indexed uint256,uint8,uint256)
           handler: handleArbitrationFeePaid
+        - event: HasToPayFee(indexed uint256,indexed uint256,uint8)
+          handler: handleHasToPayFee
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID

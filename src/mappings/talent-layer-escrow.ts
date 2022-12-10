@@ -23,6 +23,7 @@ import {
   ProtocolFeeUpdated,
   TransactionCreated,
   ArbitrationFeePaid,
+  HasToPayFee,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 
@@ -172,5 +173,17 @@ export function handleArbitrationFeePaid(event: ArbitrationFeePaid): void {
   }
 
   transaction.lastInteraction = event.block.timestamp
+  transaction.save()
+}
+
+export function handleHasToPayFee(event: HasToPayFee): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+
+  if (event.params._party === 0) {
+    transaction.status = 'WaitingSender'
+  } else {
+    transaction.status = 'WaitingReceiver'
+  }
+
   transaction.save()
 }
