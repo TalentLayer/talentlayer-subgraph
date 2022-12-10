@@ -96,22 +96,22 @@ enum TransactionStatus {
 }
 
 type Transaction @entity {
-  id: ID! # Transaction id
-  sender: Bytes! # Address of the sender
-  receiver: Bytes! # Address of the receiver
-  token: Token! # Address of the token
-  amount: BigInt! # Amount
-  protocolFee: Int! # Fee paid to the protocol
-  originPlatformFee: Int! # Fee paid to the origin platform
-  platformFee: Int! # Fee paid to the platform
-  disputeId: BigInt # Id of the dispute if exists, TODO: link to dispute entity
-  senderFee: BigInt! # Fees paid by the sender for arbitration
-  receiverFee: BigInt! # Fees paid by the receiver for arbitration
-  lastInteraction: BigInt! # Timestamp of the last interaction by parties with the dispute
-  status: TransactionStatus! # Status of the payment
-  arbitrator: Bytes! # Address of the arbitrator contract
-  arbitratorExtraData: Bytes! # Extra data for the arbitrator
-  arbitrationFeeTimeout: BigInt! # Timeout for the arbitration fee to be paid
+  id: ID! # transaction id
+  sender: Bytes! # address of the sender
+  receiver: Bytes! # address of the receiver
+  token: Token! # address of the token
+  amount: BigInt! # amount
+  protocolFee: Int! # fee paid to the protocol
+  originPlatformFee: Int! # fee paid to the origin platform
+  platformFee: Int! # fee paid to the platform
+  disputeId: BigInt # id of the dispute if exists, TODO: link to dispute entity
+  senderFee: BigInt! # fees paid by the sender for arbitration
+  receiverFee: BigInt! # fees paid by the receiver for arbitration
+  lastInteraction: BigInt! # timestamp of the last interaction by parties with the dispute
+  status: TransactionStatus! # status of the payment
+  arbitrator: Bytes! # address of the arbitrator contract
+  arbitratorExtraData: Bytes! # extra data for the arbitrator
+  arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
 }
 
 type Platform @entity {
