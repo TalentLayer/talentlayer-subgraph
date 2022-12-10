@@ -154,6 +154,8 @@ dataSources:
           handler: handleHasToPayFee
         - event: Dispute(indexed address,indexed uint256,uint256,uint256)
           handler: handleDispute
+        - event: RulingExecuted(indexed uint256,uint256)
+          handler: handleRulingExecuted
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
