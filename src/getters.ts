@@ -68,7 +68,7 @@ export function getOrCreateUser(id: BigInt): User {
   return user
 }
 
-export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt): Transaction {
+export function getOrCreateTransaction(id: BigInt, blockTimestamp?: BigInt): Transaction {
   let transaction = Transaction.load(id.toString())
   if (!transaction) {
     transaction = new Transaction(id.toString())
@@ -80,7 +80,7 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt): Tran
     transaction.disputeId = ZERO
     transaction.senderFee = ZERO
     transaction.receiverFee = ZERO
-    transaction.lastInteraction = blockTimestamp
+    transaction.lastInteraction = blockTimestamp || ZERO
     transaction.status = 'NoDispute'
     transaction.arbitrator = ZERO_ADDRESS
     transaction.arbitratorExtraData = Bytes.empty()

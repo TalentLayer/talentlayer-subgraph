@@ -100,7 +100,7 @@ type Transaction @entity {
   sender: Bytes! # Address of the sender
   receiver: Bytes! # Address of the receiver
   token: Token! # Address of the token
-  amount: BigInt # Amount
+  amount: BigInt! # Amount
   protocolFee: Int! # Fee paid to the protocol
   originPlatformFee: Int! # Fee paid to the origin platform
   platformFee: Int! # Fee paid to the platform
