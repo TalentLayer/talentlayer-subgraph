@@ -37,24 +37,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_timeoutPayment",
-          "type": "uint256"
-        },
-        {
           "internalType": "string",
           "name": "_metaEvidence",
           "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "_adminWallet",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_adminFeeAmount",
-          "type": "uint256"
         },
         {
           "internalType": "uint256",
@@ -75,24 +60,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_timeoutPayment",
-          "type": "uint256"
-        },
-        {
           "internalType": "string",
           "name": "_metaEvidence",
           "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "_adminWallet",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_adminFeeAmount",
-          "type": "uint256"
         },
         {
           "internalType": "uint256",
