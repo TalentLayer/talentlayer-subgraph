@@ -13,6 +13,7 @@ import {
   UserGain,
   Protocol,
   Transaction,
+  Evidence,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -224,4 +225,16 @@ export function getOrCreateProtocol(): Protocol {
     protocol.totalMintFees = ZERO
   }
   return protocol
+}
+
+export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): Evidence {
+  let evidence = Evidence.load(evidenceId)
+  if (!evidence) {
+    evidence = new Evidence(evidenceId)
+    evidence.createdAt = ZERO
+    evidence.party = ZERO_ADDRESS
+    evidence.uri = ''
+    evidence.transaction = getOrCreateTransaction(transactionId).id
+  }
+  return evidence
 }
