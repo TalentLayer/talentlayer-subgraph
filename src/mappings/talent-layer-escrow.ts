@@ -12,6 +12,7 @@ import {
   getOrCreateUserGain,
   getOrCreateProtocol,
   getOrCreateTransaction,
+  getOrCreateEvidence,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -26,6 +27,7 @@ import {
   HasToPayFee,
   Dispute,
   RulingExecuted,
+  Evidence,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -206,4 +208,12 @@ export function handleRulingExecuted(event: RulingExecuted): void {
   transaction.receiverFee = ZERO
   transaction.status = 'Resolved'
   transaction.save()
+}
+
+export function handleEvidence(event: Evidence): void {
+  const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
+  const evidence = getOrCreateEvidence(evidenceId, event.params._evidenceGroupID)
+  evidence.party = event.params._party
+  evidence.uri = event.params._evidence
+  evidence.save()
 }
