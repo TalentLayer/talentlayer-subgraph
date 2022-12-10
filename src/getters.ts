@@ -12,6 +12,7 @@ import {
   PlatformGain,
   UserGain,
   Protocol,
+  Transaction,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -65,6 +66,28 @@ export function getOrCreateUser(id: BigInt): User {
     user.save()
   }
   return user
+}
+
+export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt): Transaction {
+  let transaction = Transaction.load(id.toString())
+  if (!transaction) {
+    transaction = new Transaction(id.toString())
+    transaction.token = ''
+    transaction.amount = ZERO
+    transaction.protocolFee = 0
+    transaction.originPlatformFee = 0
+    transaction.platformFee = 0
+    transaction.disputeId = ZERO
+    transaction.senderFee = ZERO
+    transaction.receiverFee = ZERO
+    transaction.lastInteraction = blockTimestamp
+    transaction.status = 'NoDispute'
+    transaction.arbitrator = ZERO_ADDRESS
+    transaction.arbitratorExtraData = Bytes.empty()
+    transaction.arbitrationFeeTimeout = ZERO
+    transaction.save()
+  }
+  return transaction
 }
 
 export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Payment {

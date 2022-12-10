@@ -11,6 +11,7 @@ import {
   getOrCreatePlatformGain,
   getOrCreateUserGain,
   getOrCreateProtocol,
+  getOrCreateTransaction,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -20,8 +21,26 @@ import {
   PlatformFeeReleased,
   FeesClaimed,
   ProtocolFeeUpdated,
+  TransactionCreated,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
+
+export function handleTransactionCreated(event: TransactionCreated): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
+
+  transaction.sender = event.params._sender
+  transaction.receiver = event.params._receiver
+  transaction.token = getOrCreateToken(event.params._token).id
+  transaction.amount = event.params._amount
+  transaction.protocolFee = event.params._protocolFee
+  transaction.originPlatformFee = event.params._originPlatformFee
+  transaction.platformFee = event.params._platformFee
+  transaction.arbitrator = event.params._arbitrator
+  transaction.arbitratorExtraData = event.params._arbitratorExtraData
+  transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
+
+  transaction.save()
+}
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
@@ -33,7 +52,7 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
 
   service.status = 'Confirmed'
-  service.transactionId = event.params.transactionId.toString()
+  // service.transactionId = event.params.transactionId.toString()
   service.seller = User.load(event.params.sellerId.toString())!.id
   service.save()
 
