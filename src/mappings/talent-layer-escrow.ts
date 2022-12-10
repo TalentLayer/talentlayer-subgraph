@@ -94,6 +94,10 @@ export function handlePayment(event: Payment): void {
 
   payment.transactionHash = event.transaction.hash.toHex()
   payment.save()
+
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+  transaction.amount = transaction.amount.minus(event.params._amount)
+  transaction.save()
 }
 
 export function handleFeesClaimed(event: FeesClaimed): void {

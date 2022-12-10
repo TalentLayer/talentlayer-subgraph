@@ -136,7 +136,7 @@ dataSources:
           handler: handleServiceProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
-        - event: Payment(uint8,uint256,address,uint256)
+        - event: Payment(uint256,uint8,uint256,address,uint256)
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
