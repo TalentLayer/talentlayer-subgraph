@@ -22,6 +22,7 @@ import {
   FeesClaimed,
   ProtocolFeeUpdated,
   TransactionCreated,
+  ArbitrationFeePaid,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 
@@ -159,4 +160,17 @@ export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.escrowFee = event.params._protocolFee
   protocol.save()
+}
+
+export function handleArbitrationFeePaid(event: ArbitrationFeePaid): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+
+  if (event.params._party === 0) {
+    transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+  } else {
+    transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+  }
+
+  transaction.lastInteraction = event.block.timestamp
+  transaction.save()
 }
