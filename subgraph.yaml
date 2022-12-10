@@ -158,6 +158,8 @@ dataSources:
           handler: handleRulingExecuted
         - event: Evidence(indexed address,indexed uint256,indexed address,string)
           handler: handleEvidence
+        - event: MetaEvidence(indexed uint256,string)
+          handler: handleMetaEvidence
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID

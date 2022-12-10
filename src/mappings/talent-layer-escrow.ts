@@ -28,6 +28,7 @@ import {
   Dispute,
   RulingExecuted,
   Evidence,
+  MetaEvidence,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -216,4 +217,10 @@ export function handleEvidence(event: Evidence): void {
   evidence.party = event.params._party
   evidence.uri = event.params._evidence
   evidence.save()
+}
+
+export function handleMetaEvidence(event: MetaEvidence): void {
+  const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
+  transaction.metaEvidenceUri = event.params._evidence
+  transaction.save()
 }

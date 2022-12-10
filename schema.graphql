@@ -113,6 +113,7 @@ type Transaction @entity {
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
   evidences: [Evidence!] @derivedFrom(field: "transaction") # proposals for this service
+  metaEvidenceUri: String! # uri of the dispute metadata
 }
 
 type Evidence @entity {
