@@ -25,8 +25,10 @@ import {
   ArbitrationFeePaid,
   HasToPayFee,
   Dispute,
+  RulingExecuted,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
+import { ZERO } from '../constants'
 
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
@@ -194,5 +196,14 @@ export function handleDispute(event: Dispute): void {
   transaction.status = 'DisputeCreated'
   transaction.disputeId = event.params._disputeID
   // TODO: update fees paid by sender and receiver if they got refunded for overpaying
+  transaction.save()
+}
+
+export function handleRulingExecuted(event: RulingExecuted): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+  transaction.amount = ZERO
+  transaction.senderFee = ZERO
+  transaction.receiverFee = ZERO
+  transaction.status = 'Resolved'
   transaction.save()
 }
