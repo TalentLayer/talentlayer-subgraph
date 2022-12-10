@@ -146,7 +146,7 @@ dataSources:
           handler: handlePlatformFeeReleased
         - event: ProtocolFeeUpdated(uint16)
           handler: handleProtocolFeeUpdated
-      file: ./src/mappings/talentLayerEscrow.ts
+      file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
     network: fuji
