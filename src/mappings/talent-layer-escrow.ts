@@ -23,12 +23,12 @@ import {
   FeesClaimed,
   ProtocolFeeUpdated,
   TransactionCreated,
-  ArbitrationFeePaid,
   HasToPayFee,
   Dispute,
   RulingExecuted,
   Evidence,
   MetaEvidence,
+  ArbitrationFeePayment,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -169,13 +169,25 @@ export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
   protocol.save()
 }
 
-export function handleArbitrationFeePaid(event: ArbitrationFeePaid): void {
+export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void {
   const transaction = getOrCreateTransaction(event.params._transactionId)
 
   if (event.params._party === 0) {
-    transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+    if (event.params._paymentType === 0) {
+      // Payment
+      transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+    } else {
+      // Reimbursement
+      transaction.senderFee = transaction.senderFee.minus(event.params._amount)
+    }
   } else {
-    transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+    if (event.params._paymentType === 0) {
+      // Payment
+      transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+    } else {
+      // Reimbursement
+      transaction.receiverFee = transaction.receiverFee.minus(event.params._amount)
+    }
   }
 
   transaction.lastInteraction = event.block.timestamp
