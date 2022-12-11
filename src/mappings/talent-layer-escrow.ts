@@ -1,5 +1,5 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
-import { Transaction, User } from '../../generated/schema'
+import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
   getOrCreatePayment,
@@ -46,11 +46,9 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.arbitrator = event.params._arbitrator
   transaction.arbitratorExtraData = event.params._arbitratorExtraData
   transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
-  transaction.save()
+  transaction.service = Service.load(event.params._serviceId.toString())!.id
 
-  const service = getOrCreateService(event.params._serviceId)
-  service.transaction = Transaction.load(event.params._transactionId.toString())!.id
-  service.save()
+  transaction.save()
 }
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
