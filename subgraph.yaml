@@ -140,8 +140,8 @@ dataSources:
           handler: handleProtocolFeeUpdated
         - event: TransactionCreated(uint256,address,address,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
           handler: handleTransactionCreated
-        - event: ArbitrationFeePaid(indexed uint256,uint8,uint256)
-          handler: handleArbitrationFeePaid
+        - event: ArbitrationFeePayment(indexed uint256,uint8,uint8,uint256)
+          handler: handleArbitrationFeePayment
         - event: HasToPayFee(indexed uint256,uint8)
           handler: handleHasToPayFee
         - event: Dispute(indexed address,indexed uint256,uint256,uint256)
