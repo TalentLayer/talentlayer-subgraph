@@ -78,7 +78,6 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction.protocolFee = 0
     transaction.originPlatformFee = 0
     transaction.platformFee = 0
-    transaction.disputeId = ZERO
     transaction.senderFee = ZERO
     transaction.receiverFee = ZERO
     transaction.lastInteraction = blockTimestamp

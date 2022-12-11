@@ -104,7 +104,7 @@ type Transaction @entity {
   protocolFee: Int! # fee paid to the protocol
   originPlatformFee: Int! # fee paid to the origin platform
   platformFee: Int! # fee paid to the platform
-  disputeId: BigInt # id of the dispute if exists, TODO: link to dispute entity
+  disputeId: BigInt # id of the dispute if exists
   senderFee: BigInt! # fees paid by the sender for arbitration
   receiverFee: BigInt! # fees paid by the receiver for arbitration
   lastInteraction: BigInt! # timestamp of the last interaction by parties with the dispute
