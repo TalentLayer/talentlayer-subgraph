@@ -195,7 +195,7 @@ export function handleHasToPayFee(event: HasToPayFee): void {
 }
 
 export function handleDispute(event: Dispute): void {
-  const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
+  const transaction = getOrCreateTransaction(event.params._evidenceGroupID) // evidenceGroupID is equal to the transactionId
   transaction.status = 'DisputeCreated'
   transaction.disputeId = event.params._disputeID
   // TODO: update fees paid by sender and receiver if they got refunded for overpaying
@@ -213,7 +213,7 @@ export function handleRulingExecuted(event: RulingExecuted): void {
 
 export function handleEvidence(event: Evidence): void {
   const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const evidence = getOrCreateEvidence(evidenceId, event.params._evidenceGroupID)
+  const evidence = getOrCreateEvidence(evidenceId, event.params._evidenceGroupID) // evidenceGroupID is equal to the transactionId
   evidence.party = event.params._party
   evidence.uri = event.params._evidence
   evidence.save()
