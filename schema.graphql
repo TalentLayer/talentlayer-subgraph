@@ -21,7 +21,7 @@ type Service @entity {
   sender: User # user that created the service (buyer or seller)
   recipient: User # other participating user (seller or buyer)
   uri: String # metadata URI of service
-  transaction: Transaction # Transaction entity
+  transaction: Transaction @derivedFrom(field: "service") # transaction associated with this service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
 }
@@ -102,6 +102,7 @@ type Transaction @entity {
   receiver: Bytes! # address of the receiver
   token: Token! # address of the token
   amount: BigInt! # amount
+  service: Service # service entity
   protocolFee: Int! # fee paid to the protocol
   originPlatformFee: Int! # fee paid to the origin platform
   platformFee: Int! # fee paid to the platform
