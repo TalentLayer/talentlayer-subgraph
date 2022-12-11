@@ -1,5 +1,5 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
-import { Service, User } from '../../generated/schema'
+import { Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
   getOrCreatePayment,
@@ -61,6 +61,7 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
 
   service.status = 'Confirmed'
   service.seller = User.load(event.params.sellerId.toString())!.id
+  service.transaction = Transaction.load(event.params.transactionId.toString())!.id
   service.save()
 
   proposal.status = 'Validated'
