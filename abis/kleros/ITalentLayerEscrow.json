@@ -53,7 +53,13 @@
         }
       ],
       "name": "createETHTransaction",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "payable",
       "type": "function"
     },
@@ -76,7 +82,13 @@
         }
       ],
       "name": "createTokenTransaction",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },
