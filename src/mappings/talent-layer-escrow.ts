@@ -46,8 +46,11 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.arbitrator = event.params._arbitrator
   transaction.arbitratorExtraData = event.params._arbitratorExtraData
   transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
-
   transaction.save()
+
+  const service = getOrCreateService(event.params._serviceId)
+  service.transaction = Transaction.load(event.params._transactionId.toString())!.id
+  service.save()
 }
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
@@ -61,7 +64,6 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
 
   service.status = 'Confirmed'
   service.seller = User.load(event.params.sellerId.toString())!.id
-  service.transaction = Transaction.load(event.params.transactionId.toString())!.id
   service.save()
 
   proposal.status = 'Validated'
