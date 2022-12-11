@@ -85,6 +85,7 @@ type Payment @entity {
   rateToken: Token! # Rate token entity
   paymentType: String # Whether the payment is a release or a reimbursement
   transactionHash: String # Transaction hash of the transfer
+  transaction: Transaction! # transaction entity
 }
 
 enum TransactionStatus {
@@ -114,6 +115,7 @@ type Transaction @entity {
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
   evidences: [Evidence!] @derivedFrom(field: "transaction") # proposals for this service
   metaEvidenceUri: String! # uri of the dispute metadata
+  payments: [Payment!] @derivedFrom(field: "transaction") # payments related to this transaction
 }
 
 type Evidence @entity {
