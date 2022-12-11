@@ -60,7 +60,6 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
 
   service.status = 'Confirmed'
-  // service.transactionId = event.params.transactionId.toString()
   service.seller = User.load(event.params.sellerId.toString())!.id
   service.save()
 
