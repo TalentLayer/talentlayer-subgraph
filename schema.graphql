@@ -113,6 +113,7 @@ type Transaction @entity {
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
+  ruling: BigInt # ruling of the arbitrator on the dispute
   evidences: [Evidence!] @derivedFrom(field: "transaction") # proposals for this service
   metaEvidenceUri: String! # uri of the dispute metadata
   payments: [Payment!] @derivedFrom(field: "transaction") # payments related to this transaction

@@ -223,6 +223,7 @@ export function handleRulingExecuted(event: RulingExecuted): void {
   transaction.senderFee = ZERO
   transaction.receiverFee = ZERO
   transaction.status = 'Resolved'
+  transaction.ruling = event.params._ruling
   transaction.save()
 }
 
