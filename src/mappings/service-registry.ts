@@ -2,9 +2,6 @@ import { log } from '@graphprotocol/graph-ts'
 import { Service, User, Token } from '../../generated/schema'
 import {
   ServiceCreated,
-  ServiceConfirmed,
-  ServiceFinished,
-  ServiceRejected,
   ServiceDetailedUpdated,
   ProposalCreated,
   ProposalRejected,
