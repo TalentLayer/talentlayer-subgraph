@@ -14,7 +14,7 @@ import {
   Protocol,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
-import { ERC20 } from '../generated/TalentLayerMultipleArbitrableTransaction/ERC20'
+import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())

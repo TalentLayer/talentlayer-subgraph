@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "TalentLayerMultipleArbitrableTransaction",
-  "sourceName": "contracts/kleros/TalentLayerMultipleArbitrableTransaction.sol",
+  "contractName": "TalentLayerEscrow",
+  "sourceName": "contracts/TalentLayerEscrow.sol",
   "abi": [
     {
       "inputs": [
@@ -132,7 +132,7 @@
       "inputs": [
         {
           "indexed": false,
-          "internalType": "enum TalentLayerMultipleArbitrableTransaction.PaymentType",
+          "internalType": "enum TalentLayerEscrow.PaymentType",
           "name": "_paymentType",
           "type": "uint8"
         },
@@ -412,7 +412,7 @@
               "type": "uint16"
             }
           ],
-          "internalType": "struct TalentLayerMultipleArbitrableTransaction.Transaction",
+          "internalType": "struct TalentLayerEscrow.Transaction",
           "name": "transaction",
           "type": "tuple"
         }
