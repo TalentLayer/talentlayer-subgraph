@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "Arbitrator",
-  "sourceName": "contracts/kleros/Arbitrator.sol",
+  "sourceName": "contracts/Arbitrator.sol",
   "abi": [
     {
       "anonymous": false,

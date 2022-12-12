@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IArbitrable",
-  "sourceName": "contracts/kleros/IArbitrable.sol",
+  "sourceName": "contracts/IArbitrable.sol",
   "abi": [
     {
       "anonymous": false,
