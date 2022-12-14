@@ -36,8 +36,8 @@ import { ZERO } from '../constants'
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
 
-  transaction.sender = event.params._sender
-  transaction.receiver = event.params._receiver
+  transaction.sender = User.load(event.params._senderId.toString())!.id
+  transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
   transaction.protocolFee = event.params._protocolFee
