@@ -148,8 +148,8 @@ dataSources:
           handler: handleDispute
         - event: RulingExecuted(indexed uint256,uint256)
           handler: handleRulingExecuted
-        - event: Evidence(indexed address,indexed uint256,indexed address,string)
-          handler: handleEvidence
+        - event: EvidenceSubmitted(indexed uint256,indexed uint256,string)
+          handler: handleEvidenceSubmitted
         - event: MetaEvidence(indexed uint256,string)
           handler: handleMetaEvidence
       file: ./src/mappings/talent-layer-escrow.ts

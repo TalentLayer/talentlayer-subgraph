@@ -29,6 +29,7 @@ import {
   Evidence,
   MetaEvidence,
   ArbitrationFeePayment,
+  EvidenceSubmitted,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -225,11 +226,11 @@ export function handleRulingExecuted(event: RulingExecuted): void {
   transaction.save()
 }
 
-export function handleEvidence(event: Evidence): void {
+export function handleEvidenceSubmitted(event: EvidenceSubmitted): void {
   const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const evidence = getOrCreateEvidence(evidenceId, event.params._evidenceGroupID) // evidenceGroupID is equal to the transactionId
-  evidence.party = event.params._party
-  evidence.uri = event.params._evidence
+  const evidence = getOrCreateEvidence(evidenceId, event.params._transactionId)
+  evidence.party = User.load(event.params._partyId.toString())!.id
+  evidence.uri = event.params._evidenceUri
   evidence.save()
 }
 
