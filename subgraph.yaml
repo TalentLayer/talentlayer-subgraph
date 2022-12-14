@@ -185,4 +185,10 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
+        - event: PlatformFeeUpdated(uint256,uint256)
+          handler: handlePlatformFeeUpdated
+        - event: ArbitratorUpdated(uint256,address,bytes)
+          handler: handleArbitratorUpdated
+        - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
+          handler: handleArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
