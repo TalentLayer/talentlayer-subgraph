@@ -102,10 +102,10 @@ dataSources:
           handler: handleProposalRejected
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
-    name: TalentLayerMultipleArbitrableTransaction
+    name: TalentLayerEscrow
     network: fuji
     source:
-      abi: TalentLayerMultipleArbitrableTransaction
+      abi: TalentLayerEscrow
       address: '0x8754a129D3F53222dd94Ce45749134c15C9Ed119'
       startBlock: 16571490
     mapping:
@@ -119,8 +119,8 @@ dataSources:
         - FeeClaim
         - PlatformGain
       abis:
-        - name: TalentLayerMultipleArbitrableTransaction
-          file: ./abis/kleros/TalentLayerMultipleArbitrableTransaction.json
+        - name: TalentLayerEscrow
+          file: ./abis/TalentLayerEscrow.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
@@ -138,7 +138,7 @@ dataSources:
           handler: handlePlatformFeeReleased
         - event: ProtocolFeeUpdated(uint16)
           handler: handleProtocolFeeUpdated
-      file: ./src/mappings/talentLayerMultipleArbitrableTransaction.ts
+      file: ./src/mappings/TalentLayerEscrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
     network: fuji
