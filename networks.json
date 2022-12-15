@@ -12,7 +12,7 @@
       "address": "0xf584E555B68EC5980D6B606Ae2EaafF512A9d6C9",
       "startBlock": 0
     },
-    "TalentLayerMultipleArbitrableTransaction": {
+    "TalentLayerEscrow": {
       "address": "0x5B3CB59Bb076eDf94412a9541312ec51649698C4",
       "startBlock": 0
     },
@@ -34,7 +34,7 @@
       "address": "0x6f97FB242d2D3bCA9d19c05c975F6Ec8caB4d1a4",
       "startBlock": 8090615
     },
-    "TalentLayerMultipleArbitrableTransaction": {
+    "TalentLayerEscrow": {
       "startBlock": 8090615,
       "address": "0x4A6F0208a0b636E3A4918cb0A5B1367E4B338aD8"
     },
@@ -60,7 +60,7 @@
       "address": "0x9EA2678d5A69CEDEc52ecafA367659b1d2Ff7824",
       "startBlock": 16571490
     },
-    "TalentLayerMultipleArbitrableTransaction": {
+    "TalentLayerEscrow": {
       "address": "0x8754a129D3F53222dd94Ce45749134c15C9Ed119",
       "startBlock": 16571490
     },

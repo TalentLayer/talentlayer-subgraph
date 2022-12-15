@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "Arbitrable",
-  "sourceName": "contracts/kleros/Arbitrable.sol",
+  "contractName": "IArbitrable",
+  "sourceName": "contracts/IArbitrable.sol",
   "abi": [
     {
       "anonymous": false,
@@ -108,32 +108,6 @@
       ],
       "name": "Ruling",
       "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "arbitrator",
-      "outputs": [
-        {
-          "internalType": "contract Arbitrator",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "arbitratorExtraData",
-      "outputs": [
-        {
-          "internalType": "bytes",
-          "name": "",
-          "type": "bytes"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "inputs": [

@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "TalentLayerArbitrator",
-  "sourceName": "contracts/kleros/TalentLayerArbitrator.sol",
+  "sourceName": "contracts/TalentLayerArbitrator.sol",
   "abi": [
     {
       "inputs": [
