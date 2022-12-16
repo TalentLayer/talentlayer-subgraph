@@ -1,5 +1,6 @@
-import { log } from '@graphprotocol/graph-ts'
+import { log, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Service, User, Token } from '../../generated/schema'
+import { MetadataRegistry } from '../../generated/templates'
 import {
   ServiceCreated,
   ServiceDetailedUpdated,
@@ -40,13 +41,25 @@ export function handleServiceCreated(event: ServiceCreated): void {
 
   service.save()
 }
+
+// ============================ START OF IPFS SEARCH WIP ================================================
+
 export function handleServiceDataCreated(event: ServiceDataCreated): void {
   const service = getOrCreateService(event.params.id)
 
-  service.uri = event.params.serviceDataUri
-
+  let cid = event.params.serviceDataUri
+  service.uri = cid
   service.save()
+
+  let context = new DataSourceContext();
+
+  context.setString("serviceId", event.params.id.toString())
+
+  MetadataRegistry.createWithContext(cid, context)
+  // ServiceMetadataTemplate.create(cid)
 }
+
+//===================================== END OF IPFS SEARCH WIP ===========================================
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
   const service = getOrCreateService(event.params.id)
