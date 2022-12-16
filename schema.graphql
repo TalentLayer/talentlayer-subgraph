@@ -24,7 +24,25 @@ type Service @entity {
   transactionId: String # Escrow transaction id of service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
+  title: String
+  description: Description @derivedFrom(field: "service") # metadata URI of service
 }
+
+type Description @entity {
+  id: ID! #cid
+  title: String
+  about: String
+  keywords: [String!]
+  keywords_raw: String
+  role: String
+  rateToken: String
+  rateAmount: String
+  service: Service!
+}
+
+# type Keyword @entity {
+#   id: ID! #keyword
+# }
 
 type Review @entity {
   id: ID! # review nft id
