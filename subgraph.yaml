@@ -106,7 +106,7 @@ dataSources:
     network: fuji
     source:
       abi: TalentLayerEscrow
-      address: "0x8754a129D3F53222dd94Ce45749134c15C9Ed119"
+      address: '0x8754a129D3F53222dd94Ce45749134c15C9Ed119'
       startBlock: 16571490
     mapping:
       kind: ethereum/events
@@ -120,7 +120,7 @@ dataSources:
         - PlatformGain
       abis:
         - name: TalentLayerEscrow
-          file: ./abis/kleros/TalentLayerEscrow.json
+          file: ./abis/TalentLayerEscrow.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
