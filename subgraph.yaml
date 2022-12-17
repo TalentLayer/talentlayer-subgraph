@@ -185,7 +185,7 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
-        - event: PlatformFeeUpdated(uint256,uint256)
+        - event: PlatformFeeUpdated(uint256,uint16)
           handler: handlePlatformFeeUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
