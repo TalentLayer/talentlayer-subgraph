@@ -34,6 +34,11 @@ import {
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
 
+enum Party {
+  Sender,
+  Receiver,
+}
+
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
 
@@ -174,7 +179,7 @@ export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
 export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void {
   const transaction = getOrCreateTransaction(event.params._transactionId)
 
-  if (event.params._party === 0) {
+  if (event.params._party === Party.Sender) {
     if (event.params._paymentType === 0) {
       // Payment
       transaction.senderFee = transaction.senderFee.plus(event.params._amount)
@@ -199,7 +204,7 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
 export function handleHasToPayFee(event: HasToPayFee): void {
   const transaction = getOrCreateTransaction(event.params._transactionId)
 
-  if (event.params._party === 0) {
+  if (event.params._party === Party.Sender) {
     transaction.status = 'WaitingSender'
   } else {
     transaction.status = 'WaitingReceiver'
