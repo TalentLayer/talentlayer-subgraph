@@ -100,7 +100,7 @@ type Transaction @entity {
   id: ID! # transaction id
   sender: User! # sender of the transaction
   receiver: User! # receiver of the transaction
-  token: Token! # address of the token
+  token: Token! # token entity
   amount: BigInt! # amount
   service: Service # service entity
   protocolFee: Int! # fee paid to the protocol
