@@ -39,6 +39,16 @@ enum Party {
   Receiver,
 }
 
+enum PaymentType {
+  Release,
+  Reimburse,
+}
+
+enum ArbitrationFeePaymentType {
+  Pay,
+  Reimburse,
+}
+
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
 
@@ -90,7 +100,7 @@ export function handlePayment(event: Payment): void {
   payment.createdAt = event.block.timestamp
   payment.transaction = Transaction.load(event.params._transactionId.toString())!.id
 
-  if (event.params._paymentType === 0) {
+  if (event.params._paymentType === PaymentType.Release) {
     payment.paymentType = 'Release'
 
     const service = getOrCreateService(event.params._serviceId)
@@ -103,7 +113,7 @@ export function handlePayment(event: Payment): void {
       userGain.save()
     }
   }
-  if (event.params._paymentType === 1) {
+  if (event.params._paymentType === PaymentType.Reimburse) {
     payment.paymentType = 'Reimburse'
   }
 
@@ -180,7 +190,7 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
   const transaction = getOrCreateTransaction(event.params._transactionId)
 
   if (event.params._party === Party.Sender) {
-    if (event.params._paymentType === 0) {
+    if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.senderFee = transaction.senderFee.plus(event.params._amount)
     } else {
@@ -188,7 +198,7 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
       transaction.senderFee = transaction.senderFee.minus(event.params._amount)
     }
   } else {
-    if (event.params._paymentType === 0) {
+    if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
     } else {
