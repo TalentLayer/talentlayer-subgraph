@@ -1,5 +1,5 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
-import { Service, User } from '../../generated/schema'
+import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
   getOrCreatePayment,
@@ -11,6 +11,8 @@ import {
   getOrCreatePlatformGain,
   getOrCreateUserGain,
   getOrCreateProtocol,
+  getOrCreateTransaction,
+  getOrCreateEvidence,
 } from '../getters'
 import {
   ServiceProposalConfirmedWithDeposit,
@@ -20,8 +22,50 @@ import {
   PlatformFeeReleased,
   FeesClaimed,
   ProtocolFeeUpdated,
+  TransactionCreated,
+  HasToPayFee,
+  Dispute,
+  RulingExecuted,
+  Evidence,
+  MetaEvidence,
+  ArbitrationFeePayment,
+  EvidenceSubmitted,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
+import { ZERO } from '../constants'
+
+enum Party {
+  Sender,
+  Receiver,
+}
+
+enum PaymentType {
+  Release,
+  Reimburse,
+}
+
+enum ArbitrationFeePaymentType {
+  Pay,
+  Reimburse,
+}
+
+export function handleTransactionCreated(event: TransactionCreated): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
+
+  transaction.sender = User.load(event.params._senderId.toString())!.id
+  transaction.receiver = User.load(event.params._receiverId.toString())!.id
+  transaction.token = getOrCreateToken(event.params._token).id
+  transaction.amount = event.params._amount
+  transaction.protocolFee = event.params._protocolFee
+  transaction.originPlatformFee = event.params._originPlatformFee
+  transaction.platformFee = event.params._platformFee
+  transaction.arbitrator = event.params._arbitrator
+  transaction.arbitratorExtraData = event.params._arbitratorExtraData
+  transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
+  transaction.service = Service.load(event.params._serviceId.toString())!.id
+
+  transaction.save()
+}
 
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
@@ -33,7 +77,6 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
 
   service.status = 'Confirmed'
-  service.transactionId = event.params.transactionId.toString()
   service.seller = User.load(event.params.sellerId.toString())!.id
   service.save()
 
@@ -55,8 +98,9 @@ export function handlePayment(event: Payment): void {
   payment.amount = event.params._amount
   payment.rateToken = getOrCreateToken(token).id
   payment.createdAt = event.block.timestamp
+  payment.transaction = Transaction.load(event.params._transactionId.toString())!.id
 
-  if (event.params._paymentType === 0) {
+  if (event.params._paymentType === PaymentType.Release) {
     payment.paymentType = 'Release'
 
     const service = getOrCreateService(event.params._serviceId)
@@ -69,12 +113,16 @@ export function handlePayment(event: Payment): void {
       userGain.save()
     }
   }
-  if (event.params._paymentType === 1) {
+  if (event.params._paymentType === PaymentType.Reimburse) {
     payment.paymentType = 'Reimburse'
   }
 
   payment.transactionHash = event.transaction.hash.toHex()
   payment.save()
+
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+  transaction.amount = transaction.amount.minus(event.params._amount)
+  transaction.save()
 }
 
 export function handleFeesClaimed(event: FeesClaimed): void {
@@ -136,4 +184,73 @@ export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.escrowFee = event.params._protocolFee
   protocol.save()
+}
+
+export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+
+  if (event.params._party === Party.Sender) {
+    if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
+      // Payment
+      transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+    } else {
+      // Reimbursement
+      transaction.senderFee = transaction.senderFee.minus(event.params._amount)
+    }
+  } else {
+    if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
+      // Payment
+      transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+    } else {
+      // Reimbursement
+      transaction.receiverFee = transaction.receiverFee.minus(event.params._amount)
+    }
+  }
+
+  transaction.lastInteraction = event.block.timestamp
+  transaction.save()
+}
+
+export function handleHasToPayFee(event: HasToPayFee): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+
+  if (event.params._party === Party.Sender) {
+    transaction.status = 'WaitingSender'
+  } else {
+    transaction.status = 'WaitingReceiver'
+  }
+
+  transaction.save()
+}
+
+export function handleDispute(event: Dispute): void {
+  const transaction = getOrCreateTransaction(event.params._evidenceGroupID) // evidenceGroupID is equal to the transactionId
+  transaction.status = 'DisputeCreated'
+  transaction.disputeId = event.params._disputeID
+  // TODO: update fees paid by sender and receiver if they got refunded for overpaying
+  transaction.save()
+}
+
+export function handleRulingExecuted(event: RulingExecuted): void {
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+  transaction.amount = ZERO
+  transaction.senderFee = ZERO
+  transaction.receiverFee = ZERO
+  transaction.status = 'Resolved'
+  transaction.ruling = event.params._ruling
+  transaction.save()
+}
+
+export function handleEvidenceSubmitted(event: EvidenceSubmitted): void {
+  const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
+  const evidence = getOrCreateEvidence(evidenceId, event.params._transactionId)
+  evidence.party = User.load(event.params._partyId.toString())!.id
+  evidence.uri = event.params._evidenceUri
+  evidence.save()
+}
+
+export function handleMetaEvidence(event: MetaEvidence): void {
+  const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
+  transaction.metaEvidenceUri = event.params._evidence
+  transaction.save()
 }
