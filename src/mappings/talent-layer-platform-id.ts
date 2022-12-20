@@ -3,9 +3,12 @@ import { MintFeeUpdated } from '../../generated/TalentLayerID/TalentLayerID'
 import {
   Approval,
   ApprovalForAll,
+  ArbitrationFeeTimeoutUpdated,
+  ArbitratorUpdated,
   CidUpdated,
   ConsecutiveTransfer,
   Mint,
+  PlatformFeeUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
@@ -43,4 +46,23 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.platformMintFee = event.params._mintFee
   protocol.save()
+}
+
+export function handlePlatformFeeUpdated(event: PlatformFeeUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.fee = event.params._platformFee
+  platform.save()
+}
+
+export function handleArbitratorUpdated(event: ArbitratorUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.arbitrator = event.params._arbitrator
+  platform.arbitratorExtraData = event.params._extraData
+  platform.save()
+}
+
+export function handleArbitrationFeeTimeoutUpdated(event: ArbitrationFeeTimeoutUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
+  platform.save()
 }
