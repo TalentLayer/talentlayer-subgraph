@@ -1,50 +1,50 @@
 {
   "localhost": {
     "TalentLayerID": {
-      "address": "0xf7629551345569Cfce197368058e8Fc7aa1eB561",
+      "address": "0xe393fb46C545AAd9dC4F37b6D149D3401863baC5",
       "startBlock": 0
     },
     "TalentLayerReview": {
-      "address": "0xd9498c79368596649C962877266B0f279f0dCB96",
+      "address": "0x470C9A0DEdB21c08fEA4A67E7Ef09780dC071F5A",
       "startBlock": 0
     },
     "ServiceRegistry": {
-      "address": "0xf584E555B68EC5980D6B606Ae2EaafF512A9d6C9",
+      "address": "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9",
       "startBlock": 0
     },
     "TalentLayerEscrow": {
-      "address": "0x5B3CB59Bb076eDf94412a9541312ec51649698C4",
+      "address": "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1",
       "startBlock": 0
     },
     "TalentLayerPlatformID": {
-      "address": "0xa5BA0CCB83A45b4E5c85b41649F80ed7DAFD6e28",
+      "address": "0xC1ee53801a6350311a5942da3084aD500cA30620",
       "startBlock": 0
     }
   },
   "goerli": {
     "TalentLayerID": {
-      "address": "0x67c3AC531084aB5E6E04d4bB0FC7766e27b81546",
-      "startBlock": 8090615
+      "address": "0x58E30982A38ec1f4432A80338c1c720fE8cdF813",
+      "startBlock": 8181680
     },
     "TalentLayerReview": {
-      "address": "0x59ff1f3ff159c17C48558cCf8269FF17aA0B8C8D",
-      "startBlock": 8090615
+      "address": "0xFBc8e88190E80e5fA427ee780ac55b1a9f8aa93f",
+      "startBlock": 8181680
     },
     "ServiceRegistry": {
-      "address": "0x6f97FB242d2D3bCA9d19c05c975F6Ec8caB4d1a4",
-      "startBlock": 8090615
+      "address": "0x42c6532581aBb12A2C7b099caD398Ccbd818b9b8",
+      "startBlock": 8181680
     },
     "TalentLayerEscrow": {
-      "startBlock": 8090615,
-      "address": "0x4A6F0208a0b636E3A4918cb0A5B1367E4B338aD8"
+      "startBlock": 8181680,
+      "address": "0x5a2498aD599fE801E055d9C94b1Cc5FaBf1768b2"
     },
     "proofOfHumanityAddress": {
-      "address": "0xAEbc3646709765691045B56ae89556907852DbEE",
-      "startBlock": 8090615
+      "address": "0x4c4fC831cfEd3432e128B09aff1C4acC256Dc2C9",
+      "startBlock": 8181680
     },
     "TalentLayerPlatformID": {
-      "address": "0x29AcBBbfAb5e1AF98557C53CCcEF0C050FA18Bc8",
-      "startBlock": 8090615
+      "address": "0xAC61364Ee74298cB5E96cCe46D281327Fd204740",
+      "startBlock": 8181680
     }
   },
   "fuji": {
