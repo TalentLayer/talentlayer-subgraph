@@ -85,6 +85,7 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction.arbitrator = ZERO_ADDRESS
     transaction.arbitratorExtraData = Bytes.empty()
     transaction.arbitrationFeeTimeout = ZERO
+    transaction.metaEvidenceUri = ''
     transaction.save()
   }
   return transaction
