@@ -24,27 +24,27 @@
   "goerli": {
     "TalentLayerID": {
       "address": "0x11119eD887aeC1302e2cAF49942F891667A31BBc",
-      "startBlock": 	8182160
+      "startBlock": 8182160
     },
     "TalentLayerReview": {
       "address": "0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f",
-      "startBlock": 	8182160
+      "startBlock": 8182160
     },
     "ServiceRegistry": {
       "address": "0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd",
-      "startBlock": 	8182160
+      "startBlock": 8182160
     },
     "TalentLayerEscrow": {
-      "startBlock": 	8182160,
+      "startBlock": 8182160,
       "address": "0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667"
     },
     "proofOfHumanityAddress": {
       "address": "0xB8805e67c476b1b237509B81b9738D129226D0C8",
-      "startBlock": 	8182160
+      "startBlock": 8182160
     },
     "TalentLayerPlatformID": {
       "address": "0x08FB56537F118Cf35C4d3eB280444737f6D1bE46",
-      "startBlock": 	8182160
+      "startBlock": 8182160
     }
   },
   "fuji": {
