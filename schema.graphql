@@ -98,8 +98,8 @@ enum TransactionStatus {
 
 type Transaction @entity {
   id: ID! # transaction id
-  sender: User! # sender of the transaction
-  receiver: User! # receiver of the transaction
+  sender: User # sender of the transaction
+  receiver: User # receiver of the transaction
   token: Token! # token entity
   amount: BigInt! # amount
   service: Service # service entity

@@ -85,6 +85,7 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction.arbitrator = ZERO_ADDRESS
     transaction.arbitratorExtraData = Bytes.empty()
     transaction.arbitrationFeeTimeout = ZERO
+    transaction.metaEvidenceUri = ''
     transaction.save()
   }
   return transaction
@@ -108,6 +109,10 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.address = ZERO_ADDRESS
     platform.name = ''
     platform.uri = ''
+    platform.fee = 0
+    platform.arbitrator = ZERO_ADDRESS
+    platform.arbitratorExtraData = Bytes.empty()
+    platform.arbitrationFeeTimeout = ZERO
     platform.save()
   }
   return platform
