@@ -20,7 +20,13 @@ export function handleMetadata(content: Bytes): void {
     const rateAmount = value.get('rateAmount');
 
     if(serviceId){
-      description.service = serviceId
+      var services = description.services
+      if(services){
+        services.push(serviceId)
+      } else {
+        services = [serviceId]
+      }
+      description.services = services
     } else {
       log.error("Requsted a serviceId, but none was given.{}", [])
       return
