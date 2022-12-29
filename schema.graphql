@@ -25,7 +25,7 @@ type Service @entity {
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
   title: String
-  description: Description @derivedFrom(field: "service") # metadata URI of service
+  description: Description @derivedFrom(field: "services") # metadata URI of service
 }
 
 type Description @entity {
@@ -37,7 +37,7 @@ type Description @entity {
   role: String
   rateToken: String
   rateAmount: String
-  service: Service!
+  services: [Service!]
 }
 
 type Review @entity {
