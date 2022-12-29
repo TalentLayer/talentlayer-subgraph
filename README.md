@@ -1,8 +1,7 @@
 # Subgraph for TalentLayer
 
-https://docs.indie.talentlayer.org/developers/graph-schema
-
-https://docs.indie.talentlayer.org/developers/local-environment-setup
+- Local setup: https://docs.talentlayer.org/open-source-contribution/advanced-documentation/subgraph-local-setup
+- Graph schema and endpoints by chain: https://docs.indie.talentlayer.org/developers/graph-schema
 
 ### GraphiQL request example
 
