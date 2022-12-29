@@ -45,6 +45,10 @@
     "TalentLayerPlatformID": {
       "address": "0x29AcBBbfAb5e1AF98557C53CCcEF0C050FA18Bc8",
       "startBlock": 8090615
+    },
+    "KeywordRegistry": {
+      "address": "0xAf662D18F12E8Acdfa443717f188889bAf02B311",
+      "startBlock": 8220647
     }
   },
   "fuji": {

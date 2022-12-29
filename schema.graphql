@@ -40,9 +40,9 @@ type Description @entity {
   service: Service!
 }
 
-# type Keyword @entity {
-#   id: ID! #keyword
-# }
+type Keyword @entity {
+  id: ID! #keyword
+}
 
 type Review @entity {
   id: ID! # review nft id

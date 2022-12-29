@@ -37,4 +37,4 @@ export function handleMetadata(content: Bytes): void {
   } else {
     log.info("========= VALUE IS FALSE", [])
   }
-  
+}
