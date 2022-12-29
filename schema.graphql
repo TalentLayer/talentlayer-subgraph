@@ -32,17 +32,13 @@ type Description @entity {
   id: ID! #cid
   title: String
   about: String
-  keywords: [String!]
-  keywords_raw: String
+  keywords: [String!] #transformed version of keywords
+  keywords_raw: String #stores keywords in their raw format
   role: String
   rateToken: String
   rateAmount: String
   service: Service!
 }
-
-# type Keyword @entity {
-#   id: ID! #keyword
-# }
 
 type Review @entity {
   id: ID! # review nft id

@@ -42,24 +42,15 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.save()
 }
 
-// ============================ START OF IPFS SEARCH WIP ================================================
-
 export function handleServiceDataCreated(event: ServiceDataCreated): void {
-  const service = getOrCreateService(event.params.id)
-
-  let cid = event.params.serviceDataUri
-  service.uri = cid
-  service.save()
-
-  let context = new DataSourceContext();
-
-  context.setString("serviceId", event.params.id.toString())
+  const serviceId = event.params.id.toString()
+  const cid = event.params.serviceDataUri.toString()
+  
+  const context = new DataSourceContext();
+  context.setString("serviceId", serviceId)
 
   MetadataRegistry.createWithContext(cid, context)
-  // ServiceMetadataTemplate.create(cid)
 }
-
-//===================================== END OF IPFS SEARCH WIP ===========================================
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
   const service = getOrCreateService(event.params.id)
