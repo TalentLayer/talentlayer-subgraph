@@ -128,7 +128,7 @@ dataSources:
           handler: handleServiceProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
-        - event: Payment(uint8,uint256,address,uint256)
+        - event: Payment(uint256,uint8,uint256,address,uint256)
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
@@ -138,7 +138,21 @@ dataSources:
           handler: handlePlatformFeeReleased
         - event: ProtocolFeeUpdated(uint16)
           handler: handleProtocolFeeUpdated
-      file: ./src/mappings/talentLayerEscrow.ts
+        - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
+          handler: handleTransactionCreated
+        - event: ArbitrationFeePayment(indexed uint256,uint8,uint8,uint256)
+          handler: handleArbitrationFeePayment
+        - event: HasToPayFee(indexed uint256,uint8)
+          handler: handleHasToPayFee
+        - event: Dispute(indexed address,indexed uint256,uint256,uint256)
+          handler: handleDispute
+        - event: RulingExecuted(indexed uint256,uint256)
+          handler: handleRulingExecuted
+        - event: EvidenceSubmitted(indexed uint256,indexed uint256,string)
+          handler: handleEvidenceSubmitted
+        - event: MetaEvidence(indexed uint256,string)
+          handler: handleMetaEvidence
+      file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
     network: goerli
@@ -171,6 +185,12 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
+        - event: PlatformFeeUpdated(uint256,uint16)
+          handler: handlePlatformFeeUpdated
+        - event: ArbitratorUpdated(uint256,address,bytes)
+          handler: handleArbitratorUpdated
+        - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
+          handler: handleArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
   - name: MetadataRegistry
