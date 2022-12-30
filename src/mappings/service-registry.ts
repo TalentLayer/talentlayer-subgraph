@@ -1,6 +1,6 @@
 import { log, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Service, User, Token } from '../../generated/schema'
-import { MetadataRegistry } from '../../generated/templates'
+import { ServiceData } from '../../generated/templates'
 import {
   ServiceCreated,
   ServiceDetailedUpdated,
@@ -49,7 +49,7 @@ export function handleServiceDataCreated(event: ServiceDataCreated): void {
   const context = new DataSourceContext();
   context.setString("serviceId", serviceId)
 
-  MetadataRegistry.createWithContext(cid, context)
+  ServiceData.createWithContext(cid, context)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {

@@ -1,14 +1,28 @@
 import { log, ipfs, json, Bytes, dataSource } from '@graphprotocol/graph-ts'
-import { Service, Description } from '../../generated/schema'
+import { Service, ServiceDescription } from '../../generated/schema'
 
 //Adds metadata from ipfs as a entity called Description.
 //The description entity has the id of the cid to the file on IPFS
 //Keywords are transformed so that they are only single worded and comma seperated.
 //Keywords are currently stored in two versions, in their raw format as keywords_raw and in a transformed format called keywords.
-export function handleMetadata(content: Bytes): void {
+export function handleServiceData(content: Bytes): void {
   let context = dataSource.context();
   let serviceId = context.getString("serviceId");
-  let description = new Description(dataSource.stringParam())
+  let description = new ServiceDescription(dataSource.stringParam())
+
+  if(serviceId){
+    var services = description.services
+    if(services){
+      services.push(serviceId)
+    } else {
+      services = [serviceId]
+    }
+    description.services = services
+  } else {
+    log.error("Requsted a serviceId, but none was given.", [])
+    return
+  }
+  
   const value = json.fromBytes(content).toObject();
 
   if(value){
@@ -18,19 +32,6 @@ export function handleMetadata(content: Bytes): void {
     const role = value.get('role');
     const rateToken = value.get('rateToken');
     const rateAmount = value.get('rateAmount');
-
-    if(serviceId){
-      var services = description.services
-      if(services){
-        services.push(serviceId)
-      } else {
-        services = [serviceId]
-      }
-      description.services = services
-    } else {
-      log.error("Requsted a serviceId, but none was given.{}", [])
-      return
-    }
     
     if(title){
       description.title = title.toString();
@@ -49,7 +50,10 @@ export function handleMetadata(content: Bytes): void {
     }
 
     if(rateAmount){
-      description.rateAmount = rateAmount.toString();
+      // currently throws an error on hosted services
+      // log.info("------------- {}", [rateAmount.kind.toString()])
+      // description.rateAmount = rateAmount.toString();
+      // log.info("F5 {}", [rateAmount.toString()])
     }
 
     if(keywords){
@@ -60,7 +64,6 @@ export function handleMetadata(content: Bytes): void {
       _keywords = _keywords.replaceAll(" ", ",");
       description.keywords = _keywords.split(","); 
     }
-
     description.save();
   }
 }
