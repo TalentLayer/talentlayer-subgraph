@@ -7,8 +7,8 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerID
-      address: "0x67c3AC531084aB5E6E04d4bB0FC7766e27b81546"
-      startBlock: 8090615
+      address: "0x11119eD887aeC1302e2cAF49942F891667A31BBc"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,8 +44,8 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerReview
-      address: "0x59ff1f3ff159c17C48558cCf8269FF17aA0B8C8D"
-      startBlock: 8090615
+      address: "0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -71,8 +71,8 @@ dataSources:
     network: goerli
     source:
       abi: ServiceRegistry
-      address: "0x6f97FB242d2D3bCA9d19c05c975F6Ec8caB4d1a4"
-      startBlock: 8090615
+      address: "0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -106,8 +106,8 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerEscrow
-      startBlock: 8090615
-      address: "0x4A6F0208a0b636E3A4918cb0A5B1367E4B338aD8"
+      startBlock: 8182160
+      address: "0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -158,8 +158,8 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerPlatformID
-      address: "0x29AcBBbfAb5e1AF98557C53CCcEF0C050FA18Bc8"
-      startBlock: 8090615
+      address: "0x08FB56537F118Cf35C4d3eB280444737f6D1bE46"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -193,16 +193,15 @@ dataSources:
           handler: handleArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
-  - name: MetadataRegistry
+  - name: ServiceData
     kind: file/ipfs
     mapping:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/metadata-registry.ts
-      handler: handleMetadata
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleServiceData
       entities:
-        - Description
-        - Service
+        - ServiceDescription
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json

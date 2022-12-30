@@ -25,10 +25,10 @@ type Service @entity {
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
   title: String
-  description: Description @derivedFrom(field: "services") # metadata URI of service
+  description: ServiceDescription @derivedFrom(field: "services") # metadata URI of service
 }
 
-type Description @entity {
+type ServiceDescription @entity {
   id: ID! #cid
   title: String
   about: String
