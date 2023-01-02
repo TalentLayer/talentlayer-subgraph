@@ -88,6 +88,53 @@ export function handleProposalData(content: Bytes): void {
     return
   }
 
+  const jsonObject = json.fromBytes(content).toObject();
+
+  if(jsonObject){
+    
+    //------- TO BE REMOVED: USED DURING DEV -------
+    /*Adds the information about which keys are present in the entry
+    This is done as a part of the PoC to show the current diversity of entries.
+    We currently have the following keys
+    expectedHours, proposalAbout, proposalTitle, rateType, description
+    ..for that reason we can include all of them in the entity.
+    We need to make a decision on that.*/
+    let s = "["
+    for(let i = 0; i < jsonObject.entries.length; i++){
+      if(i>0){ s += ", " }
+      let key = jsonObject.entries[i].key
+      s += key.toString();
+    }
+    s += "]"
+    description.keys = s
+    //-----------------------------------------------
+    
+    //description.expectedHours
+    let expectedHours = jsonObject.get('expectedHours')
+    if(expectedHours){
+      description.expectedHours = expectedHours.toBigInt();
+    }
+    //description.proposalAbout
+    let proposalAbout = jsonObject.get('proposalAbout')
+    if(proposalAbout){
+      description.proposalAbout = proposalAbout.toString();
+    }
+    //description.proposalTitle
+    let proposalTitle = jsonObject.get('proposalTitle')
+    if(proposalTitle){
+      description.proposalTitle = proposalTitle.toString();
+    }
+    //description.rateType
+    let rateType = jsonObject.get('rateType')
+    if(rateType){
+      description.rateType = rateType.toBigInt();
+    }
+    //description.description
+    let desc = jsonObject.get('description')
+    if(desc){
+      description.description = desc.toString();
+    }
+  }
   description.save()
 
 }
