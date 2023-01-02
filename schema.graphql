@@ -93,6 +93,12 @@ type Proposal @entity {
 
 type ProposalDescription @entity {
   id: ID! #Cid of file on IPFS
+  keys: String #TO BE REMOVED: Used during dev for viewing all available keys
+  expectedHours: BigInt
+  proposalAbout: String
+  proposalTitle: String
+  rateType: BigInt
+  description: String
   proposals: [Proposal!] #Proposals that the description describes.
 }
 
