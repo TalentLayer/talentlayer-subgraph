@@ -1,6 +1,6 @@
 import { log, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Service, User, Token } from '../../generated/schema'
-import { ServiceData } from '../../generated/templates'
+import { ServiceData, ProposalData } from '../../generated/templates'
 import {
   ServiceCreated,
   ServiceDetailedUpdated,
@@ -79,6 +79,12 @@ export function handleProposalCreated(event: ProposalCreated): void {
   const tokenAddress = event.params.rateToken
   // we get the token contract to fill the entity
   let token = getOrCreateToken(tokenAddress)
+
+
+  //Proposal WIP
+  const context = new DataSourceContext();
+  context.setString("proposalId", proposalId)
+  ProposalData.createWithContext(proposal.uri, context)
 }
 
 export function handleProposalRejected(event: ProposalRejected): void {

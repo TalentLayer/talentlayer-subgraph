@@ -206,3 +206,16 @@ templates:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
     network: goerli
+  - name: ProposalData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleProposalData
+      entities:
+        - ProposalDescription
+      abis:
+        - name: ServiceRegistry
+          file: ./abis/ServiceRegistry.json
+    network: goerli

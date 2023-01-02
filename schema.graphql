@@ -88,6 +88,12 @@ type Proposal @entity {
   rateToken: Token! # Rate token entity
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of service
+  description: ProposalDescription @derivedFrom(field: "proposals")
+}
+
+type ProposalDescription @entity {
+  id: ID! #Cid of file on IPFS
+  proposals: [Proposal!] #Proposals that the description describes.
 }
 
 #NB: Payment sender will always be the Escrow Contract
