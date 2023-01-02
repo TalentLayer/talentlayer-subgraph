@@ -1,5 +1,5 @@
 import { log, ipfs, json, Bytes, dataSource } from '@graphprotocol/graph-ts'
-import { Service, ServiceDescription } from '../../generated/schema'
+import { ServiceDescription, ProposalDescription } from '../../generated/schema'
 
 //Adds metadata from ipfs as a entity called Description.
 //The description entity has the id of the cid to the file on IPFS
@@ -8,7 +8,8 @@ import { Service, ServiceDescription } from '../../generated/schema'
 export function handleServiceData(content: Bytes): void {
   let context = dataSource.context();
   let serviceId = context.getString("serviceId");
-  let description = new ServiceDescription(dataSource.stringParam())
+  let cid = dataSource.stringParam()
+  let description = new ServiceDescription(cid)
 
   if(serviceId){
     var services = description.services
@@ -66,4 +67,27 @@ export function handleServiceData(content: Bytes): void {
     }
     description.save();
   }
+}
+
+export function handleProposalData(content: Bytes): void {
+  let context = dataSource.context();
+  let proposalId = context.getString('proposalId');
+  let cid = dataSource.stringParam()
+  let description = new ProposalDescription(cid)
+
+  if(proposalId){
+    var proposals = description.proposals
+    if(proposals){
+      proposals.push(proposalId)
+    } else {
+      proposals = [proposalId]
+    }
+    description.proposals = proposals
+  } else {
+    log.error("Requsted a proposalId, but none was given.", [])
+    return
+  }
+
+  description.save()
+
 }
