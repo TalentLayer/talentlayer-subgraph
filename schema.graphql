@@ -47,6 +47,15 @@ type Review @entity {
   to: User! # reviewed user
   uri: String! # metadata URI of review
   platform: Platform # Platform on which review nft was minted
+  description: ReviewDescription @derivedFrom(field: "reviews")
+}
+
+type ReviewDescription @entity {
+  id: ID!
+  keys: String
+  content: String
+  rating: BigInt
+  reviews: [Review!]
 }
 
 type Token @entity {

@@ -1,7 +1,9 @@
+import { DataSourceContext } from '@graphprotocol/graph-ts'
 import { User } from '../../generated/schema'
 import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
 import { getOrCreatePlatform, getOrCreateReview } from '../getters'
 import { ONE } from '../constants'
+import { ReviewData } from '../../generated/templates'
 
 export function handleApproval(event: Approval): void {}
 
@@ -24,6 +26,11 @@ export function handleMint(event: Mint): void {
   user.rating = rating
   user.numReviews = user.numReviews.plus(ONE)
   user.save()
+
+  const context = new DataSourceContext();
+  context.setString("reviewId", review.id)
+
+  ReviewData.createWithContext(review.uri, context)
 }
 
 export function handleTransfer(event: Transfer): void {}

@@ -219,3 +219,16 @@ templates:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
     network: goerli
+  - name: ReviewData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleReviewData
+      entities:
+        - ReviewDescription
+      abis:
+        - name: TalentLayerReview
+          file: ./abis/TalentLayerReview.json
+    network: goerli
