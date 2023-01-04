@@ -47,8 +47,8 @@ export function handleServiceDataCreated(event: ServiceDataCreated): void {
   const cid = event.params.serviceDataUri.toString()
   
   const context = new DataSourceContext();
-  context.setString("serviceId", serviceId)
-
+  context.setString('id', serviceId)
+  context.setBigInt('timestamp', event.block.timestamp)
   ServiceData.createWithContext(cid, context)
 }
 
@@ -80,10 +80,9 @@ export function handleProposalCreated(event: ProposalCreated): void {
   // we get the token contract to fill the entity
   let token = getOrCreateToken(tokenAddress)
 
-
-  //Proposal WIP
   const context = new DataSourceContext();
-  context.setString("proposalId", proposalId)
+  context.setString('id', proposal.id)
+  context.setBigInt('timestamp', event.block.timestamp)
   ProposalData.createWithContext(proposal.uri, context)
 }
 

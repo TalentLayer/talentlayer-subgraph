@@ -24,9 +24,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   platform.save()
 
   const context = new DataSourceContext();
-  context.setString("platformId", platform.id);
-  context.setBigInt("timestamp", event.block.timestamp)
-  PlatformData.createWithContext(platform.uri!, context);
+  context.setString('id', platform.id)
+  context.setBigInt('timestamp', event.block.timestamp)
+  PlatformData.createWithContext(platform.uri!, context)
 }
 
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}

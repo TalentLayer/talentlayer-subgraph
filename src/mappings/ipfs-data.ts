@@ -1,17 +1,30 @@
-import { log, ipfs, json, Bytes, dataSource } from '@graphprotocol/graph-ts'
+import { log, ipfs, json, JSONValue, JSONValueKind, BigInt, TypedMap, Bytes, dataSource } from '@graphprotocol/graph-ts'
 import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescription, PlatformDescription } from '../../generated/schema'
 
-//Adds metadata from ipfs as a entity called Description.
-//The description entity has the id of the cid to the file on IPFS
-//Keywords are transformed so that they are only single worded and comma seperated.
-//Keywords are currently stored in two versions, in their raw format as keywords_raw and in a transformed format called keywords.
-export function handleServiceData(content: Bytes): void {
-  let context = dataSource.context();
-  let serviceId = context.getString("serviceId");
-  let cid = dataSource.stringParam()
-  let description = new ServiceDescription(cid)
+function getValueAsString(jsonObject: TypedMap<string, JSONValue>, key: string): String | null {
+  
+  const value = jsonObject.get(key)
+  
+  if(value && value.kind == JSONValueKind.STRING) {
+    return value.toString()
+  }
 
-  if(serviceId){
+  return null
+}
+
+function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string): BigInt | null {
+  
+  const value = jsonObject.get(key)
+
+  if(value && value.kind == JSONValueKind.NUMBER) {
+    return value.toBigInt()
+  } 
+
+  return null
+}
+
+function setupDescription<T>(description: T, parentId: String): T {
+  if(parentId){
     var services = description.services
     if(services){
       services.push(serviceId)
@@ -23,300 +36,141 @@ export function handleServiceData(content: Bytes): void {
     log.error("Requsted a serviceId, but none was given.", [])
     return
   }
-  
-  const value = json.fromBytes(content).toObject();
+}
 
-  if(value){
-    const title = value.get('title');
-    const about = value.get('about');
-    let keywords = value.get('keywords');
-    const role = value.get('role');
-    const rateToken = value.get('rateToken');
-    const rateAmount = value.get('rateAmount');
-    
-    if(title){
-      description.title = title.toString();
-    } 
+//------- TO BE REMOVED: USED DURING DEV -------
+    /*Adds the information about which keys are present in the entry
+    This is done as a part of the PoC to show the current diversity of entries.
+    We currently have the following keys
+    expectedHours, proposalAbout, proposalTitle, rateType, description
+    ..for that reason we can include all of them in the entity.
+    We need to make a decision on that.*/
+function getKeys(jsonObject: TypedMap<string, JSONValue>): String {
+  let s = ""
+  for(let i = 0; i < jsonObject.entries.length; i++){
+    if(i>0){ s += ", " }
+    let key = jsonObject.entries[i].key
+    s += key.toString();
+  }
+  return s
+}
+//------------------------------------------------
 
-    if(about){
-      description.about = about.toString();
-    } 
-
-    if(role){
-      description.role = role.toString();
-    }
-
-    if(rateToken){
-      description.rateToken = rateToken.toString();
-    }
-
-    if(rateAmount){
-      // description.rateAmount = rateAmount.toBigInt();
-    }
-
-    if(keywords){
-      //Transforms keywords into lowercase, semicolumn seperated keywords in an array.
-      var _keywords = keywords.toString().toLowerCase();
-      description.keywords_raw = _keywords;
+//Transforms keywords into lowercase, semicolumn seperated keywords in an array.
+//Example: "KeyWord1, KEYWORD 2" ==> ['keyword1', 'keyword', '2']
+function transformIntoKeywordsList(keywords: String): Array<String> | null {  
+      var _keywords = keywords.toLowerCase();
       _keywords = _keywords.replaceAll(", ", ",");
       _keywords = _keywords.replaceAll(" ", ",");
-      description.keywords = _keywords.split(","); 
-    }
-    description.save();
-  }
+      return _keywords.split(","); 
 }
 
+//Adds metadata from ipfs as a entity called ServiceDescription.
+//The description entity has the id of the cid to the file on IPFS
+//Keywords are transformed so that they are only single worded and comma seperated.
+//Keywords are currently stored in two versions, in their raw format as keywords_raw and in a transformed format called keywords.
+export function handleServiceData(content: Bytes): void {
+  const context = dataSource.context();
+  const ipfsId = dataSource.stringParam()
+  const jsonObject = json.fromBytes(content).toObject();  
+  
+  let description = new ServiceDescription(ipfsId)
+
+  description.service = context.getString('id')
+  description.createdAt = context.getBigInt('timestamp')
+
+  description.keys = getKeys(jsonObject) //During dev
+
+  description.title = getValueAsString(jsonObject, 'title')
+  description.about = getValueAsString(jsonObject, 'about')
+  description.role = getValueAsString(jsonObject, 'role')
+  description.rateToken = getValueAsString(jsonObject, 'rateToken')
+  description.rateAmount = getValueAsBigInt(jsonObject, 'rateAmount')
+  description.keywords_raw = getValueAsString(jsonObject, 'keywords')
+  description.keywords = transformIntoKeywordsList(description.keywords_raw!)
+  
+  description.save();
+}
+
+//Adds metadata from ipfs as a entity called ProposalDescription.
+//The description entity has the id of the cid to the file on IPFS
 export function handleProposalData(content: Bytes): void {
-  let context = dataSource.context();
-  let proposalId = context.getString('proposalId');
-  let cid = dataSource.stringParam()
-  let description = new ProposalDescription(cid)
+  const context = dataSource.context();
+  const ipfsId = dataSource.stringParam()
+  const jsonObject = json.fromBytes(content).toObject();  
+  
+  let description = new ProposalDescription(ipfsId)
+  
+  description.proposal = context.getString('id')
+  description.createdAt = context.getBigInt('timestamp')
 
-  if(proposalId){
-    var proposals = description.proposals
-    if(proposals){
-      proposals.push(proposalId)
-    } else {
-      proposals = [proposalId]
-    }
-    description.proposals = proposals
-  } else {
-    log.error("Requsted a proposalId, but none was given.", [])
-    return
-  }
+  description.keys = getKeys(jsonObject) //During dev
 
-  const jsonObject = json.fromBytes(content).toObject();
-
-  if(jsonObject){
-    
-    //------- TO BE REMOVED: USED DURING DEV -------
-    /*Adds the information about which keys are present in the entry
-    This is done as a part of the PoC to show the current diversity of entries.
-    We currently have the following keys
-    expectedHours, proposalAbout, proposalTitle, rateType, description
-    ..for that reason we can include all of them in the entity.
-    We need to make a decision on that.*/
-    let s = "["
-    for(let i = 0; i < jsonObject.entries.length; i++){
-      if(i>0){ s += ", " }
-      let key = jsonObject.entries[i].key
-      s += key.toString();
-    }
-    s += "]"
-    description.keys = s
-    //-----------------------------------------------
-    
-    //description.expectedHours
-    let expectedHours = jsonObject.get('expectedHours')
-    if(expectedHours){
-      description.expectedHours = expectedHours.toBigInt();
-    }
-    //description.proposalAbout
-    let proposalAbout = jsonObject.get('proposalAbout')
-    if(proposalAbout){
-      description.proposalAbout = proposalAbout.toString();
-    }
-    //description.proposalTitle
-    let proposalTitle = jsonObject.get('proposalTitle')
-    if(proposalTitle){
-      description.proposalTitle = proposalTitle.toString();
-    }
-    //description.rateType
-    let rateType = jsonObject.get('rateType')
-    if(rateType){
-      description.rateType = rateType.toBigInt();
-    }
-    //description.description
-    let desc = jsonObject.get('description')
-    if(desc){
-      description.description = desc.toString();
-    }
-  }
+  description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
+  description.proposalAbout = getValueAsString(jsonObject, 'proposalAbout')
+  description.proposalTitle = getValueAsString(jsonObject, 'proposalTitle')
+  description.rateType = getValueAsBigInt(jsonObject, 'rateType')
+  description.description = getValueAsString(jsonObject, 'description')
+  
   description.save()
 }
 
+//Adds metadata from ipfs as a entity called ReviewDescription.
+//The description entity has the id of the cid to the file on IPFS
 export function handleReviewData(content: Bytes): void {
-  let context = dataSource.context();
-  let reviewId = context.getString('reviewId');
-  let cid = dataSource.stringParam()
-  let description = new ReviewDescription(cid)
+  const context = dataSource.context();
+  const ipfsId = dataSource.stringParam()
+  const jsonObject = json.fromBytes(content).toObject();  
+  
+  let description = new ReviewDescription(ipfsId)
 
-  if(reviewId){
-    var reviews = description.reviews
-    if(reviews){
-      reviews.push(reviewId)
-    } else {
-      reviews = [reviewId]
-    }
-    description.reviews = reviews
-  } else {
-    log.error("Requsted a reviewId, but none was given.", [])
-    return
-  }
+  description.review = context.getString('id')
+  // description.createdAt = context.getBigInt('timestamp')
 
-  const jsonObject = json.fromBytes(content).toObject();
+  description.keys = getKeys(jsonObject) //During dev
 
-  if(jsonObject){
-    
-    //------- TO BE REMOVED: USED DURING DEV -------
-    /*Adds the information about which keys are present in the entry
-    This is done as a part of the PoC to show the current diversity of entries.
-    We currently have the following keys
-    expectedHours, proposalAbout, proposalTitle, rateType, description
-    ..for that reason we can include all of them in the entity.
-    We need to make a decision on that.*/
-    let s = "["
-    for(let i = 0; i < jsonObject.entries.length; i++){
-      if(i>0){ s += ", " }
-      let key = jsonObject.entries[i].key
-      s += key.toString();
-    }
-    s += "]"
-    description.keys = s
-  }
-
-  //description.content
-  let contentData = jsonObject.get('content')
-  if(contentData){
-    description.content = contentData.toString();
-  }
-  //description.rating
-  let rating = jsonObject.get('rating')
-  if(rating){
-    description.rating = rating.toBigInt();
-  }
+  description.content = getValueAsString(jsonObject, 'content')
+  description.rating = getValueAsBigInt(jsonObject, 'rating')
 
   description.save()
 }
 
+//Adds metadata from ipfs as a entity called UserDescription.
+//The description entity has the id of the cid to the file on IPFS
 export function handleUserData(content: Bytes): void {
-  let context = dataSource.context();
-  let userId = context.getString('userId');
-  let cid = dataSource.stringParam()
-  let timestamp = context.getBigInt('timestamp')
-
-  let description = UserDescription.load(cid)
-  if(!description){
-    description = new UserDescription(cid)
-  }
+  const context = dataSource.context();
+  const ipfsId = dataSource.stringParam()
+  const jsonObject = json.fromBytes(content).toObject();  
   
-  description.createdAt = timestamp
+  let description = new UserDescription(ipfsId)
 
-  if(userId){
-    var users = description.users
-    if(users) {
-      users.push(userId)
-    } else {
-      users = [userId]
-    }
-    description.users = users
-  } else {
-    log.error("Requsted a userId, but none was given.", [])
-    return
-  }
-  const jsonObject = json.fromBytes(content).toObject();
+  description.user = context.getString('id')
+  description.createdAt = context.getBigInt('timestamp')
 
-  if(jsonObject){
-    //------- TO BE REMOVED: USED DURING DEV -------
-    /*Adds the information about which keys are present in the entry
-    This is done as a part of the PoC to show the current diversity of entries.
-    We currently have the following keys
-    expectedHours, proposalAbout, proposalTitle, rateType, description
-    ..for that reason we can include all of them in the entity.
-    We need to make a decision on that.*/
-    let s = "["
-    for(let i = 0; i < jsonObject.entries.length; i++){
-      if(i>0){ s += ", " }
-      let key = jsonObject.entries[i].key
-      s += key.toString();
-    }
-    s += "]"
-    description.keys = s
-  }
+  description.keys = getKeys(jsonObject) //During dev
 
-  // description.about
-  let about = jsonObject.get('about')
-  if(about){
-    description.about = about.toString();
-  }
-  
-  //description.skills
-  let skills = jsonObject.get('skills')
-  if(skills){
-    description.skills = skills.toString();
-  }
-
-  //description.title
-  let title = jsonObject.get('title')
-  if(title){
-    description.title = title.toString();
-  }
+  description.about = getValueAsString(jsonObject, 'about')
+  description.skills = getValueAsString(jsonObject, 'skills')
+  description.title = getValueAsString(jsonObject, 'title')
 
   description.save()
 }
 
+//Adds metadata from ipfs as a entity called PlatformDescription.
+//The description entity has the id of the cid to the file on IPFS
 export function handlePlatformData(content: Bytes): void {
-  let context = dataSource.context();
-  let platformId = context.getString('platformId');
-  let cid = dataSource.stringParam()
-  let timestamp = context.getBigInt('timestamp')
-
-  let description = PlatformDescription.load(cid)
-  if(!description){
-    description = new PlatformDescription(cid)
-  }
+  const context = dataSource.context();
+  const ipfsId = dataSource.stringParam()
+  const jsonObject = json.fromBytes(content).toObject();  
   
-  description.createdAt = timestamp
+  let description = new PlatformDescription(ipfsId)
 
-  if(platformId){
-    var platforms = description.platforms
-    if(platforms) {
-      platforms.push(platformId)
-    } else {
-      platforms = [platformId]
-    }
-    description.platforms = platforms
-  } else {
-    log.error("Requsted a platformId, but none was given.", [])
-    return
-  }
-  const jsonObject = json.fromBytes(content).toObject();
+  description.platform = context.getString('id')
+  description.createdAt = context.getBigInt('timestamp')
 
-  if(jsonObject){
-    //------- TO BE REMOVED: USED DURING DEV -------
-    /*Adds the information about which keys are present in the entry
-    This is done as a part of the PoC to show the current diversity of entries.
-    We currently have the following keys
-    expectedHours, proposalAbout, proposalTitle, rateType, description
-    ..for that reason we can include all of them in the entity.
-    We need to make a decision on that.*/
-    let s = "["
-    for(let i = 0; i < jsonObject.entries.length; i++){
-      if(i>0){ s += ", " }
-      let key = jsonObject.entries[i].key
-      s += key.toString();
-    }
-    s += "]"
-    description.keys = s
-  }
+  description.keys = getKeys(jsonObject) //During dev
 
-  // description.about
-  // let about = jsonObject.get('about')
-  // if(about){
-  //   description.about = about.toString();
-  // }
-  
-  // //description.skills
-  // let skills = jsonObject.get('skills')
-  // if(skills){
-  //   description.skills = skills.toString();
-  // }
-
-  // //description.title
-  // let title = jsonObject.get('title')
-  // if(title){
-  //   description.title = title.toString();
-  // }
+  //Fill in with fields here, no fields currently exists
 
   description.save()
 }
