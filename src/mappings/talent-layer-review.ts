@@ -28,8 +28,8 @@ export function handleMint(event: Mint): void {
   user.save()
 
   const context = new DataSourceContext();
-  context.setString("reviewId", review.id)
-
+  context.setString('id', review.id)
+  context.setBigInt('timestamp', review.createdAt!)
   ReviewData.createWithContext(review.uri, context)
 }
 

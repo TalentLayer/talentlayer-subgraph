@@ -30,9 +30,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   user.save()
 
   const context = new DataSourceContext();
-  context.setString("userId", user.id);
-  context.setBigInt("timestamp", event.block.timestamp)
-  UserData.createWithContext(user.uri, context);
+  context.setString('id', user.id)
+  context.setBigInt('timestamp', event.block.timestamp)
+  UserData.createWithContext(user.uri, context)
 }
 
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}

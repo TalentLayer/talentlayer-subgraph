@@ -25,19 +25,21 @@ type Service @entity {
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
   title: String
-  description: ServiceDescription @derivedFrom(field: "services") # metadata URI of service
+  description: ServiceDescription @derivedFrom(field: "service") # metadata URI of service
 }
 
 type ServiceDescription @entity {
   id: ID! #cid
   title: String
+  keys: String
   about: String
   keywords: [String!] #transformed version of keywords
   keywords_raw: String #stores keywords in their raw format
   role: String
   rateToken: String
-  rateAmount: String
-  services: [Service!]
+  rateAmount: BigInt
+  service: Service!
+  createdAt: BigInt
 }
 
 type Review @entity {
@@ -47,7 +49,7 @@ type Review @entity {
   to: User! # reviewed user
   uri: String! # metadata URI of review
   platform: Platform # Platform on which review nft was minted
-  description: ReviewDescription @derivedFrom(field: "reviews")
+  description: ReviewDescription @derivedFrom(field: "review")
 }
 
 type ReviewDescription @entity {
@@ -55,7 +57,8 @@ type ReviewDescription @entity {
   keys: String
   content: String
   rating: BigInt
-  reviews: [Review!]
+  review: Review!
+  createdAt: BigInt
 }
 
 type Token @entity {
@@ -79,7 +82,7 @@ type User @entity {
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
-  description: [UserDescription!] @derivedFrom(field: "users")
+  description: UserDescription @derivedFrom(field: "user")
 }
 
 type UserDescription @entity {
@@ -88,7 +91,7 @@ type UserDescription @entity {
   about: String
   skills: String
   title: String
-  users: [User!]
+  user: User!
   createdAt: BigInt # timestamp of block creation
 }
 
@@ -108,7 +111,7 @@ type Proposal @entity {
   rateToken: Token! # Rate token entity
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of service
-  description: ProposalDescription @derivedFrom(field: "proposals")
+  description: ProposalDescription @derivedFrom(field: "proposal")
 }
 
 type ProposalDescription @entity {
@@ -119,7 +122,8 @@ type ProposalDescription @entity {
   proposalTitle: String
   rateType: BigInt
   description: String
-  proposals: [Proposal!] #Proposals that the description describes.
+  proposal: Proposal! #Proposals that the description describes.
+  createdAt: BigInt
 }
 
 #NB: Payment sender will always be the Escrow Contract
@@ -187,14 +191,14 @@ type Platform @entity {
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
-  descriptions: [PlatformDescription!] @derivedFrom(field: "platforms")
+  descriptions: PlatformDescription @derivedFrom(field: "platform")
 }
 
 type PlatformDescription @entity {
   id: ID! #cid
-  createdAt: BigInt
   keys: String
-  platforms: [Platform!]
+  platform: Platform!
+  createdAt: BigInt
 }
 
 enum FeeType {
