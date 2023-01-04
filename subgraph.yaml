@@ -232,3 +232,16 @@ templates:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
     network: goerli
+  - name: UserData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleUserData
+      entities:
+        - UserDescription
+      abis:
+        - name: TalentLayerID
+          file: ./abis/TalentLayerID.json
+    network: goerli

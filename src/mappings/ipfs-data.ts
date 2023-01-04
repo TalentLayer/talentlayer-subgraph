@@ -1,5 +1,5 @@
 import { log, ipfs, json, Bytes, dataSource } from '@graphprotocol/graph-ts'
-import { ServiceDescription, ProposalDescription, ReviewDescription } from '../../generated/schema'
+import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescription } from '../../generated/schema'
 
 //Adds metadata from ipfs as a entity called Description.
 //The description entity has the id of the cid to the file on IPFS
@@ -187,6 +187,72 @@ export function handleReviewData(content: Bytes): void {
   let rating = jsonObject.get('rating')
   if(rating){
     description.rating = rating.toBigInt();
+  }
+
+  description.save()
+}
+
+export function handleUserData(content: Bytes): void {
+  let context = dataSource.context();
+  let userId = context.getString('userId');
+  let cid = dataSource.stringParam()
+  let timestamp = context.getBigInt('timestamp')
+
+  let description = UserDescription.load(cid)
+  if(!description){
+    description = new UserDescription(cid)
+  }
+  
+  description.createdAt = timestamp
+
+  if(userId){
+    var users = description.users
+    if(users) {
+      users.push(userId)
+    } else {
+      users = [userId]
+    }
+    description.users = users
+  } else {
+    log.error("Requsted a userId, but none was given.", [])
+    return
+  }
+  const jsonObject = json.fromBytes(content).toObject();
+
+  if(jsonObject){
+    //------- TO BE REMOVED: USED DURING DEV -------
+    /*Adds the information about which keys are present in the entry
+    This is done as a part of the PoC to show the current diversity of entries.
+    We currently have the following keys
+    expectedHours, proposalAbout, proposalTitle, rateType, description
+    ..for that reason we can include all of them in the entity.
+    We need to make a decision on that.*/
+    let s = "["
+    for(let i = 0; i < jsonObject.entries.length; i++){
+      if(i>0){ s += ", " }
+      let key = jsonObject.entries[i].key
+      s += key.toString();
+    }
+    s += "]"
+    description.keys = s
+  }
+
+  // description.about
+  let about = jsonObject.get('about')
+  if(about){
+    description.about = about.toString();
+  }
+  
+  //description.skills
+  let skills = jsonObject.get('skills')
+  if(skills){
+    description.skills = skills.toString();
+  }
+
+  //description.title
+  let title = jsonObject.get('title')
+  if(title){
+    description.title = title.toString();
   }
 
   description.save()
