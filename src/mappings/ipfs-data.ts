@@ -1,5 +1,5 @@
 import { log, ipfs, json, Bytes, dataSource } from '@graphprotocol/graph-ts'
-import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescription } from '../../generated/schema'
+import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescription, PlatformDescription } from '../../generated/schema'
 
 //Adds metadata from ipfs as a entity called Description.
 //The description entity has the id of the cid to the file on IPFS
@@ -51,10 +51,7 @@ export function handleServiceData(content: Bytes): void {
     }
 
     if(rateAmount){
-      // currently throws an error on hosted services
-      // log.info("------------- {}", [rateAmount.kind.toString()])
-      // description.rateAmount = rateAmount.toString();
-      // log.info("F5 {}", [rateAmount.toString()])
+      // description.rateAmount = rateAmount.toBigInt();
     }
 
     if(keywords){
@@ -254,6 +251,72 @@ export function handleUserData(content: Bytes): void {
   if(title){
     description.title = title.toString();
   }
+
+  description.save()
+}
+
+export function handlePlatformData(content: Bytes): void {
+  let context = dataSource.context();
+  let platformId = context.getString('platformId');
+  let cid = dataSource.stringParam()
+  let timestamp = context.getBigInt('timestamp')
+
+  let description = PlatformDescription.load(cid)
+  if(!description){
+    description = new PlatformDescription(cid)
+  }
+  
+  description.createdAt = timestamp
+
+  if(platformId){
+    var platforms = description.platforms
+    if(platforms) {
+      platforms.push(platformId)
+    } else {
+      platforms = [platformId]
+    }
+    description.platforms = platforms
+  } else {
+    log.error("Requsted a platformId, but none was given.", [])
+    return
+  }
+  const jsonObject = json.fromBytes(content).toObject();
+
+  if(jsonObject){
+    //------- TO BE REMOVED: USED DURING DEV -------
+    /*Adds the information about which keys are present in the entry
+    This is done as a part of the PoC to show the current diversity of entries.
+    We currently have the following keys
+    expectedHours, proposalAbout, proposalTitle, rateType, description
+    ..for that reason we can include all of them in the entity.
+    We need to make a decision on that.*/
+    let s = "["
+    for(let i = 0; i < jsonObject.entries.length; i++){
+      if(i>0){ s += ", " }
+      let key = jsonObject.entries[i].key
+      s += key.toString();
+    }
+    s += "]"
+    description.keys = s
+  }
+
+  // description.about
+  // let about = jsonObject.get('about')
+  // if(about){
+  //   description.about = about.toString();
+  // }
+  
+  // //description.skills
+  // let skills = jsonObject.get('skills')
+  // if(skills){
+  //   description.skills = skills.toString();
+  // }
+
+  // //description.title
+  // let title = jsonObject.get('title')
+  // if(title){
+  //   description.title = title.toString();
+  // }
 
   description.save()
 }

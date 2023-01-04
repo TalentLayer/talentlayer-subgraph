@@ -1,4 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
+import { PlatformData } from '../../generated/templates'
 import { MintFeeUpdated } from '../../generated/TalentLayerID/TalentLayerID'
 import {
   Approval,
@@ -21,6 +22,11 @@ export function handleCidUpdated(event: CidUpdated): void {
   const platform = getOrCreatePlatform(event.params._tokenId)
   platform.uri = event.params._newCid
   platform.save()
+
+  const context = new DataSourceContext();
+  context.setString("platformId", platform.id);
+  context.setBigInt("timestamp", event.block.timestamp)
+  PlatformData.createWithContext(platform.uri!, context);
 }
 
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}

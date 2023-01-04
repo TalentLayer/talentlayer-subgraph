@@ -187,6 +187,14 @@ type Platform @entity {
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
+  descriptions: [PlatformDescription!] @derivedFrom(field: "platforms")
+}
+
+type PlatformDescription @entity {
+  id: ID! #cid
+  createdAt: BigInt
+  keys: String
+  platforms: [Platform!]
 }
 
 enum FeeType {
