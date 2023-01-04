@@ -25,7 +25,7 @@ type Service @entity {
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
   title: String
-  description: ServiceDescription @derivedFrom(field: "service") # metadata URI of service
+  descriptions: [ServiceDescription!] @derivedFrom(field: "service") # metadata URI of service
 }
 
 type ServiceDescription @entity {
@@ -49,7 +49,7 @@ type Review @entity {
   to: User! # reviewed user
   uri: String! # metadata URI of review
   platform: Platform # Platform on which review nft was minted
-  description: ReviewDescription @derivedFrom(field: "review")
+  descriptions: [ReviewDescription!] @derivedFrom(field: "review")
 }
 
 type ReviewDescription @entity {
@@ -82,7 +82,7 @@ type User @entity {
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
-  description: UserDescription @derivedFrom(field: "user")
+  descriptions: [UserDescription!] @derivedFrom(field: "user")
 }
 
 type UserDescription @entity {
@@ -111,7 +111,7 @@ type Proposal @entity {
   rateToken: Token! # Rate token entity
   rateAmount: BigInt # Rate amount
   uri: String! # metadata URI of service
-  description: ProposalDescription @derivedFrom(field: "proposal")
+  descriptions: [ProposalDescription!] @derivedFrom(field: "proposal")
 }
 
 type ProposalDescription @entity {
@@ -191,7 +191,7 @@ type Platform @entity {
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
-  descriptions: PlatformDescription @derivedFrom(field: "platform")
+  descriptions: [PlatformDescription!] @derivedFrom(field: "platform")
 }
 
 type PlatformDescription @entity {
