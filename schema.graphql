@@ -79,6 +79,17 @@ type User @entity {
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
+  description: [UserDescription!] @derivedFrom(field: "users")
+}
+
+type UserDescription @entity {
+  id: ID!
+  keys: String
+  about: String
+  skills: String
+  title: String
+  users: [User!]
+  createdAt: BigInt # timestamp of block creation
 }
 
 enum ProposalStatus {

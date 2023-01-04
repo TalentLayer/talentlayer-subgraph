@@ -1,4 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
+import { UserData } from '../../generated/templates'
 import {
   AccountRecovered,
   Approval,
@@ -27,6 +28,11 @@ export function handleCidUpdated(event: CidUpdated): void {
   const user = getOrCreateUser(event.params._tokenId)
   user.uri = event.params._newCid
   user.save()
+
+  const context = new DataSourceContext();
+  context.setString("userId", user.id);
+  context.setBigInt("timestamp", event.block.timestamp)
+  UserData.createWithContext(user.uri, context);
 }
 
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}
