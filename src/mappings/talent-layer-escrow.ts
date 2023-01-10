@@ -30,6 +30,7 @@ import {
   MetaEvidence,
   ArbitrationFeePayment,
   EvidenceSubmitted,
+  ProtocolFeeSetUp,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -253,4 +254,11 @@ export function handleMetaEvidence(event: MetaEvidence): void {
   const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
   transaction.metaEvidenceUri = event.params._evidence
   transaction.save()
+}
+
+export function handleProtocolFeeSetUp(event: ProtocolFeeSetUp): void {
+  const protocol = getOrCreateProtocol()
+  protocol.escrowFee = event.params._protocolFee
+  protocol.originPlatformFee = event.params._originPlatformFee
+  protocol.save()
 }
