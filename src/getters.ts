@@ -14,6 +14,11 @@ import {
   Protocol,
   Transaction,
   Evidence,
+  ServiceDescription,
+  ReviewDescription,
+  ProposalDescription,
+  UserDescription,
+  PlatformDescription
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -241,3 +246,52 @@ export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): 
   }
   return evidence
 }
+
+export function getOrCreateServiceDescription(cid: string) : ServiceDescription {
+  let serviceDescription = ServiceDescription.load(cid)
+  if(!serviceDescription) {
+    serviceDescription = new ServiceDescription(cid)
+    serviceDescription.createdAt = ZERO
+  }
+  return serviceDescription
+}
+
+export function getOrCreateReviewDescription(cid: string) : ReviewDescription {
+  let reviewDescription = ReviewDescription.load(cid)
+  if(!reviewDescription) {
+    reviewDescription = new ReviewDescription(cid)
+    reviewDescription.createdAt = ZERO
+  }
+  return reviewDescription
+}
+
+export function getOrCreateUserDescription(cid: string) : UserDescription {
+  let userDescription = UserDescription.load(cid)
+  if(!userDescription) {
+    userDescription = new UserDescription(cid)
+    userDescription.createdAt = ZERO
+  }
+  return userDescription
+}
+
+
+export function getOrCreateProposalDescription(cid: string) : ProposalDescription {
+  let proposalDescription = ProposalDescription.load(cid)
+  if(!proposalDescription) {
+    proposalDescription = new ProposalDescription(cid)
+    proposalDescription.createdAt = ZERO
+  }
+  return proposalDescription
+}
+
+
+export function getOrCreatePlatformDescription(cid: string) : PlatformDescription {
+  let platformDescription = PlatformDescription.load(cid)
+  if(!platformDescription) {
+    platformDescription = new PlatformDescription(cid)
+    platformDescription.createdAt = ZERO
+  }
+  return platformDescription
+}
+
+

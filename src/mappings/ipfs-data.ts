@@ -1,5 +1,28 @@
-import { log, ipfs, json, JSONValue, JSONValueKind, BigInt, TypedMap, Bytes, dataSource } from '@graphprotocol/graph-ts'
-import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescription, PlatformDescription } from '../../generated/schema'
+import { 
+  log, 
+  ipfs, 
+  json, 
+  JSONValue, 
+  JSONValueKind, 
+  BigInt, 
+  TypedMap, 
+  Bytes, 
+  dataSource 
+} from '@graphprotocol/graph-ts'
+import { 
+  ServiceDescription, 
+  ProposalDescription, 
+  ReviewDescription, 
+  UserDescription, 
+  PlatformDescription 
+} from '../../generated/schema'
+import {
+  getOrCreateServiceDescription,
+  getOrCreateReviewDescription,
+  getOrCreateProposalDescription,
+  getOrCreateUserDescription,
+  getOrCreatePlatformDescription
+} from '../getters'
 
 
 //Adds metadata from ipfs as a entity called ServiceDescription.
@@ -8,16 +31,16 @@ import { ServiceDescription, ProposalDescription, ReviewDescription, UserDescrip
 //Keywords are currently stored in two versions, in their raw format as keywords_raw and in a transformed format called keywords.
 export function handleServiceData(content: Bytes): void {
   const context = dataSource.context();
-  const ipfsId = dataSource.stringParam()
-  const jsonObject = json.fromBytes(content).toObject();  
+  const ipfsId = dataSource.stringParam();
   
-  let description = new ServiceDescription(ipfsId)
+  const jsonObject = json.fromBytes(content).toObject();
+  
+  let description = getOrCreateServiceDescription(ipfsId)
 
   description.service = context.getString('id')
   description.createdAt = context.getBigInt('timestamp')
 
   description.keys = getKeys(jsonObject) //During dev
-
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
   description.role = getValueAsString(jsonObject, 'role')
@@ -36,7 +59,7 @@ export function handleProposalData(content: Bytes): void {
   const ipfsId = dataSource.stringParam()
   const jsonObject = json.fromBytes(content).toObject();  
   
-  let description = new ProposalDescription(ipfsId)
+  let description = getOrCreateProposalDescription(ipfsId)
   
   description.proposal = context.getString('id')
   description.createdAt = context.getBigInt('timestamp')
@@ -59,7 +82,7 @@ export function handleReviewData(content: Bytes): void {
   const ipfsId = dataSource.stringParam()
   const jsonObject = json.fromBytes(content).toObject();  
   
-  let description = new ReviewDescription(ipfsId)
+  let description = getOrCreateReviewDescription(ipfsId)
 
   description.review = context.getString('id')
   // description.createdAt = context.getBigInt('timestamp')
@@ -79,7 +102,7 @@ export function handleUserData(content: Bytes): void {
   const ipfsId = dataSource.stringParam()
   const jsonObject = json.fromBytes(content).toObject();  
   
-  let description = new UserDescription(ipfsId)
+  let description = getOrCreateUserDescription(ipfsId)
 
   description.user = context.getString('id')
   description.createdAt = context.getBigInt('timestamp')
@@ -100,7 +123,7 @@ export function handlePlatformData(content: Bytes): void {
   const ipfsId = dataSource.stringParam()
   const jsonObject = json.fromBytes(content).toObject();  
   
-  let description = new PlatformDescription(ipfsId)
+  let description = getOrCreatePlatformDescription(ipfsId)
 
   description.platform = context.getString('id')
   description.createdAt = context.getBigInt('timestamp')
@@ -119,22 +142,22 @@ function getValueAsString(jsonObject: TypedMap<string, JSONValue>, key: string):
   
   const value = jsonObject.get(key)
   
-  if(value && value.kind == JSONValueKind.STRING) {
-    return value.toString()
+  if(value == null || value.isNull() || value.kind != JSONValueKind.STRING) {
+    return null
   }
 
-  return null
+  return value.toString()
 }
 
 function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string): BigInt | null {
   
   const value = jsonObject.get(key)
 
-  if(value && value.kind == JSONValueKind.NUMBER) {
-    return value.toBigInt()
+  if(value == null || value.isNull() || value.kind != JSONValueKind.NUMBER) {
+    return null
   } 
 
-  return null
+  return value.toBigInt()
 }
 
 function setupDescription<T>(description: T, parentId: String): T {
