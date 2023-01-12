@@ -22,6 +22,7 @@ import {
   PlatformFeeReleased,
   FeesClaimed,
   ProtocolFeeUpdated,
+  OriginPlatformFeeUpdated,
   TransactionCreated,
   HasToPayFee,
   Dispute,
@@ -30,7 +31,6 @@ import {
   MetaEvidence,
   ArbitrationFeePayment,
   EvidenceSubmitted,
-  ProtocolFeeSetUp,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -187,6 +187,12 @@ export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
   protocol.save()
 }
 
+export function handleOriginPlatformFeeUpdated(event: OriginPlatformFeeUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.originPlatformFee = event.params._originPlatformFee
+  protocol.save()
+}
+
 export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void {
   const transaction = getOrCreateTransaction(event.params._transactionId)
 
@@ -254,11 +260,4 @@ export function handleMetaEvidence(event: MetaEvidence): void {
   const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
   transaction.metaEvidenceUri = event.params._evidence
   transaction.save()
-}
-
-export function handleProtocolFeeSetUp(event: ProtocolFeeSetUp): void {
-  const protocol = getOrCreateProtocol()
-  protocol.escrowFee = event.params._protocolFee
-  protocol.originPlatformFee = event.params._originPlatformFee
-  protocol.save()
 }
