@@ -38,6 +38,8 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
+        - event: ExternalIDLinked(indexed address,uint256,uint256[],bytes)
+          handler: handleExternalIDLinked
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview

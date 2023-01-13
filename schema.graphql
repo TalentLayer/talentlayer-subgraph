@@ -56,6 +56,13 @@ type User @entity {
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
+  ExternalIds: ExternalIds @derivedFrom(field: "user")
+}
+
+type ExternalIds @entity {
+  id: ID!
+  user: User! # user entity
+  lensId: BigDecimal
 }
 
 enum ProposalStatus {
