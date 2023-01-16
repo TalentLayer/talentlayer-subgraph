@@ -1,4 +1,4 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, BigDecimal } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -10,8 +10,10 @@ import {
   OwnershipTransferred,
   PohActivated,
   Transfer,
+  ExternalIDLinked,
 } from '../../generated/TalentLayerID/TalentLayerID'
-import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
+import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser, getOrCreateExternalId } from '../getters'
+import { log } from '@graphprotocol/graph-ts'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -44,6 +46,25 @@ export function handleMint(event: Mint): void {
   const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
   protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
   protocol.save()
+}
+
+export function handleExternalIDLinked(event: ExternalIDLinked): void {
+  const user = getOrCreateUser(event.params._tokenId)
+  user.address = event.params._user.toHex()
+  user.handle = event.params._handle
+
+  const platform = getOrCreatePlatform(event.params._platformId)
+  user.platform = platform.id
+  user.save()
+
+  const externalId = getOrCreateExternalId(event.params._tokenId, event.params._externalID)
+  externalId.lensId = BigDecimal.fromString('0')
+  externalId.save()
+
+  // const protocol = getOrCreateProtocol()
+  // const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
+  // protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
+  // protocol.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}

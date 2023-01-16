@@ -6,10 +6,11 @@ let ZERO = BigInt.zero()
 let ZERO_ADDRESS = Address.fromString('0x0000000000000000000000000000000000000000')
 let ZERO_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
 let ZERO_BIGDEC = BigDecimal.fromString('0')
+let EXTERNAL_LENSID = BigDecimal.fromString('0')
 
 const PROTOCOL_ID = '1'
 
-export { ONE, TEN, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS, PROTOCOL_ID }
+export { ONE, TEN, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS, EXTERNAL_LENSID, PROTOCOL_ID }
 
 // TODO: Converts enum values in i32. See if this can be solved.
 // export enum ServiceStatus {
