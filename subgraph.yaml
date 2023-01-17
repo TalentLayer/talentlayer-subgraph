@@ -181,7 +181,7 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,uint256)
+        - event: Mint(indexed address,uint256,string,uint256,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
