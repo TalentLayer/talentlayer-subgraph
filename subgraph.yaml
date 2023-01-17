@@ -181,7 +181,7 @@ dataSources:
         - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
             address)
           handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,uint256)
+        - event: Mint(indexed address,uint256,string,uint256,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
@@ -193,4 +193,6 @@ dataSources:
           handler: handleArbitratorUpdated
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
           handler: handleArbitrationFeeTimeoutUpdated
+        - event: MinArbitrationFeeTimeoutUpdated(uint256)
+          handler: handleMinArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
