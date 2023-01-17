@@ -29,8 +29,8 @@ export function handleMint(event: Mint): void {
   const platform = getOrCreatePlatform(event.params._tokenId)
   platform.address = event.params._platformOwnerAddress
   platform.name = event.params._platformName
-
   platform.createdAt = event.block.timestamp
+  platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
 
   platform.save()
 
