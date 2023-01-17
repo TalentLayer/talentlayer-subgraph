@@ -9,7 +9,8 @@ import {
   ServiceDataCreated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
 import { getOrCreateService, getOrCreateProposal, getOrCreateToken, getOrCreatePlatform } from '../getters'
-import { generateIdFromTwoElements } from './utils'
+import {buildNotification, generateIdFromTwoElements} from './utils'
+import {sendEPNSNotification} from "./EPNSNotification";
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
@@ -39,6 +40,9 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.platform = platform.id
 
   service.save()
+
+  const notification = buildNotification("Service Created", `Buyer ${event.params.buyerId} created service ${event.params.id}`)
+  sendEPNSNotification(User.load(event.params.initiatorId.toString())!.address, notification)
 }
 export function handleServiceDataCreated(event: ServiceDataCreated): void {
   const service = getOrCreateService(event.params.id)

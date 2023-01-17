@@ -189,3 +189,15 @@ type Protocol @entity {
   escrowFee: Int! # protocol fee for each escrow transaction (percentage, per 10,000)
   totalMintFees: BigInt! # total mint fees collected
 }
+
+type EpnsNotificationCounter @entity {
+  id: ID!
+  totalCount: BigInt!
+}
+
+type EpnsPushNotification @entity {
+  id: ID!
+  notificationNumber: BigInt!
+  recipient: String!
+  notification: String!
+}
