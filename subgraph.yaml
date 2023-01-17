@@ -193,4 +193,6 @@ dataSources:
           handler: handleArbitratorUpdated
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
           handler: handleArbitrationFeeTimeoutUpdated
+        - event: MinArbitrationFeeTimeoutUpdated(uint256)
+          handler: handleMinArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
