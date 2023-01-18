@@ -1,4 +1,4 @@
-import { BigInt, BigDecimal } from '@graphprotocol/graph-ts'
+import { BigInt, BigDecimal, Bytes } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -10,7 +10,7 @@ import {
   OwnershipTransferred,
   PohActivated,
   Transfer,
-  ExternalIDLinked,
+  ThirdPartyLinked,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser, getOrCreateExternalId } from '../getters'
 import { log } from '@graphprotocol/graph-ts'
@@ -48,23 +48,18 @@ export function handleMint(event: Mint): void {
   protocol.save()
 }
 
-export function handleExternalIDLinked(event: ExternalIDLinked): void {
-  const user = getOrCreateUser(event.params._tokenId)
-  user.address = event.params._user.toHex()
-  user.handle = event.params._handle
+export function handleThirdPartyLinked(event: ThirdPartyLinked): void {
+  const externalId = getOrCreateExternalId(event.params._tokenId)
+  externalId.user = getOrCreateUser(event.params._tokenId).id
 
-  const platform = getOrCreatePlatform(event.params._platformId)
-  user.platform = platform.id
-  user.save()
+  for (let i = 0; i < event.params._thirdPartiesStrategiesID.length; i++) {
+    // use getThirdPartyId to get the user third party Id
 
-  const externalId = getOrCreateExternalId(event.params._tokenId, event.params._externalID)
-  externalId.lensId = BigDecimal.fromString('0')
-  externalId.save()
-
-  // const protocol = getOrCreateProtocol()
-  // const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
-  // protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
-  // protocol.save()
+    // get the strategy id with the strategie address
+    externalId.lensId = event.params.thirdPartyId
+    externalId.pohId = event.params.thirdPartyId.toHex()
+    externalId.save()
+  }
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}

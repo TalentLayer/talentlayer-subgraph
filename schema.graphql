@@ -62,7 +62,8 @@ type User @entity {
 type ExternalIds @entity {
   id: ID!
   user: User! # user entity
-  lensId: BigDecimal
+  lensId: Bytes
+  pohId: String
 }
 
 enum ProposalStatus {

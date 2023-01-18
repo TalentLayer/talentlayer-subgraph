@@ -16,7 +16,15 @@ import {
   Evidence,
   ExternalIds,
 } from '../generated/schema'
-import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS, EXTERNAL_LENSID } from './constants'
+import {
+  PROTOCOL_ID,
+  ZERO,
+  ZERO_ADDRESS,
+  ZERO_BIGDEC,
+  ZERO_TOKEN_ADDRESS,
+  EXTERNAL_LENSID,
+  ZERO_STRING_ADDRESS,
+} from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
 
 export function getOrCreateService(id: BigInt): Service {
@@ -75,7 +83,8 @@ export function getOrCreateExternalId(id: BigInt): ExternalIds {
   if (!externalId) {
     externalId = new ExternalIds(id.toString())
     externalId.user = getOrCreateUser(id).id
-    externalId.lensId = EXTERNAL_LENSID
+    externalId.lensId = ZERO_ADDRESS
+    externalId.pohId = ZERO_STRING_ADDRESS
     externalId.save()
   }
   return externalId
