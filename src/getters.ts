@@ -80,6 +80,7 @@ export function getOrCreateUser(id: BigInt): User {
 
 export function getOrCreateExternalId(id: BigInt): ExternalIds {
   let externalId = ExternalIds.load(id.toString())
+
   if (!externalId) {
     externalId = new ExternalIds(id.toString())
     externalId.user = getOrCreateUser(id).id

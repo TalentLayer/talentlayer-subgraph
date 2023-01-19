@@ -1,4 +1,4 @@
-import { BigInt, BigDecimal, Bytes } from '@graphprotocol/graph-ts'
+import { BigInt, BigDecimal, Bytes, log } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -13,7 +13,6 @@ import {
   ThirdPartyLinked,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser, getOrCreateExternalId } from '../getters'
-import { log } from '@graphprotocol/graph-ts'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -53,13 +52,16 @@ export function handleThirdPartyLinked(event: ThirdPartyLinked): void {
   externalId.user = getOrCreateUser(event.params._tokenId).id
 
   for (let i = 0; i < event.params._thirdPartiesStrategiesID.length; i++) {
-    // use getThirdPartyId to get the user third party Id
+    // will make a switch case for each strategy
+    log.info('TITITIT {}', [event.params._thirdPartiesStrategiesID[i].toString()])
 
-    // get the strategy id with the strategie address
-    externalId.lensId = event.params.thirdPartyId
-    externalId.pohId = event.params.thirdPartyId.toHex()
-    externalId.save()
+    if (event.params._thirdPartiesStrategiesID[i].toString() == '0') {
+      externalId.lensId = event.params.thirdPartyId
+    } else if (event.params._thirdPartiesStrategiesID[i].toString() == '1') {
+      externalId.pohId = event.params.thirdPartyId.toHexString()
+    }
   }
+  externalId.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
