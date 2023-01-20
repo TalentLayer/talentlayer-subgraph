@@ -31,8 +31,9 @@ import {
   ArbitrationFeePayment,
   EvidenceSubmitted,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
-import { generateIdFromTwoElements, generateUniqueId } from './utils'
+import {buildNotification, generateIdFromTwoElements, generateUniqueId} from './utils'
 import { ZERO } from '../constants'
+import {sendEPNSNotification} from "./EPNSNotification";
 
 enum Party {
   Sender,
@@ -77,11 +78,15 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
 
   service.status = 'Confirmed'
-  service.seller = User.load(event.params.sellerId.toString())!.id
+  const seller = User.load(event.params.sellerId.toString())!
+  service.seller = seller.id
   service.save()
 
   proposal.status = 'Validated'
   proposal.save()
+
+  const notification = buildNotification("ProposalConfirmed", `Proposal ${proposalId} confirmed for service ${event.params.serviceId}`)
+  sendEPNSNotification(seller.address, notification)
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
