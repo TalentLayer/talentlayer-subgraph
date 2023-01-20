@@ -1,8 +1,8 @@
 import { BigInt, log } from "@graphprotocol/graph-ts"
 import { EpnsNotificationCounter, EpnsPushNotification } from '../../generated/schema'
 
-const SUB_GRAPH_ID = 'quent043/test'
-// const SUB_GRAPH_ID = 'talentlayer/talent-layer-protocol'
+// const SUB_GRAPH_ID = 'quent043/test'
+const SUB_GRAPH_ID = 'talentlayer/talent-layer-protocol'
 
 export function sendEPNSNotification(recipient: string, notification: string): void
 {
