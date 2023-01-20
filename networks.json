@@ -72,5 +72,31 @@
       "address": "0x8799479a39b6e563969126328e2323cbA01e8742",
       "startBlock": 16571490
     }
+  },
+  "mumbai": {
+    "TalentLayerID": {
+      "address": "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f",
+      "startBlock": 31027571
+    },
+    "TalentLayerReview": {
+      "address": "0xe33725A94e24A6808AA6351551ee96c80736e8Dc",
+      "startBlock": 31027571
+    },
+    "ServiceRegistry": {
+      "address": "0x28409B9A38BF5B0897c08C5812Bd91D9313743AB",
+      "startBlock": 31027571
+    },
+    "TalentLayerEscrow": {
+      "address": "0x8564BD74CFdcE620F6C89C6d5326614B24CDcbae",
+      "startBlock": 31027571
+    },
+    "proofOfHumanityAddress": {
+      "address": "0xd78C3fae7AFE37DF386cD331CD6B446eD4095306",
+      "startBlock": 31027571
+    },
+    "TalentLayerPlatformID": {
+      "address": "0x2deB8a32638c99310AD84E3b335e07737F8a61aE",
+      "startBlock": 31027571
+    }
   }
 }
