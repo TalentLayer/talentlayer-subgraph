@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerID
-      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
-      startBlock: 31027571
+      address: "0xa5BA0CCB83A45b4E5c85b41649F80ed7DAFD6e28"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -38,16 +38,16 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
-        - event: ExternalIDLinked(indexed address,uint256,uint256[],bytes)
-          handler: handleExternalIDLinked
+        - event: ThirdPartyLinked(uint256,uint256[],bytes)
+          handler: handleThirdPartyLinked
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
-      startBlock: 31027571
+      address: "0xf584E555B68EC5980D6B606Ae2EaafF512A9d6C9"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -70,11 +70,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: ServiceRegistry
-    network: mumbai
+    network: localhost
     source:
       abi: ServiceRegistry
-      address: "0x28409B9A38BF5B0897c08C5812Bd91D9313743AB"
-      startBlock: 31027571
+      address: "0xf7629551345569Cfce197368058e8Fc7aa1eB561"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -105,11 +105,11 @@ dataSources:
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerEscrow
-      address: "0x8564BD74CFdcE620F6C89C6d5326614B24CDcbae"
-      startBlock: 31027571
+      address: "0x5B3CB59Bb076eDf94412a9541312ec51649698C4"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -159,11 +159,11 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerPlatformID
-      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
-      startBlock: 31027571
+      address: "0xC986379C538DbD0C3c4053eA1f334A43330B3f3D"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
