@@ -49,17 +49,11 @@ export function handleMint(event: Mint): void {
 
 export function handleThirdPartyLinked(event: ThirdPartyLinked): void {
   const externalId = getOrCreateExternalId(event.params._tokenId)
-  externalId.user = getOrCreateUser(event.params._tokenId).id
 
-  for (let i = 0; i < event.params._thirdPartiesStrategiesID.length; i++) {
-    // will make a switch case for each strategy
-    log.info('TITITIT {}', [event.params._thirdPartiesStrategiesID[i].toString()])
-
-    if (event.params._thirdPartiesStrategiesID[i].toString() == '0') {
-      externalId.lensId = event.params.thirdPartyId
-    } else if (event.params._thirdPartiesStrategiesID[i].toString() == '1') {
-      externalId.pohId = event.params.thirdPartyId.toHexString()
-    }
+  if (event.params._thirdPartiesStrategiesID.toString() == '0') {
+    externalId.pohId = event.params.thirdPartyId.toHexString()
+  } else if (event.params._thirdPartiesStrategiesID.toString() == '1') {
+    externalId.lensId = event.params.thirdPartyId
   }
   externalId.save()
 }

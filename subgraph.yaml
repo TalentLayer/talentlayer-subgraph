@@ -38,7 +38,7 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
-        - event: ThirdPartyLinked(uint256,uint256[],bytes)
+        - event: ThirdPartyLinked(uint256,uint256,bytes)
           handler: handleThirdPartyLinked
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
