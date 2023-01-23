@@ -1,96 +1,119 @@
-import { 
-  log, 
-  ipfs, 
-  json, 
-  JSONValue, 
-  JSONValueKind, 
-  BigInt, 
-  TypedMap, 
-  Bytes, 
-  dataSource 
-} from '@graphprotocol/graph-ts'
-import { 
-  ServiceDescription, 
-  ProposalDescription, 
-  ReviewDescription, 
-  UserDescription, 
-  PlatformDescription 
-} from '../../generated/schema'
 import {
-  getOrCreateServiceDescription,
-  getOrCreateReviewDescription,
-  getOrCreateProposalDescription,
-  getOrCreateUserDescription,
-  getOrCreatePlatformDescription
+  json,
+  JSONValue,
+  JSONValueKind,
+  BigInt,
+  TypedMap,
+  Bytes,
+  dataSource,
+} from '@graphprotocol/graph-ts'
+import { ServiceDescription, ProposalDescription, UserDescription, PlatformDescription, ReviewDescription } from '../../generated/schema'
+import {
+  getOrCreateKeyword,
 } from '../getters'
 
 
 //Adds metadata from ipfs as a entity called ServiceDescription.
-//The description entity has the id of the cid to the file on IPFS
-//Keywords are transformed so that they are only single worded and comma seperated.
-//Keywords are currently stored in two versions, in their raw format as keywords_raw and in a transformed format called keywords.
 export function handleServiceData(content: Bytes): void {
-  const context = dataSource.context();
-  const ipfsId = dataSource.stringParam();
-  
-  const jsonObject = json.fromBytes(content).toObject();
-  
-  let description = getOrCreateServiceDescription(ipfsId)
+  const jsonObject = json.fromBytes(content).toObject()
+  const cid = dataSource.stringParam()
+  const context = dataSource.context()
+  const serviceId = context.getBigInt('serviceId')
 
-  description.service = context.getString('id')
-  description.createdAt = context.getBigInt('timestamp')
+  let description = new ServiceDescription(cid)
+  
+  // Notice: Replaced with serviceId.toString()
+  // Reason: Creates duplicate services.
+  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
+  // description.service = getOrCreateService(serviceId).id
+  
+  // Notice: getOrCreateService must be called before.
+  // Solution: getOrCreateService called in calling function.
+  description.service = serviceId.toString() 
 
-  description.keys = getKeys(jsonObject) //During dev
+  // Notice: Moved up to calling function
+  // Reason: store.remove does not remove the entity from store when called from here.
+  // if(context.isSet('oldCid')){
+  //   const oldCid = context.getString('oldCid')
+  //   if(oldCid){
+  //     store.remove('ServiceDescription', oldCid)
+  //   }
+  // }
+
+  // Non-mandatory (nullable) fields assigned below
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
-  description.role = getValueAsString(jsonObject, 'role')
+  description.startDate = getValueAsBigInt(jsonObject, 'startDate')
+  description.expectedEndDate = getValueAsBigInt(jsonObject, 'expectedEndDate')
+  description.keywords_raw = getValueAsString(jsonObject, 'keywords')!.toLowerCase()
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsBigInt(jsonObject, 'rateAmount')
-  description.keywords_raw = getValueAsString(jsonObject, 'keywords')
-  description.keywords = transformIntoKeywordsList(description.keywords_raw!)
   
-  description.save();
+  //Creates duplicate values. Open issue
+  //https://github.com/graphprotocol/graph-node/issues/4087
+  description.keywords = createKeywordEntities(description.keywords_raw!)!
+  
+  description.save()
 }
 
 //Adds metadata from ipfs as a entity called ProposalDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handleProposalData(content: Bytes): void {
-  const context = dataSource.context();
-  const ipfsId = dataSource.stringParam()
-  const jsonObject = json.fromBytes(content).toObject();  
-  
-  let description = getOrCreateProposalDescription(ipfsId)
-  
-  description.proposal = context.getString('id')
-  description.createdAt = context.getBigInt('timestamp')
+  const jsonObject = json.fromBytes(content).toObject()
+  const cid = dataSource.stringParam()
+  const context = dataSource.context()
+  const proposalId = context.getString('proposalId')
 
-  description.keys = getKeys(jsonObject) //During dev
+  let description = new ProposalDescription(cid)
+  
+  // Notice: Replaced with proposalId.toString()
+  // Reason: Creates duplicate proposals.
+  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
+  // description.proposal = getOrCreateProposal(proposalId).id
+  
+  // Notice: getOrCreateProposal must be called before.
+  // Solution: getOrCreateProposal called in calling function.
+  description.proposal = proposalId.toString() 
 
+  // Notice: Moved up to calling function
+  // Reason: store.remove does not remove the entity from store when called from here.
+  // if(context.isSet('oldCid')){
+  //   const oldCid = context.getString('oldCid')
+  //   if(oldCid){
+  //     store.remove('ProposalDescription', oldCid)
+  //   }
+  // }
+
+  //Non-mandatory (nullable) fields assigned below
+  description.startDate = getValueAsBigInt(jsonObject, 'startDate')
+  description.title = getValueAsString(jsonObject, 'title')
+  description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
-  description.proposalAbout = getValueAsString(jsonObject, 'proposalAbout')
-  description.proposalTitle = getValueAsString(jsonObject, 'proposalTitle')
-  description.rateType = getValueAsBigInt(jsonObject, 'rateType')
-  description.description = getValueAsString(jsonObject, 'description')
   
   description.save()
 }
 
 //Adds metadata from ipfs as a entity called ReviewDescription.
 //The description entity has the id of the cid to the file on IPFS
+//Does not need to remove reviews because they can not be updated.
 export function handleReviewData(content: Bytes): void {
-  const context = dataSource.context();
-  const ipfsId = dataSource.stringParam()
+  const cid = dataSource.stringParam()
   const jsonObject = json.fromBytes(content).toObject();  
+  const context = dataSource.context()
+  const reviewId = context.getString('reviewId')
   
-  let description = getOrCreateReviewDescription(ipfsId)
+  let description = new ReviewDescription(cid)
 
-  description.review = context.getString('id')
-  // description.createdAt = context.getBigInt('timestamp')
-
-  description.keys = getKeys(jsonObject) //During dev
+  // Notice: Replaced with reviewId
+  // Reason: Creates duplicate reviews.
+  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
+  // description.review = getOrCreateReview(reviewId).id
+  
+  // Notice: getOrCreateReview must be called before.
+  // Solution: getOrCreateReview called in calling function.
+  description.review = reviewId
 
   description.content = getValueAsString(jsonObject, 'content')
-  description.rating = getValueAsBigInt(jsonObject, 'rating')
 
   description.save()
 }
@@ -98,20 +121,43 @@ export function handleReviewData(content: Bytes): void {
 //Adds metadata from ipfs as a entity called UserDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handleUserData(content: Bytes): void {
-  const context = dataSource.context();
-  const ipfsId = dataSource.stringParam()
-  const jsonObject = json.fromBytes(content).toObject();  
+  const jsonObject = json.fromBytes(content).toObject()
+  const cid = dataSource.stringParam()
+  const context = dataSource.context()
+  const userId = context.getBigInt('userId')
+
+  let description = new UserDescription(cid)
   
-  let description = getOrCreateUserDescription(ipfsId)
+  // Notice: Replaced with userId.toString()
+  // Reason: Creates duplicate users.
+  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
+  // description.user = getOrCreateUser(userId).id
+  
+  // Notice: getOrCreateUser must be called before.
+  // Solution: getOrCreateUser called in calling function.
+  description.user = userId.toString() 
 
-  description.user = context.getString('id')
-  description.createdAt = context.getBigInt('timestamp')
-
-  description.keys = getKeys(jsonObject) //During dev
-
-  description.about = getValueAsString(jsonObject, 'about')
-  description.skills = getValueAsString(jsonObject, 'skills')
+  // Notice: Moved up to calling function
+  // Reason: store.remove does not remove the entity from store when called from here.
+  // if(context.isSet('oldCid')){
+  //   const oldCid = context.getString('oldCid')
+  //   if(oldCid){
+  //     store.remove('UserDescription', oldCid)
+  //   }
+  // }
+  
+  //Non-mandatory (nullable) fields assigned below
   description.title = getValueAsString(jsonObject, 'title')
+  description.about = getValueAsString(jsonObject, 'about')
+  description.skills_raw = getValueAsString(jsonObject, 'skills')!.toLowerCase()
+  description.timezone = getValueAsBigInt(jsonObject, 'timezone')
+  description.headline = getValueAsString(jsonObject, 'headline')
+  description.country = getValueAsString(jsonObject, 'country')
+  description.picture = getValueAsString(jsonObject, 'picture')
+
+  //Creates duplicate values. Open issue
+  //https://github.com/graphprotocol/graph-node/issues/4087
+  description.skills = createKeywordEntities(description.skills_raw!)!
 
   description.save()
 }
@@ -119,26 +165,41 @@ export function handleUserData(content: Bytes): void {
 //Adds metadata from ipfs as a entity called PlatformDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handlePlatformData(content: Bytes): void {
-  const context = dataSource.context();
-  const ipfsId = dataSource.stringParam()
-  const jsonObject = json.fromBytes(content).toObject();  
+  const jsonObject = json.fromBytes(content).toObject()
+  const cid = dataSource.stringParam()
+  const context = dataSource.context()
+  const platformId = context.getBigInt('platformId')
+
+  let description = new PlatformDescription(cid)
   
-  let description = getOrCreatePlatformDescription(ipfsId)
+  // Notice: Replaced with platformId.toString()
+  // Reason: Creates duplicate platforms.
+  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
+  // description.platform = getOrCreatePlatform(platformId).id
+  
+  // Notice: getOrCreatePlatform must be called before.
+  // Solution: getOrCreatePlatform called in calling function.
+  description.platform = platformId.toString() 
 
-  description.platform = context.getString('id')
-  description.createdAt = context.getBigInt('timestamp')
+  // Notice: Moved up to calling function
+  // Reason: store.remove does not remove the entity from store when called from here.
+  // if(context.isSet('oldCid')){
+  //   const oldCid = context.getString('oldCid')
+  //   if(oldCid){
+  //     store.remove('PlatformDescription', oldCid)
+  //   }
+  // }
 
-  description.keys = getKeys(jsonObject) //During dev
-
-  //Fill in with fields here, no fields currently exists
+  description.about = getValueAsString(jsonObject, 'about')
+  description.website = getValueAsString(jsonObject, 'website')
+  description.logo = getValueAsString(jsonObject, 'logo')
 
   description.save()
 }
 
-
 //==================================== Help functions ===========================================
 
-function getValueAsString(jsonObject: TypedMap<string, JSONValue>, key: string): String | null {
+function getValueAsString(jsonObject: TypedMap<string, JSONValue>, key: string): string | null {
   
   const value = jsonObject.get(key)
   
@@ -160,42 +221,29 @@ function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string):
   return value.toBigInt()
 }
 
-function setupDescription<T>(description: T, parentId: String): T {
-  if(parentId){
-    var services = description.services
-    if(services){
-      services.push(serviceId)
-    } else {
-      services = [serviceId]
-    }
-    description.services = services
-  } else {
-    log.error("Requsted a serviceId, but none was given.", [])
-    return
-  }
-}
+//Transforms a comma separated string of keywords into an Array of Keyword.id entities.
+function createKeywordEntities(keywords: string):  string[] | null {
+  const _keywords = keywords.split(",")
 
-//Transforms keywords into lowercase, semicolumn seperated keywords in an array.
-//Example: "KeyWord1, KEYWORD 2" ==> ['keyword1', 'keyword', '2']
-function transformIntoKeywordsList(keywords: String): Array<String> | null {  
-      var _keywords = keywords.toLowerCase();
-      _keywords = _keywords.replaceAll(", ", ",");
-      _keywords = _keywords.replaceAll(" ", ",");
-      return _keywords.split(","); 
-}
+  //To avoid returning an empty list, which is not allowed according to the schema.
+  if(_keywords.length == 0){return null}
 
-/*Adds the information about which keys are present in the entry
-This is done as a part of the PoC to show the current diversity of entries.
-We currently have the following keys
-expectedHours, proposalAbout, proposalTitle, rateType, description
-..for that reason we can include all of them in the entity.
-We need to make a decision on that.*/
-function getKeys(jsonObject: TypedMap<string, JSONValue>): String {
-  let s = ""
-  for(let i = 0; i < jsonObject.entries.length; i++){
-    if(i>0){ s += ", " }
-    let key = jsonObject.entries[i].key
-    s += key.toString();
+  //Initialize an array with length of number of keywords
+  let keywordArray: string[] = []
+
+  //Create keyword entities and add to array
+  for(let i = 0; i < _keywords.length; i++) {
+    //removes whitespace at beginning and end.
+    //needed because of keywords.split(",").
+    let text = _keywords[i].trim()
+
+    //Will generate duplicates. 
+    //Open subgraph issues
+    //https://github.com/graphprotocol/graph-node/issues/4087
+    let keyword = getOrCreateKeyword(text)
+    
+    keywordArray.push(keyword.id)
   }
-  return s
+
+  return keywordArray
 }
