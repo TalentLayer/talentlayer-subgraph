@@ -22,6 +22,7 @@ import {
   PlatformFeeReleased,
   FeesClaimed,
   ProtocolFeeUpdated,
+  OriginPlatformFeeUpdated,
   TransactionCreated,
   HasToPayFee,
   Dispute,
@@ -183,6 +184,12 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
 export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.escrowFee = event.params._protocolFee
+  protocol.save()
+}
+
+export function handleOriginPlatformFeeUpdated(event: OriginPlatformFeeUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.originPlatformFee = event.params._originPlatformFee
   protocol.save()
 }
 
