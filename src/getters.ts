@@ -29,8 +29,8 @@ export function getOrCreateService(id: BigInt): Service {
   if (!service) {
     service = new Service(id.toString())
     service.status = 'Filled'
-    service.created = ZERO
-    service.updated = ZERO
+    service.createdAt = ZERO
+    service.updatedAt = ZERO
     service.save()
   }
   return service
@@ -41,8 +41,8 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   if (!proposal) {
     proposal = new Proposal(id)
     proposal.status = 'Pending'
-    proposal.created = ZERO
-    proposal.updated = ZERO
+    proposal.createdAt = ZERO
+    proposal.updatedAt = ZERO
     proposal.service = getOrCreateService(serviceId).id
     proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
     proposal.save()
@@ -56,6 +56,7 @@ export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): 
     review = new Review(id.toString())
     review.to = getOrCreateUser(toId).id
     review.service = getOrCreateService(serviceId).id
+    review.createdAt = ZERO
     review.save()
   }
   return review
@@ -70,8 +71,8 @@ export function getOrCreateUser(id: BigInt): User {
     user.withPoh = false
     user.numReviews = ZERO
     user.rating = ZERO_BIGDEC
-    user.created = ZERO
-    user.updated = ZERO
+    user.createdAt = ZERO
+    user.updatedAt = ZERO
     user.save()
   }
   return user
@@ -115,8 +116,8 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
   if (!platform) {
     platform = new Platform(platformId.toString())
     platform.address = ZERO_ADDRESS
-    platform.created = ZERO
-    platform.updated = ZERO
+    platform.createdAt = ZERO
+    platform.updatedAt = ZERO
     platform.name = ''
     platform.fee = 0
     platform.arbitrator = ZERO_ADDRESS

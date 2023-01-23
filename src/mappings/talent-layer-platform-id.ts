@@ -25,9 +25,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   const oldCid = platform.cid
   const newCid = event.params._newCid
 
-  platform.updated = event.block.timestamp
+  platform.updatedAt = event.block.timestamp
   if(!oldCid){
-    platform.created = event.block.timestamp
+    platform.createdAt = event.block.timestamp
   }
 
   //Notice: Storing cid required to remove on platformDetailUpdated
@@ -60,8 +60,8 @@ export function handleMint(event: Mint): void {
   platform.address = event.params._platformOwnerAddress
   platform.name = event.params._platformName
 
-  platform.created = event.block.timestamp
-  platform.updated = event.block.timestamp
+  platform.createdAt = event.block.timestamp
+  platform.updatedAt = event.block.timestamp
   
   platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
 

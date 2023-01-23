@@ -13,8 +13,8 @@ enum PaymentType {
 
 type Service @entity {
   id: ID! # service id
-  created: BigInt! # timestamp of block creation
-  updated: BigInt! # timestamp of the last change
+  createdAt: BigInt! # timestamp of block creation
+  updatedAt: BigInt! # timestamp of the last change
   status: ServiceStatus! # service status
   buyer: User # service buyer
   seller: User # service seller
@@ -51,6 +51,7 @@ type Keyword @entity {
 type Review @entity {
   id: ID! # review nft id
   service: Service! # service this review is for
+  createdAt: BigInt!
   to: User! # reviewed user
   platform: Platform # Platform on which review nft was minted
   rating: BigInt
@@ -74,8 +75,8 @@ type Token @entity {
 type User @entity {
   id: ID! # user nft id
   handle: String! # handle of user
-  created: BigInt!
-  updated: BigInt!
+  createdAt: BigInt!
+  updatedAt: BigInt!
   platform: Platform # Platform on which user nft was minted
   withPoh: Boolean! # whether user has proof of identity
   numReviews: BigInt! # number of reviews user has received
@@ -111,8 +112,8 @@ enum ProposalStatus {
 type Proposal @entity {
   id: ID! # concatenation of serviceId + seller TalentLayerId
   service: Service! # service entity
-  created: BigInt! # timestamp of block creation
-  updated: BigInt! # timestamp of the last change
+  createdAt: BigInt! # timestamp of block creation
+  updatedAt: BigInt! # timestamp of the last change
   status: ProposalStatus! # Proposal status
   seller: User # Proposal seller
   rateToken: Token! # Rate token entity
@@ -186,8 +187,8 @@ type Platform @entity {
   id: ID! # platform id
   address: Bytes! # wallet address of platform owner
   name: String! # name of the platform
-  created: BigInt!
-  updated: BigInt!
+  createdAt: BigInt!
+  updatedAt: BigInt!
   feePayments: [FeePayment!] @derivedFrom(field: "platform") # Platform-related fee payments
   totalPlatformGains: [PlatformGain!] @derivedFrom(field: "platform") # Platform-related total gains per token
   feeClaims: [FeeClaim!] @derivedFrom(field: "platform") # Platform-related fee claims
