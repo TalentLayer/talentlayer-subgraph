@@ -17,7 +17,3 @@ deploy-goerli:
 	graph codegen
 	graph build --network goerli
 	graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol
-deploy-goerli-test:
-	graph codegen
-	graph build --network goerli
-	graph deploy --product hosted-service empaemanuel/talentlayer-goereli
