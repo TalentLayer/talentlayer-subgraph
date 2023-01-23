@@ -21,8 +21,8 @@ import { generateIdFromTwoElements } from './utils'
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
 
-  service.created = event.block.timestamp
-  service.updated = event.block.timestamp
+  service.createdAt = event.block.timestamp
+  service.updatedAt = event.block.timestamp
 
   service.buyer = getOrCreateUser(event.params.buyerId).id
 
@@ -56,8 +56,8 @@ export function handleServiceDataCreated(event: ServiceDataCreated): void {
   
   //These are set in handleServiceCreated as well.
   //Could possibly be considered redundant to set here.
-  service.created = event.block.timestamp
-  service.updated = event.block.timestamp
+  service.createdAt = event.block.timestamp
+  service.updatedAt = event.block.timestamp
   
   //Notice: Storing cid required to remove on serviceDetailUpdated
   //Reason: Datastore can not get created entities.
@@ -79,7 +79,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   const newCid = event.params.newServiceDataUri  
 
   //service.created set in handleServiceCreated.
-  service.updated = event.block.timestamp
+  service.updatedAt = event.block.timestamp
   
   //Notice: Storing cid required to remove on serviceDetailUpdated
   //Reason: Datastore can not get created entities.
@@ -122,8 +122,8 @@ export function handleProposalCreated(event: ProposalCreated): void {
   // we get the token contract to fill the entity
   let token = getOrCreateToken(tokenAddress)
   
-  proposal.created = event.block.timestamp
-  proposal.updated = event.block.timestamp
+  proposal.createdAt = event.block.timestamp
+  proposal.updatedAt = event.block.timestamp
   
   const cid = event.params.proposalDataUri
 
@@ -145,7 +145,7 @@ export function handleProposalRejected(event: ProposalRejected): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Rejected'
-  proposal.updated = event.block.timestamp
+  proposal.updatedAt = event.block.timestamp
   proposal.save()
 }
 
@@ -160,7 +160,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   proposal.rateAmount = event.params.rateAmount
   
   //proposal.created set in handleProposalCreated.
-  proposal.updated = event.block.timestamp
+  proposal.updatedAt = event.block.timestamp
   
   //Notice: Storing cid required to remove on proposalUpdated
   //Reason: Datastore can not get created entities.

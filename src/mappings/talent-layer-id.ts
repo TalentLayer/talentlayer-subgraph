@@ -30,9 +30,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   const newCid = event.params._newCid
   const oldCid = user.cid
   
-  user.updated = event.block.timestamp
+  user.updatedAt = event.block.timestamp
   if(!oldCid){
-    user.created = event.block.timestamp
+    user.createdAt = event.block.timestamp
   }
 
   //Notice: Storing cid required to remove on userDetailUpdated
