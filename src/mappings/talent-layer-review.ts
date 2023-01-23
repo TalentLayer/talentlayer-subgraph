@@ -11,12 +11,10 @@ export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleMint(event: Mint): void {
   const review = getOrCreateReview(event.params._tokenId, event.params._serviceId, event.params._toId)
-  review.uri = event.params._reviewUri
   const platform = getOrCreatePlatform(event.params._platformId)
   review.platform = platform.id
-  review.createdAt = event.block.timestamp
-  review.save()
-
+  review.rating = event.params._rating
+  
   let user = User.load(event.params._toId.toString())
   if (!user) return
   const rating = user.rating
@@ -26,11 +24,14 @@ export function handleMint(event: Mint): void {
   user.rating = rating
   user.numReviews = user.numReviews.plus(ONE)
   user.save()
-
-  const context = new DataSourceContext();
-  context.setString('id', review.id)
-  context.setBigInt('timestamp', review.createdAt!)
-  ReviewData.createWithContext(review.uri, context)
+  
+  review.save()
+  
+  const cid = event.params._reviewUri
+  const context = new DataSourceContext()
+  context.setString('reviewId', review.id)
+  
+  ReviewData.createWithContext(cid, context)
 }
 
 export function handleTransfer(event: Transfer): void {}

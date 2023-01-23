@@ -82,6 +82,7 @@ dataSources:
       entities:
         - Service
         - Proposal
+        - ServiceDescription
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
@@ -204,6 +205,8 @@ templates:
       handler: handleServiceData
       entities:
         - ServiceDescription
+        - Service
+        - Keyword
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
@@ -243,6 +246,7 @@ templates:
       handler: handleUserData
       entities:
         - UserDescription
+        - Keyword
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
