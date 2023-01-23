@@ -62,7 +62,7 @@ type User @entity {
 type ExternalIds @entity {
   id: ID!
   user: User! # user entity
-  lensId: Bytes
+  lensId: String
   pohId: String
 }
 

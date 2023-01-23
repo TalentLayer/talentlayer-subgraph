@@ -1,4 +1,4 @@
-import { BigInt, BigDecimal, Bytes, log } from '@graphprotocol/graph-ts'
+import { BigInt, Address, Bytes, log } from '@graphprotocol/graph-ts'
 import {
   AccountRecovered,
   Approval,
@@ -47,13 +47,19 @@ export function handleMint(event: Mint): void {
   protocol.save()
 }
 
+enum ThirdPartiesStrategiesID {
+  POH = 0,
+  LENS = 1,
+}
+
 export function handleThirdPartyLinked(event: ThirdPartyLinked): void {
   const externalId = getOrCreateExternalId(event.params._tokenId)
 
-  if (event.params._thirdPartiesStrategiesID.toString() == '0') {
-    externalId.pohId = event.params.thirdPartyId.toHexString()
-  } else if (event.params._thirdPartiesStrategiesID.toString() == '1') {
-    externalId.lensId = event.params.thirdPartyId
+  if (event.params._thirdPartiesStrategiesID.toString() == ThirdPartiesStrategiesID.POH.toString()) {
+    externalId.pohId = Address.fromBytes(event.params.thirdPartyId).toHexString()
+  } else if (event.params._thirdPartiesStrategiesID.toString() == ThirdPartiesStrategiesID.LENS.toString()) {
+    // convert byte into bigInt
+    externalId.lensId = event.params.thirdPartyId.toString()
   }
   externalId.save()
 }

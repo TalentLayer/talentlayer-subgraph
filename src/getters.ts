@@ -84,7 +84,7 @@ export function getOrCreateExternalId(id: BigInt): ExternalIds {
   if (!externalId) {
     externalId = new ExternalIds(id.toString())
     externalId.user = getOrCreateUser(id).id
-    externalId.lensId = ZERO_ADDRESS
+    externalId.lensId = ZERO_STRING_ADDRESS
     externalId.pohId = ZERO_STRING_ADDRESS
     externalId.save()
   }
