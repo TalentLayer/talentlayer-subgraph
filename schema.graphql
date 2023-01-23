@@ -143,10 +143,10 @@ type Payment @entity {
 }
 
 enum TransactionStatus {
-  NoDispute,
-  WaitingSender,
-  WaitingReceiver,
-  DisputeCreated,
+  NoDispute
+  WaitingSender
+  WaitingReceiver
+  DisputeCreated
   Resolved
 }
 
@@ -251,7 +251,11 @@ type Protocol @entity {
   userMintFee: BigInt! # protocol fee for minting a TL id
   platformMintFee: BigInt! # protocol fee for minting a platform id
   escrowFee: Int! # protocol fee for each escrow transaction (percentage, per 10,000)
+  originPlatformFee: Int! # protocol fee of the origin platform (percentage, per 10,000)
   totalMintFees: BigInt! # total mint fees collected
+  minArbitrationFeeTimeout: BigInt! # minimum timeout to pay the arbitration fee
+}
+
 }
 
 type _Schema_ @fulltext (
