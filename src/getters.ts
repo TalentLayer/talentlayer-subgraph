@@ -236,6 +236,7 @@ export function getOrCreateProtocol(): Protocol {
     protocol.userMintFee = ZERO
     protocol.platformMintFee = ZERO
     protocol.escrowFee = 0
+    protocol.originPlatformFee = 0
     protocol.totalMintFees = ZERO
   }
   return protocol

@@ -8,6 +8,7 @@ import {
   ArbitratorUpdated,
   CidUpdated,
   ConsecutiveTransfer,
+  MinArbitrationFeeTimeoutUpdated,
   Mint,
   PlatformFeeUpdated,
   Transfer,
@@ -61,6 +62,8 @@ export function handleMint(event: Mint): void {
 
   platform.createdAt = event.block.timestamp
   platform.updatedAt = event.block.timestamp
+  
+  platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
 
   platform.save()
 
@@ -95,4 +98,10 @@ export function handleArbitrationFeeTimeoutUpdated(event: ArbitrationFeeTimeoutU
   const platform = getOrCreatePlatform(event.params._platformId)
   platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
   platform.save()
+}
+
+export function handleMinArbitrationFeeTimeoutUpdated(event: MinArbitrationFeeTimeoutUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.minArbitrationFeeTimeout = event.params._minArbitrationFeeTimeout
+  protocol.save()
 }
