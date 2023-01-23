@@ -14,6 +14,7 @@ export function handleMint(event: Mint): void {
   const platform = getOrCreatePlatform(event.params._platformId)
   review.platform = platform.id
   review.rating = event.params._rating
+  review.createdAt = event.block.timestamp
   
   let user = User.load(event.params._toId.toString())
   if (!user) return
