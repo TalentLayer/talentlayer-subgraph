@@ -1,4 +1,4 @@
-import { BigInt, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
+import { BigInt, Bytes, Address, log } from '@graphprotocol/graph-ts'
 import {
   User,
   Review,
@@ -14,6 +14,12 @@ import {
   Protocol,
   Transaction,
   Evidence,
+  ServiceDescription,
+  ReviewDescription,
+  ProposalDescription,
+  UserDescription,
+  PlatformDescription,
+  Keyword
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -23,7 +29,8 @@ export function getOrCreateService(id: BigInt): Service {
   if (!service) {
     service = new Service(id.toString())
     service.status = 'Filled'
-    service.uri = ''
+    service.createdAt = ZERO
+    service.updatedAt = ZERO
     service.save()
   }
   return service
@@ -34,7 +41,8 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   if (!proposal) {
     proposal = new Proposal(id)
     proposal.status = 'Pending'
-    proposal.uri = ''
+    proposal.createdAt = ZERO
+    proposal.updatedAt = ZERO
     proposal.service = getOrCreateService(serviceId).id
     proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
     proposal.save()
@@ -48,7 +56,7 @@ export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): 
     review = new Review(id.toString())
     review.to = getOrCreateUser(toId).id
     review.service = getOrCreateService(serviceId).id
-    review.uri = ''
+    review.createdAt = ZERO
     review.save()
   }
   return review
@@ -60,10 +68,11 @@ export function getOrCreateUser(id: BigInt): User {
     user = new User(id.toString())
     user.address = ZERO_ADDRESS.toHex()
     user.handle = ''
-    user.uri = ''
     user.withPoh = false
     user.numReviews = ZERO
     user.rating = ZERO_BIGDEC
+    user.createdAt = ZERO
+    user.updatedAt = ZERO
     user.save()
   }
   return user
@@ -107,8 +116,9 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
   if (!platform) {
     platform = new Platform(platformId.toString())
     platform.address = ZERO_ADDRESS
+    platform.createdAt = ZERO
+    platform.updatedAt = ZERO
     platform.name = ''
-    platform.uri = ''
     platform.fee = 0
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
@@ -242,3 +252,59 @@ export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): 
   }
   return evidence
 }
+
+export function getOrCreateKeyword(id: string): Keyword {
+  let keyword = Keyword.load(id)
+  if(!keyword) {
+    keyword = new Keyword(id)
+    keyword.save()
+  }
+  return keyword
+}
+
+// The following getters are currently not in use
+// export function getOrCreateServiceDescription(cid: string, serviceId: BigInt) : ServiceDescription {
+//   let serviceDescription = ServiceDescription.load(cid)
+//   if(!serviceDescription) {
+//     serviceDescription = new ServiceDescription(cid)
+//     serviceDescription.service = serviceId.toString()
+//     serviceDescription.save()
+//   }
+//   return serviceDescription
+// }
+
+// export function getOrCreateReviewDescription(cid: string) : ReviewDescription {
+//   let reviewDescription = ReviewDescription.load(cid)
+//   if(!reviewDescription) {
+//     reviewDescription = new ReviewDescription(cid)
+//     reviewDescription.save()
+//   }
+//   return reviewDescription
+// }
+
+// export function getOrCreateUserDescription(cid: string) : UserDescription {
+//   let userDescription = UserDescription.load(cid)
+//   if(!userDescription) {
+//     userDescription = new UserDescription(cid)
+//     userDescription.save()
+//   }
+//   return userDescription
+// }
+
+// export function getOrCreateProposalDescription(cid: string) : ProposalDescription {
+//   let proposalDescription = ProposalDescription.load(cid)
+//   if(!proposalDescription) {
+//     proposalDescription = new ProposalDescription(cid)
+//     proposalDescription.save()
+//   }
+//   return proposalDescription
+// }
+
+// export function getOrCreatePlatformDescription(cid: string) : PlatformDescription {
+//   let platformDescription = PlatformDescription.load(cid)
+//   if(!platformDescription) {
+//     platformDescription = new PlatformDescription(cid)
+//     platformDescription.save()
+//   }
+//   return platformDescription
+// }
