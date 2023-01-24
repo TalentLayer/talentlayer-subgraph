@@ -1,14 +1,16 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
+features:
+  - fullTextSearch
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: mumbai
+    network: goerli
     source:
       abi: TalentLayerID
-      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
-      startBlock: 31027571
+      address: "0x11119eD887aeC1302e2cAF49942F891667A31BBc"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -41,11 +43,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: mumbai
+    network: goerli
     source:
       abi: TalentLayerReview
-      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
-      startBlock: 31027571
+      address: "0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -68,11 +70,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: ServiceRegistry
-    network: mumbai
+    network: goerli
     source:
       abi: ServiceRegistry
-      address: "0x28409B9A38BF5B0897c08C5812Bd91D9313743AB"
-      startBlock: 31027571
+      address: "0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -80,6 +82,7 @@ dataSources:
       entities:
         - Service
         - Proposal
+        - ServiceDescription
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
@@ -103,11 +106,11 @@ dataSources:
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: mumbai
+    network: goerli
     source:
       abi: TalentLayerEscrow
-      address: "0x8564BD74CFdcE620F6C89C6d5326614B24CDcbae"
-      startBlock: 31027571
+      startBlock: 8182160
+      address: "0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -157,11 +160,11 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: mumbai
+    network: goerli
     source:
       abi: TalentLayerPlatformID
-      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
-      startBlock: 31027571
+      address: "0x08FB56537F118Cf35C4d3eB280444737f6D1bE46"
+      startBlock: 8182160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -196,3 +199,72 @@ dataSources:
         - event: MinArbitrationFeeTimeoutUpdated(uint256)
           handler: handleMinArbitrationFeeTimeoutUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
+templates:
+  - name: ServiceData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleServiceData
+      entities:
+        - ServiceDescription
+        - Service
+        - Keyword
+      abis:
+        - name: ServiceRegistry
+          file: ./abis/ServiceRegistry.json
+    network: goerli
+  - name: ProposalData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleProposalData
+      entities:
+        - ProposalDescription
+      abis:
+        - name: ServiceRegistry
+          file: ./abis/ServiceRegistry.json
+    network: goerli
+  - name: ReviewData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleReviewData
+      entities:
+        - ReviewDescription
+      abis:
+        - name: TalentLayerReview
+          file: ./abis/TalentLayerReview.json
+    network: goerli
+  - name: UserData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleUserData
+      entities:
+        - UserDescription
+        - Keyword
+      abis:
+        - name: TalentLayerID
+          file: ./abis/TalentLayerID.json
+    network: goerli
+  - name: PlatformData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handlePlatformData
+      entities:
+        - PlatformDescription
+      abis:
+        - name: TalentLayerID
+          file: ./abis/TalentLayerID.json
+    network: goerli

@@ -1,4 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext, store } from '@graphprotocol/graph-ts'
+import { PlatformData } from '../../generated/templates'
 import { MintFeeUpdated } from '../../generated/TalentLayerID/TalentLayerID'
 import {
   Approval,
@@ -19,18 +20,49 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleCidUpdated(event: CidUpdated): void {
-  const platform = getOrCreatePlatform(event.params._tokenId)
-  platform.uri = event.params._newCid
-  platform.save()
-}
+  const platformId = event.params._tokenId
+  const platform = getOrCreatePlatform(platformId)
+  const oldCid = platform.cid
+  const newCid = event.params._newCid
 
-export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}
+  platform.updatedAt = event.block.timestamp
+  if(!oldCid){
+    platform.createdAt = event.block.timestamp
+  }
+
+  //Notice: Storing cid required to remove on platformDetailUpdated
+  //Reason: Datastore can not get created entities.
+  //When the issue is solved it may be possible to swap cid with platformId
+  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
+  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+  platform.cid = newCid
+
+  platform.save()
+
+  const context = new DataSourceContext()
+  context.setBigInt('platformId', platformId)
+
+  // Removes platform description from store to save space.
+  // Problem: unsuccessful ipfs fetch sets platformDescription.platform to null.
+  // Reason: store.remove can not be called from within file datastore (ipfs-data).
+  // Solution: do not use store.remove when the following issue has been solved:
+  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+  // When the issue is solved, change platformDescription.id from cid to platformId.
+  if(oldCid){
+    store.remove('PlatformDescription', oldCid)
+  }
+
+  PlatformData.createWithContext(newCid, context)
+}
 
 export function handleMint(event: Mint): void {
   const platform = getOrCreatePlatform(event.params._tokenId)
   platform.address = event.params._platformOwnerAddress
   platform.name = event.params._platformName
+
   platform.createdAt = event.block.timestamp
+  platform.updatedAt = event.block.timestamp
+  
   platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
 
   platform.save()
