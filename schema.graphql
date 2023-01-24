@@ -257,13 +257,13 @@ type Protocol @entity {
   minArbitrationFeeTimeout: BigInt! # minimum timeout to pay the arbitration fee
 }
 
-type _Schema_ @fulltext (
-  name: "serviceDescriptionSearchRank"
-  language: en
-  algorithm: proximityRank
-  include: [
-    { entity: "ServiceDescription", fields: [
-      { name: "title" }, 
-      { name: "keywords_raw" }
-    ]}]
-)
+# type _Schema_ @fulltext (
+#   name: "serviceDescriptionSearchRank"
+#   language: en
+#   algorithm: proximityRank
+#   include: [
+#     { entity: "ServiceDescription", fields: [
+#       { name: "title" }, 
+#       { name: "keywords_raw" }
+#     ]}]
+# )
