@@ -9,7 +9,7 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerID
-      address: "0x11119eD887aeC1302e2cAF49942F891667A31BBc"
+      address: '0x11119eD887aeC1302e2cAF49942F891667A31BBc'
       startBlock: 8182160
     mapping:
       kind: ethereum/events
@@ -46,7 +46,7 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerReview
-      address: "0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f"
+      address: '0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f'
       startBlock: 8182160
     mapping:
       kind: ethereum/events
@@ -73,7 +73,7 @@ dataSources:
     network: goerli
     source:
       abi: ServiceRegistry
-      address: "0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd"
+      address: '0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd'
       startBlock: 8182160
     mapping:
       kind: ethereum/events
@@ -110,7 +110,7 @@ dataSources:
     source:
       abi: TalentLayerEscrow
       startBlock: 8182160
-      address: "0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667"
+      address: '0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667'
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -135,14 +135,14 @@ dataSources:
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
-        - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
-          handler: handleOriginPlatformFeeReleased
-        - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
-          handler: handlePlatformFeeReleased
-        - event: ProtocolFeeUpdated(uint16)
-          handler: handleProtocolFeeUpdated
-        - event: OriginPlatformFeeUpdated(uint16)
-          handler: handleOriginPlatformFeeUpdated
+        - event: OriginPlatformEscrowFeeRateReleased(uint256,uint256,indexed address,uint256)
+          handler: handleOriginPlatformEscrowFeeRateReleased
+        - event: PlatformEscrowFeeRateReleased(uint256,uint256,indexed address,uint256)
+          handler: handlePlatformEscrowFeeRateReleased
+        - event: ProtocolEscrowFeeRateUpdated(uint16)
+          handler: handleProtocolEscrowFeeRateUpdated
+        - event: OriginPlatformEscrowFeeRateUpdated(uint16)
+          handler: handleOriginPlatformEscrowFeeRateUpdated
         - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
           handler: handleTransactionCreated
         - event: ArbitrationFeePayment(indexed uint256,uint8,uint8,uint256)
@@ -163,7 +163,7 @@ dataSources:
     network: goerli
     source:
       abi: TalentLayerPlatformID
-      address: "0x08FB56537F118Cf35C4d3eB280444737f6D1bE46"
+      address: '0x08FB56537F118Cf35C4d3eB280444737f6D1bE46'
       startBlock: 8182160
     mapping:
       kind: ethereum/events
@@ -190,8 +190,8 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
-        - event: PlatformFeeUpdated(uint256,uint16)
-          handler: handlePlatformFeeUpdated
+        - event: PlatformEscrowFeeRateUpdated(uint256,uint16)
+          handler: handlePlatformEscrowFeeRateUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
