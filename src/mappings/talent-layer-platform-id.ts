@@ -9,7 +9,7 @@ import {
   ConsecutiveTransfer,
   MinArbitrationFeeTimeoutUpdated,
   Mint,
-  PlatformFeeUpdated,
+  PlatformEscrowFeeRateUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
@@ -49,9 +49,9 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   protocol.save()
 }
 
-export function handlePlatformFeeUpdated(event: PlatformFeeUpdated): void {
+export function handlePlatformEscrowFeeRateUpdated(event: PlatformEscrowFeeRateUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
-  platform.fee = event.params._platformFee
+  platform.fee = event.params._platformEscrowFeeRate
   platform.save()
 }
 

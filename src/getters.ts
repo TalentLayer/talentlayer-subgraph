@@ -75,9 +75,9 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction = new Transaction(id.toString())
     transaction.token = ''
     transaction.amount = ZERO
-    transaction.protocolFee = 0
-    transaction.originPlatformFee = 0
-    transaction.platformFee = 0
+    transaction.protocolEscrowFeeRate = 0
+    transaction.originPlatformEscrowFeeRate = 0
+    transaction.platformEscrowFeeRate = 0
     transaction.senderFee = ZERO
     transaction.receiverFee = ZERO
     transaction.lastInteraction = blockTimestamp
@@ -165,26 +165,26 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
   return token
 }
 
-export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
-  let originPlatformFeePayment = FeePayment.load(paymentId)
-  if (!originPlatformFeePayment) {
-    originPlatformFeePayment = new FeePayment(paymentId)
-    originPlatformFeePayment.type = 'OriginPlatform'
-    originPlatformFeePayment.amount = ZERO
-    originPlatformFeePayment.save()
+export function getOrCreateOriginPlatformEscrowFeeRate(paymentId: string): FeePayment {
+  let originPlatformEscrowFeeRatePayment = FeePayment.load(paymentId)
+  if (!originPlatformEscrowFeeRatePayment) {
+    originPlatformEscrowFeeRatePayment = new FeePayment(paymentId)
+    originPlatformEscrowFeeRatePayment.type = 'OriginPlatform'
+    originPlatformEscrowFeeRatePayment.amount = ZERO
+    originPlatformEscrowFeeRatePayment.save()
   }
-  return originPlatformFeePayment
+  return originPlatformEscrowFeeRatePayment
 }
 
-export function getOrCreatePlatformFee(paymentId: string): FeePayment {
-  let platformFeePayment = FeePayment.load(paymentId)
-  if (!platformFeePayment) {
-    platformFeePayment = new FeePayment(paymentId)
-    platformFeePayment.type = 'Platform'
-    platformFeePayment.amount = ZERO
-    platformFeePayment.save()
+export function getOrCreatePlatformEscrowFeeRate(paymentId: string): FeePayment {
+  let platformEscrowFeeRatePayment = FeePayment.load(paymentId)
+  if (!platformEscrowFeeRatePayment) {
+    platformEscrowFeeRatePayment = new FeePayment(paymentId)
+    platformEscrowFeeRatePayment.type = 'Platform'
+    platformEscrowFeeRatePayment.amount = ZERO
+    platformEscrowFeeRatePayment.save()
   }
-  return platformFeePayment
+  return platformEscrowFeeRatePayment
 }
 
 export function getOrCreateClaim(claimId: string): FeeClaim {
@@ -201,8 +201,8 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
   let platformGain = PlatformGain.load(gainId)
   if (!platformGain) {
     platformGain = new PlatformGain(gainId)
-    platformGain.totalOriginPlatformFeeGain = ZERO
-    platformGain.totalPlatformFeeGain = ZERO
+    platformGain.totalOriginPlatformEscrowFeeRateGain = ZERO
+    platformGain.totalPlatformEscrowFeeRateGain = ZERO
     platformGain.save()
   }
   return platformGain
@@ -225,8 +225,8 @@ export function getOrCreateProtocol(): Protocol {
     protocol = new Protocol(PROTOCOL_ID)
     protocol.userMintFee = ZERO
     protocol.platformMintFee = ZERO
-    protocol.escrowFee = 0
-    protocol.originPlatformFee = 0
+    protocol.protocolEscrowFeeRate = 0
+    protocol.originPlatformEscrowFeeRate = 0
     protocol.totalMintFees = ZERO
   }
   return protocol
