@@ -13,26 +13,55 @@ enum PaymentType {
 
 type Service @entity {
   id: ID! # service id
-  createdAt: BigInt # timestamp of block creation
-  updatedAt: BigInt # timestamp of the last change
+  createdAt: BigInt! # timestamp of block creation
+  updatedAt: BigInt! # timestamp of the last change
   status: ServiceStatus! # service status
   buyer: User # service buyer
   seller: User # service seller
   sender: User # user that created the service (buyer or seller)
   recipient: User # other participating user (seller or buyer)
-  uri: String # metadata URI of service
   transaction: Transaction @derivedFrom(field: "service") # transaction associated with this service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
+  cid: String
+  description: ServiceDescription @derivedFrom(field: "service")
+}
+
+type ServiceDescription @entity {
+  id: ID! #cid
+  service: Service!
+  title: String
+  about: String
+  startDate: BigInt
+  expectedEndDate: BigInt
+  keywords: [Keyword!] #keywords
+  keywords_raw: String #lowercase keywords in raw format
+  rateToken: String
+  rateAmount: BigInt
+}
+
+type Keyword @entity {
+  id: ID! #Keyword
+  # Derived from does not currently work because of open issue with duplicated entities.
+  # Reason: createOrGetKeyword creates duplicated keywords from file data source (ipfs-data.ts)
+  # https://github.com/graphprotocol/graph-node/issues/4087
+  # serviceDescription: ServiceDescription @derivedFrom(field: "keywords")
 }
 
 type Review @entity {
   id: ID! # review nft id
-  createdAt: BigInt # timestamp of block creation
   service: Service! # service this review is for
+  createdAt: BigInt!
   to: User! # reviewed user
-  uri: String! # metadata URI of review
   platform: Platform # Platform on which review nft was minted
+  rating: BigInt
+  description: ReviewDescription  @derivedFrom(field: "review")
+}
+
+type ReviewDescription @entity {
+  id: ID!
+  content: String
+  review: Review
 }
 
 type Token @entity {
@@ -45,17 +74,33 @@ type Token @entity {
 
 type User @entity {
   id: ID! # user nft id
-  platform: Platform # Platform on which user nft was minted
-  address: String! # wallet address of user
-  uri: String! # metadata URI of profile
   handle: String! # handle of user
+  createdAt: BigInt!
+  updatedAt: BigInt!
+  platform: Platform # Platform on which user nft was minted
   withPoh: Boolean! # whether user has proof of identity
   numReviews: BigInt! # number of reviews user has received
+  address: String! # wallet address of user
   rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
+  cid: String #cid of the description
+  description: UserDescription @derivedFrom(field: "user")
+}
+
+type UserDescription @entity {
+  id: ID! #cid
+  title: String
+  about: String
+  skills_raw: String
+  skills: [Keyword!]
+  timezone: BigInt
+  headline: String
+  country: String
+  picture: String #url
+  user: User!
 }
 
 enum ProposalStatus {
@@ -67,13 +112,23 @@ enum ProposalStatus {
 type Proposal @entity {
   id: ID! # concatenation of serviceId + seller TalentLayerId
   service: Service! # service entity
-  createdAt: BigInt # timestamp of block creation
-  updatedAt: BigInt # timestamp of the last change
+  createdAt: BigInt! # timestamp of block creation
+  updatedAt: BigInt! # timestamp of the last change
   status: ProposalStatus! # Proposal status
   seller: User # Proposal seller
   rateToken: Token! # Rate token entity
   rateAmount: BigInt # Rate amount
-  uri: String! # metadata URI of service
+  cid: String # cid of the description
+  description: ProposalDescription @derivedFrom(field: "proposal") #Proposals that the description describes.
+}
+
+type ProposalDescription @entity {
+  id: ID! #Cid
+  proposal: Proposal!
+  startDate: BigInt
+  title: String
+  about: String
+  expectedHours: BigInt
 }
 
 #NB: Payment sender will always be the Escrow Contract
@@ -130,10 +185,10 @@ type Evidence @entity {
 
 type Platform @entity {
   id: ID! # platform id
-  createdAt: BigInt # timestamp of block creation
   address: Bytes! # wallet address of platform owner
   name: String! # name of the platform
-  uri: String # metadata URI of platform
+  createdAt: BigInt!
+  updatedAt: BigInt!
   feePayments: [FeePayment!] @derivedFrom(field: "platform") # Platform-related fee payments
   totalPlatformGains: [PlatformGain!] @derivedFrom(field: "platform") # Platform-related total gains per token
   feeClaims: [FeeClaim!] @derivedFrom(field: "platform") # Platform-related fee claims
@@ -141,6 +196,16 @@ type Platform @entity {
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
+  cid: String #cid of description
+  description: PlatformDescription @derivedFrom(field: "platform")
+}
+
+type PlatformDescription @entity {
+  id: ID! #cid
+  about: String #text
+  website: String #url
+  logo: String #url
+  platform: Platform!
 }
 
 enum FeeType {
@@ -191,3 +256,14 @@ type Protocol @entity {
   totalMintFees: BigInt! # total mint fees collected
   minArbitrationFeeTimeout: BigInt! # minimum timeout to pay the arbitration fee
 }
+
+# type _Schema_ @fulltext (
+#   name: "serviceDescriptionSearchRank"
+#   language: en
+#   algorithm: proximityRank
+#   include: [
+#     { entity: "ServiceDescription", fields: [
+#       { name: "title" }, 
+#       { name: "keywords_raw" }
+#     ]}]
+# )
