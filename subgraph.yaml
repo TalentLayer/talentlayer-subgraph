@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerID
-      address: "0xcfF1C0A9A78512Fb3757fF61fC794d8F77Ee535f"
-      startBlock: 31027571
+      address: "0x2475F87a2A73548b2E49351018E7f6a53D3d35A4"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -41,11 +41,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerReview
-      address: "0xe33725A94e24A6808AA6351551ee96c80736e8Dc"
-      startBlock: 31027571
+      address: "0xa3A183D6f70217362050040Ef365923a0c1989e8"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -68,11 +68,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: ServiceRegistry
-    network: mumbai
+    network: localhost
     source:
       abi: ServiceRegistry
-      address: "0x28409B9A38BF5B0897c08C5812Bd91D9313743AB"
-      startBlock: 31027571
+      address: "0x3dE39C61d4281716c458ffdb3150aa9aF4fb752a"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -103,11 +103,11 @@ dataSources:
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerEscrow
-      address: "0x8564BD74CFdcE620F6C89C6d5326614B24CDcbae"
-      startBlock: 31027571
+      address: "0x91327C01CB952a95addDa72FcA59E4151fE42Cb3"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -132,14 +132,15 @@ dataSources:
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
-        - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
-          handler: handleOriginPlatformFeeReleased
-        - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
-          handler: handlePlatformFeeReleased
-        - event: ProtocolFeeUpdated(uint16)
-          handler: handleProtocolFeeUpdated
-        - event: OriginPlatformFeeUpdated(uint16)
-          handler: handleOriginPlatformFeeUpdated
+        - event: OriginPlatformEscrowFeeRateReleased(uint256,uint256,indexed
+            address,uint256)
+          handler: handleOriginPlatformEscrowFeeRateReleased
+        - event: PlatformEscrowFeeRateReleased(uint256,uint256,indexed address,uint256)
+          handler: handlePlatformEscrowFeeRateReleased
+        - event: ProtocolEscrowFeeRateUpdated(uint16)
+          handler: handleProtocolEscrowFeeRateUpdated
+        - event: OriginPlatformEscrowFeeRateUpdated(uint16)
+          handler: handleOriginPlatformEscrowFeeRateUpdated
         - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
           handler: handleTransactionCreated
         - event: ArbitrationFeePayment(indexed uint256,uint8,uint8,uint256)
@@ -157,11 +158,11 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerPlatformID
-      address: "0x2deB8a32638c99310AD84E3b335e07737F8a61aE"
-      startBlock: 31027571
+      address: "0xF39e4249b6dCcca8Ec7455E524C9685d1332fCD1"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -187,8 +188,8 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
-        - event: PlatformFeeUpdated(uint256,uint16)
-          handler: handlePlatformFeeUpdated
+        - event: PlatformEscrowFeeRateUpdated(uint256,uint16)
+          handler: handlePlatformEscrowFeeRateUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
