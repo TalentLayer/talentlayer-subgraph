@@ -5,8 +5,8 @@ import {
   getOrCreatePayment,
   getOrCreateProposal,
   getOrCreateToken,
-  getOrCreateOriginPlatformEscrowFeeRate,
-  getOrCreatePlatformEscrowFeeRate,
+  getOrCreateOriginPlatformFee,
+  getOrCreatePlatformFee,
   getOrCreateClaim,
   getOrCreatePlatformGain,
   getOrCreateUserGain,
@@ -141,44 +141,42 @@ export function handleFeesClaimed(event: FeesClaimed): void {
 
 export function handleOriginPlatformEscrowFeeRateReleased(event: OriginPlatformEscrowFeeRateReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const originPlatformEscrowFeeRatePayment = getOrCreateOriginPlatformEscrowFeeRate(paymentId)
+  const originPlatformFeePayment = getOrCreateOriginPlatformFee(paymentId)
   const token = event.params._token
-  originPlatformEscrowFeeRatePayment.amount = event.params._amount
-  originPlatformEscrowFeeRatePayment.platform = event.params._platformId.toString()
-  originPlatformEscrowFeeRatePayment.service = event.params._serviceId.toString()
-  originPlatformEscrowFeeRatePayment.token = getOrCreateToken(token).id
+  originPlatformFeePayment.amount = event.params._amount
+  originPlatformFeePayment.platform = event.params._platformId.toString()
+  originPlatformFeePayment.service = event.params._serviceId.toString()
+  originPlatformFeePayment.token = getOrCreateToken(token).id
 
-  originPlatformEscrowFeeRatePayment.createdAt = event.block.timestamp
-  originPlatformEscrowFeeRatePayment.save()
+  originPlatformFeePayment.createdAt = event.block.timestamp
+  originPlatformFeePayment.save()
 
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
   platformGain.token = getOrCreateToken(token).id
-  platformGain.totalOriginPlatformEscrowFeeRateGain = platformGain.totalOriginPlatformEscrowFeeRateGain.plus(
-    event.params._amount,
-  )
+  platformGain.totalOriginPlatformFeeGain = platformGain.totalOriginPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
 }
 
 export function handlePlatformEscrowFeeRateReleased(event: PlatformEscrowFeeRateReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const platformEscrowFeeRatePayment = getOrCreatePlatformEscrowFeeRate(paymentId)
+  const platformFeePayment = getOrCreatePlatformFee(paymentId)
   const token = event.params._token
-  platformEscrowFeeRatePayment.amount = event.params._amount
-  platformEscrowFeeRatePayment.platform = event.params._platformId.toString()
-  platformEscrowFeeRatePayment.service = event.params._serviceId.toString()
-  platformEscrowFeeRatePayment.token = getOrCreateToken(token).id
+  platformFeePayment.amount = event.params._amount
+  platformFeePayment.platform = event.params._platformId.toString()
+  platformFeePayment.service = event.params._serviceId.toString()
+  platformFeePayment.token = getOrCreateToken(token).id
 
-  platformEscrowFeeRatePayment.createdAt = event.block.timestamp
-  platformEscrowFeeRatePayment.save()
+  platformFeePayment.createdAt = event.block.timestamp
+  platformFeePayment.save()
 
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
   platformGain.platform = event.params._platformId.toString()
   platformGain.token = getOrCreateToken(token).id
-  platformGain.totalPlatformEscrowFeeRateGain = platformGain.totalPlatformEscrowFeeRateGain.plus(event.params._amount)
+  platformGain.totalPlatformFeeGain = platformGain.totalPlatformFeeGain.plus(event.params._amount)
 
   platformGain.save()
 }

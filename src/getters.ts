@@ -165,26 +165,26 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
   return token
 }
 
-export function getOrCreateOriginPlatformEscrowFeeRate(paymentId: string): FeePayment {
-  let originPlatformEscrowFeeRatePayment = FeePayment.load(paymentId)
-  if (!originPlatformEscrowFeeRatePayment) {
-    originPlatformEscrowFeeRatePayment = new FeePayment(paymentId)
-    originPlatformEscrowFeeRatePayment.type = 'OriginPlatform'
-    originPlatformEscrowFeeRatePayment.amount = ZERO
-    originPlatformEscrowFeeRatePayment.save()
+export function getOrCreateOriginPlatformFee(paymentId: string): FeePayment {
+  let originPlatformFeePayment = FeePayment.load(paymentId)
+  if (!originPlatformFeePayment) {
+    originPlatformFeePayment = new FeePayment(paymentId)
+    originPlatformFeePayment.type = 'OriginPlatform'
+    originPlatformFeePayment.amount = ZERO
+    originPlatformFeePayment.save()
   }
-  return originPlatformEscrowFeeRatePayment
+  return originPlatformFeePayment
 }
 
-export function getOrCreatePlatformEscrowFeeRate(paymentId: string): FeePayment {
-  let platformEscrowFeeRatePayment = FeePayment.load(paymentId)
-  if (!platformEscrowFeeRatePayment) {
-    platformEscrowFeeRatePayment = new FeePayment(paymentId)
-    platformEscrowFeeRatePayment.type = 'Platform'
-    platformEscrowFeeRatePayment.amount = ZERO
-    platformEscrowFeeRatePayment.save()
+export function getOrCreatePlatformFee(paymentId: string): FeePayment {
+  let platformFeePayment = FeePayment.load(paymentId)
+  if (!platformFeePayment) {
+    platformFeePayment = new FeePayment(paymentId)
+    platformFeePayment.type = 'Platform'
+    platformFeePayment.amount = ZERO
+    platformFeePayment.save()
   }
-  return platformEscrowFeeRatePayment
+  return platformFeePayment
 }
 
 export function getOrCreateClaim(claimId: string): FeeClaim {
@@ -201,8 +201,8 @@ export function getOrCreatePlatformGain(gainId: string): PlatformGain {
   let platformGain = PlatformGain.load(gainId)
   if (!platformGain) {
     platformGain = new PlatformGain(gainId)
-    platformGain.totalOriginPlatformEscrowFeeRateGain = ZERO
-    platformGain.totalPlatformEscrowFeeRateGain = ZERO
+    platformGain.totalOriginPlatformFeeGain = ZERO
+    platformGain.totalPlatformFeeGain = ZERO
     platformGain.save()
   }
   return platformGain
