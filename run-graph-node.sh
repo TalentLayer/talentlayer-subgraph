@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker-compose down -v;
+docker compose down -v;
 
 if [ -d "data" ]
 then
@@ -9,4 +9,4 @@ then
   sudo rm -rf data/;
 fi
 
-docker-compose up;
+docker compose up;
