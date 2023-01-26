@@ -51,7 +51,7 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
 
 export function handlePlatformEscrowFeeRateUpdated(event: PlatformEscrowFeeRateUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
-  platform.fee = event.params._platformEscrowFeeRate
+  platform.platformEscrowFeeRate = event.params._platformEscrowFeeRate
   platform.save()
 }
 

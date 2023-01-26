@@ -109,7 +109,7 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.address = ZERO_ADDRESS
     platform.name = ''
     platform.uri = ''
-    platform.fee = 0
+    platform.platformEscrowFeeRate = 0
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
     platform.arbitrationFeeTimeout = ZERO
