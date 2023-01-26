@@ -19,7 +19,7 @@ import {
   ProposalDescription,
   UserDescription,
   PlatformDescription,
-  Keyword
+  Keyword,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -238,6 +238,7 @@ export function getOrCreateProtocol(): Protocol {
     protocol.escrowFee = 0
     protocol.originPlatformFee = 0
     protocol.totalMintFees = ZERO
+    protocol.minArbitrationFeeTimeout = ZERO
   }
   return protocol
 }
@@ -255,7 +256,7 @@ export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): 
 
 export function getOrCreateKeyword(id: string): Keyword {
   let keyword = Keyword.load(id)
-  if(!keyword) {
+  if (!keyword) {
     keyword = new Keyword(id)
     keyword.save()
   }
