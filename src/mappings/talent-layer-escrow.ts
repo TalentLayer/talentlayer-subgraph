@@ -18,8 +18,8 @@ import {
   ServiceProposalConfirmedWithDeposit,
   Payment,
   PaymentCompleted,
-  OriginPlatformEscrowFeeRateReleased,
-  PlatformEscrowFeeRateReleased,
+  OriginPlatformFeeReleased,
+  PlatformFeeReleased,
   FeesClaimed,
   ProtocolEscrowFeeRateUpdated,
   OriginPlatformEscrowFeeRateUpdated,
@@ -139,7 +139,7 @@ export function handleFeesClaimed(event: FeesClaimed): void {
   claim.save()
 }
 
-export function handleOriginPlatformEscrowFeeRateReleased(event: OriginPlatformEscrowFeeRateReleased): void {
+export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const originPlatformFeePayment = getOrCreateOriginPlatformFee(paymentId)
   const token = event.params._token
@@ -160,7 +160,7 @@ export function handleOriginPlatformEscrowFeeRateReleased(event: OriginPlatformE
   platformGain.save()
 }
 
-export function handlePlatformEscrowFeeRateReleased(event: PlatformEscrowFeeRateReleased): void {
+export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const platformFeePayment = getOrCreatePlatformFee(paymentId)
   const token = event.params._token
