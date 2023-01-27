@@ -55,7 +55,7 @@ type Review @entity {
   to: User! # reviewed user
   platform: Platform # Platform on which review nft was minted
   rating: BigInt
-  description: ReviewDescription  @derivedFrom(field: "review")
+  description: ReviewDescription @derivedFrom(field: "review")
 }
 
 type ReviewDescription @entity {
@@ -88,6 +88,7 @@ type User @entity {
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
   description: UserDescription @derivedFrom(field: "user")
+  lensID: BigInt #Lens ID
 }
 
 type UserDescription @entity {
@@ -263,7 +264,7 @@ type Protocol @entity {
 #   algorithm: proximityRank
 #   include: [
 #     { entity: "ServiceDescription", fields: [
-#       { name: "title" }, 
+#       { name: "title" },
 #       { name: "keywords_raw" }
 #     ]}]
 # )

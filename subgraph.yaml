@@ -20,6 +20,8 @@ dataSources:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
+        - name: LensID
+          file: ./abis/LensID.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval

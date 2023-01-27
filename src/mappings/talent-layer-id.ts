@@ -1,4 +1,4 @@
-import { BigInt, DataSourceContext, store } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext, store, Address } from '@graphprotocol/graph-ts'
 import { UserData } from '../../generated/templates'
 import {
   AccountRecovered,
@@ -13,6 +13,7 @@ import {
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
+import { LensID } from '../../generated/TalentLayerID/LensId'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -29,9 +30,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   const user = getOrCreateUser(userId)
   const newCid = event.params._newCid
   const oldCid = user.cid
-  
+
   user.updatedAt = event.block.timestamp
-  if(!oldCid){
+  if (!oldCid) {
     user.createdAt = event.block.timestamp
   }
 
@@ -47,17 +48,17 @@ export function handleCidUpdated(event: CidUpdated): void {
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
 
- // Removes user description from store to save space.
- // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
- // Reason: store.remove can not be called from within file datastore (ipfs-data).
- // Solution: do not use store.remove when the following issue has been solved:
- // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
- // When the issue is solved, change userDescription.id from cid to userId.
-  if(oldCid){
+  // Removes user description from store to save space.
+  // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
+  // Reason: store.remove can not be called from within file datastore (ipfs-data).
+  // Solution: do not use store.remove when the following issue has been solved:
+  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+  // When the issue is solved, change userDescription.id from cid to userId.
+  if (oldCid) {
     store.remove('UserDescription', oldCid)
   }
 
-  UserData.createWithContext(newCid, context) 
+  UserData.createWithContext(newCid, context)
 }
 
 export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}
@@ -69,7 +70,11 @@ export function handleMint(event: Mint): void {
   user.withPoh = event.params._withPoh
   const platform = getOrCreatePlatform(event.params._platformId)
   user.platform = platform.id
-  
+
+  let lensId = LensID.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
+  let tokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.fromI32(0))
+  user.lensID = tokenId.reverted ? null : tokenId.value
+
   user.save()
 
   const protocol = getOrCreateProtocol()
