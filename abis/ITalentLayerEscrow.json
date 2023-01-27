@@ -150,17 +150,17 @@
             },
             {
               "internalType": "uint16",
-              "name": "protocolFee",
+              "name": "protocolEscrowFeeRate",
               "type": "uint16"
             },
             {
               "internalType": "uint16",
-              "name": "originPlatformFee",
+              "name": "originPlatformEscrowFeeRate",
               "type": "uint16"
             },
             {
               "internalType": "uint16",
-              "name": "platformFee",
+              "name": "platformEscrowFeeRate",
               "type": "uint16"
             }
           ],
@@ -212,11 +212,11 @@
       "inputs": [
         {
           "internalType": "uint16",
-          "name": "_originPlatformFee",
+          "name": "_originPlatformEscrowFeeRate",
           "type": "uint16"
         }
       ],
-      "name": "updateOriginPlatformFee",
+      "name": "updateOriginPlatformEscrowFeeRate",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -225,11 +225,11 @@
       "inputs": [
         {
           "internalType": "uint16",
-          "name": "_protocolFee",
+          "name": "_protocolEscrowFeeRate",
           "type": "uint16"
         }
       ],
-      "name": "updateProtocolFee",
+      "name": "updateProtocolEscrowFeeRate",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

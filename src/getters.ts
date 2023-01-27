@@ -84,9 +84,9 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction = new Transaction(id.toString())
     transaction.token = ''
     transaction.amount = ZERO
-    transaction.protocolFee = 0
-    transaction.originPlatformFee = 0
-    transaction.platformFee = 0
+    transaction.protocolEscrowFeeRate = 0
+    transaction.originPlatformEscrowFeeRate = 0
+    transaction.platformEscrowFeeRate = 0
     transaction.senderFee = ZERO
     transaction.receiverFee = ZERO
     transaction.lastInteraction = blockTimestamp
@@ -119,7 +119,7 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.createdAt = ZERO
     platform.updatedAt = ZERO
     platform.name = ''
-    platform.fee = 0
+    platform.platformEscrowFeeRate = 0
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
     platform.arbitrationFeeTimeout = ZERO
@@ -235,8 +235,8 @@ export function getOrCreateProtocol(): Protocol {
     protocol = new Protocol(PROTOCOL_ID)
     protocol.userMintFee = ZERO
     protocol.platformMintFee = ZERO
-    protocol.escrowFee = 0
-    protocol.originPlatformFee = 0
+    protocol.protocolEscrowFeeRate = 0
+    protocol.originPlatformEscrowFeeRate = 0
     protocol.totalMintFees = ZERO
     protocol.minArbitrationFeeTimeout = ZERO
   }
