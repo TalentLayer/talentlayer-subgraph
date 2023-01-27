@@ -135,10 +135,10 @@ dataSources:
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
-        - event: OriginPlatformEscrowFeeRateReleased(uint256,uint256,indexed address,uint256)
-          handler: handleOriginPlatformEscrowFeeRateReleased
-        - event: PlatformEscrowFeeRateReleased(uint256,uint256,indexed address,uint256)
-          handler: handlePlatformEscrowFeeRateReleased
+        - event: OriginPlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handleOriginPlatformFeeReleased
+        - event: PlatformFeeReleased(uint256,uint256,indexed address,uint256)
+          handler: handlePlatformFeeReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
         - event: OriginPlatformEscrowFeeRateUpdated(uint16)
