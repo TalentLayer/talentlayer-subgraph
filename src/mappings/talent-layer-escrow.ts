@@ -21,8 +21,8 @@ import {
   OriginPlatformFeeReleased,
   PlatformFeeReleased,
   FeesClaimed,
-  ProtocolFeeUpdated,
-  OriginPlatformFeeUpdated,
+  ProtocolEscrowFeeRateUpdated,
+  OriginPlatformEscrowFeeRateUpdated,
   TransactionCreated,
   HasToPayFee,
   Dispute,
@@ -57,9 +57,9 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
-  transaction.protocolFee = event.params._protocolFee
-  transaction.originPlatformFee = event.params._originPlatformFee
-  transaction.platformFee = event.params._platformFee
+  transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
+  transaction.originPlatformEscrowFeeRate = event.params._originPlatformEscrowFeeRate
+  transaction.platformEscrowFeeRate = event.params._platformEscrowFeeRate
   transaction.arbitrator = event.params._arbitrator
   transaction.arbitratorExtraData = event.params._arbitratorExtraData
   transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
@@ -181,15 +181,15 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
   platformGain.save()
 }
 
-export function handleProtocolFeeUpdated(event: ProtocolFeeUpdated): void {
+export function handleProtocolEscrowFeeRateUpdated(event: ProtocolEscrowFeeRateUpdated): void {
   const protocol = getOrCreateProtocol()
-  protocol.escrowFee = event.params._protocolFee
+  protocol.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
   protocol.save()
 }
 
-export function handleOriginPlatformFeeUpdated(event: OriginPlatformFeeUpdated): void {
+export function handleOriginPlatformEscrowFeeRateUpdated(event: OriginPlatformEscrowFeeRateUpdated): void {
   const protocol = getOrCreateProtocol()
-  protocol.originPlatformFee = event.params._originPlatformFee
+  protocol.originPlatformEscrowFeeRate = event.params._originPlatformEscrowFeeRate
   protocol.save()
 }
 
