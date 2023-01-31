@@ -1,4 +1,4 @@
-import { BigInt, DataSourceContext, store, Address } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext, store, Address, log } from '@graphprotocol/graph-ts'
 import { UserData } from '../../generated/templates'
 import {
   AccountRecovered,
@@ -43,6 +43,20 @@ export function handleCidUpdated(event: CidUpdated): void {
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   user.cid = newCid
 
+  const userAddress = Address.fromString(user.address)
+  log.info('userAddress: {}', [userAddress.toHexString()])
+
+  const lensDefault = BigInt.fromI32(0)
+  log.info('lensDefault: {}', [lensDefault.toHexString()])
+
+  let lensId = LensID.bind(Address.fromString('0x7582177F9E536aB0b6c721e11f383C326F2Ad1D5'))
+  let tokenId = lensId.try_tokenOfOwnerByIndex(
+    Address.fromString('0x7ca3dd8838993Df8A7B1C99acA973A2a14d1b2Ee'),
+    BigInt.zero(),
+  )
+  const tokenValue = tokenId.reverted ? lensDefault : tokenId.value
+  user.lensID = tokenValue
+
   user.save()
 
   const context = new DataSourceContext()
@@ -70,10 +84,6 @@ export function handleMint(event: Mint): void {
   user.withPoh = event.params._withPoh
   const platform = getOrCreatePlatform(event.params._platformId)
   user.platform = platform.id
-
-  let lensId = LensID.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
-  let tokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.fromI32(0))
-  user.lensID = tokenId.reverted ? null : tokenId.value
 
   user.save()
 
