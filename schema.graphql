@@ -89,6 +89,7 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription @derivedFrom(field: "user")
   lensID: BigInt #Lens ID
+  lensHandle: String #Lens handle
 }
 
 type UserDescription @entity {

@@ -49,13 +49,14 @@ export function handleCidUpdated(event: CidUpdated): void {
   const lensDefault = BigInt.fromI32(0)
   log.info('lensDefault: {}', [lensDefault.toHexString()])
 
-  let lensId = LensID.bind(Address.fromString('0x7582177F9E536aB0b6c721e11f383C326F2Ad1D5'))
-  let tokenId = lensId.try_tokenOfOwnerByIndex(
-    Address.fromString('0x7ca3dd8838993Df8A7B1C99acA973A2a14d1b2Ee'),
-    BigInt.zero(),
-  )
-  const tokenValue = tokenId.reverted ? lensDefault : tokenId.value
+  let lensId = LensID.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
+  let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
+  const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
   user.lensID = tokenValue
+
+  let lensUserHandle = lensId.try_getHandle(tokenValue)
+  const handleValue = lensUserHandle.reverted ? '' : lensUserHandle.value
+  user.lensHandle = handleValue
 
   user.save()
 

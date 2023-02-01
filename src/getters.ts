@@ -23,7 +23,6 @@ import {
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
-import { LensID } from '../generated/TalentLayerID/LensId'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -65,7 +64,6 @@ export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): 
 
 export function getOrCreateUser(id: BigInt): User {
   let user = User.load(id.toString())
-
   if (!user) {
     user = new User(id.toString())
     user.address = ZERO_ADDRESS.toHex()
@@ -76,6 +74,7 @@ export function getOrCreateUser(id: BigInt): User {
     user.createdAt = ZERO
     user.updatedAt = ZERO
     user.lensID = ZERO
+    user.lensHandle = ''
     user.save()
   }
   return user
