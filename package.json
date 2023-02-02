@@ -4,11 +4,14 @@
   "scripts": {
     "codegen": "graph codegen",
     "graphhelp": "graph help",
-    "build": "graph build",
+    "build": "graph build --network localhost",
+    "build-mumbai": "graph build --network mumbai",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol",
     "create-local": "graph create --node http://localhost:8020/ talentlayer/talent-layer-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ talentlayer/talent-layer-protocol",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1",
+    "mumbai-auth": "graph auth --network mumbai --product hosted-service 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",
+    "deploy-mumbai": "graph deploy --product hosted-service akugone/aku-mumbai-talent-layer"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.35.0",
