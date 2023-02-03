@@ -13,7 +13,7 @@ import {
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
-import { LensID } from '../../generated/TalentLayerID/LensId'
+import { LensHubProxy } from '../../generated/TalentLayerID/LensHubProxy'
 
 export function handleAccountRecovered(event: AccountRecovered): void {
   const user = getOrCreateUser(event.params._tokenId)
@@ -49,7 +49,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   const lensDefault = BigInt.fromI32(0)
   log.info('lensDefault: {}', [lensDefault.toHexString()])
 
-  let lensId = LensID.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
+  let lensId = LensHubProxy.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
   let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
   const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
   user.lensID = tokenValue
