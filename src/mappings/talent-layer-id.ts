@@ -1,4 +1,4 @@
-import { BigInt, DataSourceContext, store, Address, log } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext, store, Address, log, dataSource } from '@graphprotocol/graph-ts'
 import { UserData } from '../../generated/templates'
 import {
   AccountRecovered,
@@ -43,20 +43,34 @@ export function handleCidUpdated(event: CidUpdated): void {
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   user.cid = newCid
 
+  // we log datasource network
+  log.info('NETWORK : {}', [dataSource.network()])
+
   const userAddress = Address.fromString(user.address)
   log.info('userAddress: {}', [userAddress.toHexString()])
-
   const lensDefault = BigInt.fromI32(0)
-  log.info('lensDefault: {}', [lensDefault.toHexString()])
 
-  let lensId = LensHubProxy.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
-  let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
-  const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
-  user.lensID = tokenValue
+  if (dataSource.network() == 'mainnet') {
+    log.info('network is mainnet', [])
+    let lensId = LensHubProxy.bind(Address.fromString('0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d'))
+    let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
+    const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
+    user.lensID = tokenValue
 
-  let lensUserHandle = lensId.try_getHandle(tokenValue)
-  const handleValue = lensUserHandle.reverted ? '' : lensUserHandle.value
-  user.lensHandle = handleValue
+    let lensUserHandle = lensId.try_getHandle(tokenValue)
+    const handleValue = lensUserHandle.reverted ? '' : lensUserHandle.value
+    user.lensHandle = handleValue
+  } else if (dataSource.network() == 'mumbai') {
+    log.info('network is mumbai', [])
+    let lensId = LensHubProxy.bind(Address.fromString('0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'))
+    let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
+    const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
+    user.lensID = tokenValue
+
+    let lensUserHandle = lensId.try_getHandle(tokenValue)
+    const handleValue = lensUserHandle.reverted ? '' : lensUserHandle.value
+    user.lensHandle = handleValue
+  }
 
   user.save()
 
