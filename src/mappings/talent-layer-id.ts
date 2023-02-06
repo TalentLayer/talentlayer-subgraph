@@ -51,7 +51,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   const lensDefault = BigInt.fromI32(0)
 
   if (dataSource.network() == 'polygon') {
-    log.info('network is mainnet', [])
+    log.info('network is Polygon', [])
     let lensId = LensHubProxy.bind(Address.fromString('0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d'))
     let lensUsertokenId = lensId.try_tokenOfOwnerByIndex(Address.fromString(user.address), BigInt.zero())
     const tokenValue = lensUsertokenId.reverted ? lensDefault : lensUsertokenId.value
