@@ -129,6 +129,12 @@
           "internalType": "uint256",
           "name": "rateAmount",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "originProposalCreationPlatformId",
+          "type": "uint16"
         }
       ],
       "name": "ProposalCreated",
@@ -495,6 +501,11 @@
           "type": "uint256"
         },
         {
+          "internalType": "uint16",
+          "name": "_originProposalCreationPlatformId",
+          "type": "uint16"
+        },
+        {
           "internalType": "string",
           "name": "_proposalDataUri",
           "type": "string"
@@ -541,6 +552,11 @@
               "internalType": "uint256",
               "name": "rateAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "uint16",
+              "name": "originProposalCreationPlatformId",
+              "type": "uint16"
             },
             {
               "internalType": "string",
@@ -624,7 +640,7 @@
             },
             {
               "internalType": "uint256",
-              "name": "platformId",
+              "name": "originServiceCreationPlatformId",
               "type": "uint256"
             }
           ],
@@ -777,6 +793,11 @@
           "type": "uint256"
         },
         {
+          "internalType": "uint16",
+          "name": "originProposalCreationPlatformId",
+          "type": "uint16"
+        },
+        {
           "internalType": "string",
           "name": "proposalDataUri",
           "type": "string"
@@ -906,7 +927,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "platformId",
+          "name": "originServiceCreationPlatformId",
           "type": "uint256"
         }
       ],

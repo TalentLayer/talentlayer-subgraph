@@ -7,10 +7,9 @@ import {
   ArbitrationFeeTimeoutUpdated,
   ArbitratorUpdated,
   CidUpdated,
-  ConsecutiveTransfer,
   MinArbitrationFeeTimeoutUpdated,
   Mint,
-  PlatformEscrowFeeRateUpdated,
+  OriginServiceFeeRateUpdated, OriginValidatedProposalFeeRateUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
@@ -81,9 +80,15 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   protocol.save()
 }
 
-export function handlePlatformEscrowFeeRateUpdated(event: PlatformEscrowFeeRateUpdated): void {
+export function handleOriginServiceFeeRateUpdated(event: OriginServiceFeeRateUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
-  platform.platformEscrowFeeRate = event.params._platformEscrowFeeRate
+  platform.originServiceFeeRate = event.params._originServiceFeeRate
+  platform.save()
+}
+
+export function handleOriginValidatedProposalFeeRateUpdated(event: OriginValidatedProposalFeeRateUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.originValidatedProposalFeeRate = event.params._originValidatedProposalFeeRate
   platform.save()
 }
 
