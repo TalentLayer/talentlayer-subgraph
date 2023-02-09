@@ -1,5 +1,5 @@
 import { log, store, BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
-import { User } from '../../generated/schema'
+import {Platform, User} from '../../generated/schema'
 import { ServiceData, ProposalData } from '../../generated/templates'
 import {
   ServiceCreated,
@@ -26,7 +26,6 @@ export function handleServiceCreated(event: ServiceCreated): void {
 
   service.buyer = getOrCreateUser(event.params.buyerId).id
 
-  const sellerId = event.params.sellerId
   if(event.params.sellerId != BigInt.zero()){
     service.seller = getOrCreateUser(event.params.sellerId).id
   } else {
@@ -110,13 +109,14 @@ export function handleProposalCreated(event: ProposalCreated): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
-  
-  proposal.rateToken = event.params.rateToken.toHexString()
-  proposal.rateAmount = event.params.rateAmount
-  // proposal.uri = event.params.proposalDataUri
+
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = User.load(event.params.sellerId.toString())!.id
-  
+  // proposal.uri = event.params.proposalDataUri
+  proposal.rateToken = event.params.rateToken.toHexString()
+  proposal.rateAmount = event.params.rateAmount
+  proposal.platform = Platform.load(event.params.originProposalCreationPlatformId.toString())!.id
+
   // we get the token address
   const tokenAddress = event.params.rateToken
   // we get the token contract to fill the entity
