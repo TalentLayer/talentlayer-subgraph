@@ -38,10 +38,6 @@
       "startBlock": 8182160,
       "address": "0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667"
     },
-    "proofOfHumanityAddress": {
-      "address": "0xB8805e67c476b1b237509B81b9738D129226D0C8",
-      "startBlock": 8182160
-    },
     "TalentLayerPlatformID": {
       "address": "0x08FB56537F118Cf35C4d3eB280444737f6D1bE46",
       "startBlock": 8182160
@@ -64,10 +60,6 @@
       "address": "0x8754a129D3F53222dd94Ce45749134c15C9Ed119",
       "startBlock": 16571490
     },
-    "proofOfHumanityAddress": {
-      "address": "0x435e586D8408f4dBCbF418208878041D700FE06A",
-      "startBlock": 16571490
-    },
     "TalentLayerPlatformID": {
       "address": "0x8799479a39b6e563969126328e2323cbA01e8742",
       "startBlock": 16571490
@@ -88,10 +80,6 @@
     },
     "TalentLayerEscrow": {
       "address": "0x8564BD74CFdcE620F6C89C6d5326614B24CDcbae",
-      "startBlock": 31027571
-    },
-    "proofOfHumanityAddress": {
-      "address": "0xd78C3fae7AFE37DF386cD331CD6B446eD4095306",
       "startBlock": 31027571
     },
     "TalentLayerPlatformID": {
