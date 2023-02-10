@@ -4,6 +4,8 @@ import {
   Approval,
   ApprovalForAll,
   CidUpdated,
+  DelegateAdded,
+  DelegateRemoved,
   Mint,
   MintFeeUpdated,
   OwnershipTransferred,
@@ -74,4 +76,23 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.userMintFee = event.params._mintFee
   protocol.save()
+}
+
+export function handleDelegateAdded(event: DelegateAdded): void {
+  const user = getOrCreateUser(event.params._tokenId)
+  user.delegates = user.delegates.concat([event.params._delegate.toHex()])
+  user.save()
+}
+
+export function handleDelegateRemoved(event: DelegateRemoved): void {
+  const user = getOrCreateUser(event.params._tokenId)
+  const delegate = event.params._delegate.toHex()
+
+  const delegateIndex = user.delegates.indexOf(delegate)
+  if (delegateIndex === -1) {
+    return
+  } else {
+    user.delegates.splice(delegateIndex, 1)
+  }
+  user.save()
 }
