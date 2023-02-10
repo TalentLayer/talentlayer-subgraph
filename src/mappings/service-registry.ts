@@ -44,7 +44,7 @@ export function handleServiceCreated(event: ServiceCreated): void {
   }
 
   const platform = getOrCreatePlatform(event.params.platformId)
-  service.platform = platform.id
+  service.originServicePlatform = platform.id
 
   service.save()
 }
@@ -116,7 +116,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   // proposal.uri = event.params.proposalDataUri
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
-  proposal.platform = Platform.load(event.params.originProposalCreationPlatformId.toString())!.id
+  proposal.originValidatedProposalPlatform = Platform.load(event.params.originProposalCreationPlatformId.toString())!.id
 
   // we get the token address
   const tokenAddress = event.params.rateToken
