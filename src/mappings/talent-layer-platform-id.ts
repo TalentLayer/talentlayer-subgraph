@@ -7,7 +7,6 @@ import {
   ArbitrationFeeTimeoutUpdated,
   ArbitratorUpdated,
   CidUpdated,
-  ConsecutiveTransfer,
   MinArbitrationFeeTimeoutUpdated,
   Mint,
   PlatformEscrowFeeRateUpdated,
@@ -26,7 +25,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   const newCid = event.params._newCid
 
   platform.updatedAt = event.block.timestamp
-  if(!oldCid){
+  if (!oldCid) {
     platform.createdAt = event.block.timestamp
   }
 
@@ -48,7 +47,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   // Solution: do not use store.remove when the following issue has been solved:
   // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   // When the issue is solved, change platformDescription.id from cid to platformId.
-  if(oldCid){
+  if (oldCid) {
     store.remove('PlatformDescription', oldCid)
   }
 
@@ -62,7 +61,7 @@ export function handleMint(event: Mint): void {
 
   platform.createdAt = event.block.timestamp
   platform.updatedAt = event.block.timestamp
-  
+
   platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
 
   platform.save()
