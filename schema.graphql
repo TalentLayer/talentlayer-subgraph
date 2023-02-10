@@ -87,6 +87,7 @@ type User @entity {
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
   description: UserDescription @derivedFrom(field: "user")
+  delegates: [String!]! # list of user delegators
 }
 
 type UserDescription @entity {
