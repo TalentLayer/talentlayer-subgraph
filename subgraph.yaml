@@ -9,7 +9,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerID
-      address: "0x61a29aBdC5b7CACa7be7c67aE2303c85123a5b36"
+      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -35,13 +35,17 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
+        - event: DelegateAdded(uint256,address)
+          handler: handleDelegateAdded
+        - event: DelegateRemoved(uint256,address)
+          handler: handleDelegateRemoved
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
     network: mumbai
     source:
       abi: TalentLayerReview
-      address: "0xC5C86fbf4136737036A6DC1CA3aF09e5fC951a27"
+      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,7 +72,7 @@ dataSources:
     network: mumbai
     source:
       abi: ServiceRegistry
-      address: "0x0c4d1a7d60f8041fc06C2F178690C9128C9681ef"
+      address: "0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -106,7 +110,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerEscrow
-      address: "0x4bF1acF3dDd9F44C23Ee7A4b9D85bEf82a6bDAf9"
+      address: "0x330E249D7eE36652932Ef9667483e9415D82ca9C"
       startBlock: 0
     mapping:
       kind: ethereum/events
