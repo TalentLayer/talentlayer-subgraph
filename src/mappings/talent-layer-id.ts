@@ -1,24 +1,15 @@
 import { BigInt, DataSourceContext, store } from '@graphprotocol/graph-ts'
 import { UserData } from '../../generated/templates'
 import {
-  AccountRecovered,
   Approval,
   ApprovalForAll,
   CidUpdated,
-  ConsecutiveTransfer,
   Mint,
   MintFeeUpdated,
   OwnershipTransferred,
-  PohActivated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
-
-export function handleAccountRecovered(event: AccountRecovered): void {
-  const user = getOrCreateUser(event.params._tokenId)
-  user.address = event.params._newAddress.toHex()
-  user.save()
-}
 
 export function handleApproval(event: Approval): void {}
 
@@ -29,9 +20,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   const user = getOrCreateUser(userId)
   const newCid = event.params._newCid
   const oldCid = user.cid
-  
+
   user.updatedAt = event.block.timestamp
-  if(!oldCid){
+  if (!oldCid) {
     user.createdAt = event.block.timestamp
   }
 
@@ -47,29 +38,26 @@ export function handleCidUpdated(event: CidUpdated): void {
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
 
- // Removes user description from store to save space.
- // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
- // Reason: store.remove can not be called from within file datastore (ipfs-data).
- // Solution: do not use store.remove when the following issue has been solved:
- // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
- // When the issue is solved, change userDescription.id from cid to userId.
-  if(oldCid){
+  // Removes user description from store to save space.
+  // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
+  // Reason: store.remove can not be called from within file datastore (ipfs-data).
+  // Solution: do not use store.remove when the following issue has been solved:
+  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+  // When the issue is solved, change userDescription.id from cid to userId.
+  if (oldCid) {
     store.remove('UserDescription', oldCid)
   }
 
-  UserData.createWithContext(newCid, context) 
+  UserData.createWithContext(newCid, context)
 }
-
-export function handleConsecutiveTransfer(event: ConsecutiveTransfer): void {}
 
 export function handleMint(event: Mint): void {
   const user = getOrCreateUser(event.params._tokenId)
   user.address = event.params._user.toHex()
   user.handle = event.params._handle
-  user.withPoh = event.params._withPoh
   const platform = getOrCreatePlatform(event.params._platformId)
   user.platform = platform.id
-  
+
   user.save()
 
   const protocol = getOrCreateProtocol()
@@ -79,12 +67,6 @@ export function handleMint(event: Mint): void {
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
-
-export function handlePohActivated(event: PohActivated): void {
-  const user = getOrCreateUser(event.params._tokenId)
-  user.withPoh = true
-  user.save()
-}
 
 export function handleTransfer(event: Transfer): void {}
 
