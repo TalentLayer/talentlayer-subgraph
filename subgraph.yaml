@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: goerli
+    network: localhost
     source:
       abi: TalentLayerID
-      address: '0x11119eD887aeC1302e2cAF49942F891667A31BBc'
-      startBlock: 8182160
+      address: "0xe393fb46C545AAd9dC4F37b6D149D3401863baC5"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -27,15 +27,10 @@ dataSources:
           handler: handleApprovalForAll
         - event: CidUpdated(indexed uint256,string)
           handler: handleCidUpdated
-        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
-            address)
-          handler: handleConsecutiveTransfer
-        - event: Mint(indexed address,uint256,string,bool,uint256,uint256)
+        - event: Mint(indexed address,uint256,string,uint256,uint256)
           handler: handleMint
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: PohActivated(indexed address,uint256,string)
-          handler: handlePohActivated
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
@@ -43,11 +38,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: goerli
+    network: localhost
     source:
       abi: TalentLayerReview
-      address: '0xCf7577fB4749fA9Ae38296D52C53C654F9A9367f'
-      startBlock: 8182160
+      address: "0x470C9A0DEdB21c08fEA4A67E7Ef09780dC071F5A"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -70,11 +65,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: ServiceRegistry
-    network: goerli
+    network: localhost
     source:
       abi: ServiceRegistry
-      address: '0xf0EECbBf164D81261C7Ce4D22D16f38DC63fBAbd'
-      startBlock: 8182160
+      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -106,11 +101,11 @@ dataSources:
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: goerli
+    network: localhost
     source:
       abi: TalentLayerEscrow
-      startBlock: 8182160
-      address: '0x34FCF4b0A418011682F6EdC86c49a0Faacc8A667'
+      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -160,11 +155,11 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: goerli
+    network: localhost
     source:
       abi: TalentLayerPlatformID
-      address: '0x08FB56537F118Cf35C4d3eB280444737f6D1bE46'
-      startBlock: 8182160
+      address: "0xC1ee53801a6350311a5942da3084aD500cA30620"
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -181,9 +176,6 @@ dataSources:
           handler: handleApprovalForAll
         - event: CidUpdated(indexed uint256,string)
           handler: handleCidUpdated
-        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed
-            address)
-          handler: handleConsecutiveTransfer
         - event: Mint(indexed address,uint256,string,uint256,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
@@ -214,7 +206,7 @@ templates:
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
-    network: goerli
+    network: localhost
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -227,7 +219,7 @@ templates:
       abis:
         - name: ServiceRegistry
           file: ./abis/ServiceRegistry.json
-    network: goerli
+    network: localhost
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -240,7 +232,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: goerli
+    network: localhost
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -254,7 +246,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: goerli
+    network: localhost
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -267,4 +259,4 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: goerli
+    network: localhost
