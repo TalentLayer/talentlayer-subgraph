@@ -9,7 +9,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerID
-      address: "0xe393fb46C545AAd9dC4F37b6D149D3401863baC5"
+      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -35,13 +35,17 @@ dataSources:
           handler: handleTransfer
         - event: MintFeeUpdated(uint256)
           handler: handleMintFeeUpdated
+        - event: DelegateAdded(uint256,address)
+          handler: handleDelegateAdded
+        - event: DelegateRemoved(uint256,address)
+          handler: handleDelegateRemoved
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
     network: localhost
     source:
       abi: TalentLayerReview
-      address: "0x470C9A0DEdB21c08fEA4A67E7Ef09780dC071F5A"
+      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,7 +72,7 @@ dataSources:
     network: localhost
     source:
       abi: ServiceRegistry
-      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
+      address: "0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -104,7 +108,7 @@ dataSources:
     network: localhost
     source:
       abi: TalentLayerEscrow
-      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
+      address: "0x330E249D7eE36652932Ef9667483e9415D82ca9C"
       startBlock: 0
     mapping:
       kind: ethereum/events
