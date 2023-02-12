@@ -115,7 +115,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   // proposal.uri = event.params.proposalDataUri
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
-  proposal.originValidatedProposalPlatform = Platform.load(event.params.originProposalCreationPlatformId.toString())!.id
+  proposal.originValidatedProposalPlatform = Platform.load(event.params.platformId.toString())!.id
 
   // we get the token address
   const tokenAddress = event.params.rateToken

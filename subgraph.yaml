@@ -132,8 +132,8 @@ dataSources:
           handler: handleFeesClaimed
         - event: OriginServiceFeeRateReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginServiceFeeRateReleased
-        - event: OriginProposalValidationFeeRateReleased(uint256,uint256,indexed address,uint256)
-          handler: handleOriginProposalValidationFeeRateReleased
+        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed address,uint256)
+          handler: handleOriginValidatedProposalFeeRateReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
         - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
