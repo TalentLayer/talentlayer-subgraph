@@ -28,7 +28,8 @@ import {
   MetaEvidence,
   ArbitrationFeePayment,
   EvidenceSubmitted,
-  OriginServiceFeeRateReleased, OriginProposalValidationFeeRateReleased,
+  OriginServiceFeeRateReleased,
+  OriginValidatedProposalFeeRateReleased,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -158,7 +159,7 @@ export function handleOriginServiceFeeRateReleased(event: OriginServiceFeeRateRe
   platformGain.save()
 }
 
-export function handleOriginProposalValidationFeeRateReleased(event: OriginProposalValidationFeeRateReleased): void {
+export function handleOriginValidatedProposalFeeRateReleased(event: OriginValidatedProposalFeeRateReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const originProposalValidatedFeePayment = getOrCreatePlatformFee(paymentId)
   const token = event.params._token

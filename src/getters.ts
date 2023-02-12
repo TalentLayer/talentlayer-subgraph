@@ -63,7 +63,6 @@ export function getOrCreateUser(id: BigInt): User {
     user = new User(id.toString())
     user.address = ZERO_ADDRESS.toHex()
     user.handle = ''
-    user.withPoh = false
     user.numReviews = ZERO
     user.rating = ZERO_BIGDEC
     user.createdAt = ZERO
