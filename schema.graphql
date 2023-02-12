@@ -22,7 +22,7 @@ type Service @entity {
   recipient: User # other participating user (seller or buyer)
   transaction: Transaction @derivedFrom(field: "service") # transaction associated with this service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
-  originServicePlatform: Platform # Platform on which service was created
+  platform: Platform # Platform on which service was created
   cid: String
   description: ServiceDescription @derivedFrom(field: "service")
 }
@@ -119,7 +119,7 @@ type Proposal @entity {
   rateToken: Token! # Rate token entity
   rateAmount: BigInt # Rate amount
   cid: String # cid of the description
-  originValidatedProposalPlatform: Platform # Platform on which proposal was created
+  platform: Platform # Platform on which proposal was created
   description: ProposalDescription @derivedFrom(field: "proposal") #Proposals that the description describes.
 }
 
