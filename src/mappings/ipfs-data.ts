@@ -20,6 +20,10 @@ export function handleServiceData(content: Bytes): void {
   const context = dataSource.context()
   const serviceId = context.getBigInt('serviceId')
 
+  createServiceDescription(jsonObject, cid, serviceId)
+}
+
+export function createServiceDescription(jsonObject: TypedMap<string, JSONValue>, cid: string, serviceId: BigInt): void {
   let description = new ServiceDescription(cid)
   
   // Notice: Replaced with serviceId.toString()
@@ -63,6 +67,11 @@ export function handleProposalData(content: Bytes): void {
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const proposalId = context.getString('proposalId')
+
+  createProposalDescription(jsonObject, cid, proposalId)
+}
+
+export function createProposalDescription(jsonObject: TypedMap<string, JSONValue>, cid: string, proposalId: string): void {
 
   let description = new ProposalDescription(cid)
   
