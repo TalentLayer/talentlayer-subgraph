@@ -9,7 +9,10 @@ import {
   CidUpdated,
   MinArbitrationFeeTimeoutUpdated,
   Mint,
-  OriginServiceFeeRateUpdated, OriginValidatedProposalFeeRateUpdated,
+  OriginServiceFeeRateUpdated,
+  OriginValidatedProposalFeeRateUpdated,
+  ProposalPostingFeeUpdated,
+  ServicePostingFeeUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
@@ -109,4 +112,16 @@ export function handleMinArbitrationFeeTimeoutUpdated(event: MinArbitrationFeeTi
   const protocol = getOrCreateProtocol()
   protocol.minArbitrationFeeTimeout = event.params._minArbitrationFeeTimeout
   protocol.save()
+}
+
+export function handleServicePostingFeeUpdated(event: ServicePostingFeeUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.servicePostingFee= event.params._servicePostingFee
+  platform.save()
+}
+
+export function handleProposalPostingFeeUpdated(event: ProposalPostingFeeUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.proposalPostingFee= event.params._proposalPostingFee
+  platform.save()
 }

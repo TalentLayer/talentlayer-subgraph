@@ -190,6 +190,10 @@ dataSources:
           handler: handleArbitrationFeeTimeoutUpdated
         - event: MinArbitrationFeeTimeoutUpdated(uint256)
           handler: handleMinArbitrationFeeTimeoutUpdated
+        - event: ServicePostingFeeUpdated(uint256,uint16)
+          handler: handleServicePostingFeeUpdated
+        - event:  ProposalPostingFeeUpdated(uint256,uint16)
+          handler: handleProposalPostingFeeUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
   - name: ServiceData
