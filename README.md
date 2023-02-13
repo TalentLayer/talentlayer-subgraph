@@ -33,3 +33,9 @@
   }
 }
 ```
+
+# Testing
+All tests can be run using `graph test`
+You can also specify which test to run by specifying directory or file.
+`graph test ipfs-data/service-description`
+Please se the [graph documentation on unit testing](https://thegraph.com/docs/en/developing/unit-testing-framework/) for more details.
