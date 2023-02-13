@@ -196,6 +196,8 @@ type Platform @entity {
   feeClaims: [FeeClaim!] @derivedFrom(field: "platform") # Platform-related fee claims
   originServiceFeeRate: Int! # Fee asked by the platform which created the service
   originValidatedProposalFeeRate: Int! # Fee asked by the platform on which the proposal was validated
+  servicePostingFee: Int! # Flat fee asked by the platform to post a service
+  proposalPostingFee: Int! # Flat fee asked by the platform to post a proposal
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
