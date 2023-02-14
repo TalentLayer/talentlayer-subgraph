@@ -80,7 +80,9 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
 
 export function handleDelegateAdded(event: DelegateAdded): void {
   const user = getOrCreateUser(event.params._tokenId)
-  user.delegates = user.delegates.concat([event.params._delegate.toHex()])
+  const delegate = event.params._delegate.toHex()
+
+  user.delegates = addToArray(user.delegates, delegate)
   user.save()
 }
 
@@ -88,11 +90,21 @@ export function handleDelegateRemoved(event: DelegateRemoved): void {
   const user = getOrCreateUser(event.params._tokenId)
   const delegate = event.params._delegate.toHex()
 
-  const delegateIndex = user.delegates.indexOf(delegate)
-  if (delegateIndex === -1) {
-    return
-  } else {
-    user.delegates.splice(delegateIndex, 1)
-  }
+  user.delegates = removeFromArray(user.delegates, delegate)
   user.save()
+}
+
+function addToArray(arr: string[], value: string): string[] {
+  if (arr.indexOf(value) === -1) {
+    arr.push(value)
+  }
+  return arr
+}
+
+function removeFromArray(arr: string[], value: string): string[] {
+  const index = arr.indexOf(value)
+  if (index !== -1) {
+    arr.splice(index, 1)
+  }
+  return arr
 }
