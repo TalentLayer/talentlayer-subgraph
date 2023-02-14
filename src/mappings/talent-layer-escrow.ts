@@ -18,11 +18,8 @@ import {
   ServiceProposalConfirmedWithDeposit,
   Payment,
   PaymentCompleted,
-  OriginPlatformFeeReleased,
-  PlatformFeeReleased,
   FeesClaimed,
   ProtocolEscrowFeeRateUpdated,
-  OriginPlatformEscrowFeeRateUpdated,
   TransactionCreated,
   HasToPayFee,
   Dispute,
@@ -31,6 +28,8 @@ import {
   MetaEvidence,
   ArbitrationFeePayment,
   EvidenceSubmitted,
+  OriginServiceFeeRateReleased,
+  OriginValidatedProposalFeeRateReleased,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
@@ -57,13 +56,13 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
+  transaction.service = Service.load(event.params._serviceId.toString())!.id
   transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
-  transaction.originPlatformEscrowFeeRate = event.params._originPlatformEscrowFeeRate
-  transaction.platformEscrowFeeRate = event.params._platformEscrowFeeRate
+  transaction.originServiceFeeRate = event.params._originServiceFeeRate
+  transaction.originValidatedProposalFeeRate = event.params._originValidatedProposalFeeRate
   transaction.arbitrator = event.params._arbitrator
   transaction.arbitratorExtraData = event.params._arbitratorExtraData
   transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
-  transaction.service = Service.load(event.params._serviceId.toString())!.id
 
   transaction.save()
 }
@@ -139,17 +138,17 @@ export function handleFeesClaimed(event: FeesClaimed): void {
   claim.save()
 }
 
-export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased): void {
+export function handleOriginServiceFeeRateReleased(event: OriginServiceFeeRateReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const originPlatformFeePayment = getOrCreateOriginPlatformFee(paymentId)
+  const originServiceFeePayment = getOrCreateOriginPlatformFee(paymentId)
   const token = event.params._token
-  originPlatformFeePayment.amount = event.params._amount
-  originPlatformFeePayment.platform = event.params._platformId.toString()
-  originPlatformFeePayment.service = event.params._serviceId.toString()
-  originPlatformFeePayment.token = getOrCreateToken(token).id
+  originServiceFeePayment.platform = event.params._platformId.toString()
+  originServiceFeePayment.service = event.params._serviceId.toString()
+  originServiceFeePayment.token = getOrCreateToken(token).id
+  originServiceFeePayment.amount = event.params._amount
 
-  originPlatformFeePayment.createdAt = event.block.timestamp
-  originPlatformFeePayment.save()
+  originServiceFeePayment.createdAt = event.block.timestamp
+  originServiceFeePayment.save()
 
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
@@ -160,17 +159,17 @@ export function handleOriginPlatformFeeReleased(event: OriginPlatformFeeReleased
   platformGain.save()
 }
 
-export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
+export function handleOriginValidatedProposalFeeRateReleased(event: OriginValidatedProposalFeeRateReleased): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const platformFeePayment = getOrCreatePlatformFee(paymentId)
+  const originProposalValidatedFeePayment = getOrCreatePlatformFee(paymentId)
   const token = event.params._token
-  platformFeePayment.amount = event.params._amount
-  platformFeePayment.platform = event.params._platformId.toString()
-  platformFeePayment.service = event.params._serviceId.toString()
-  platformFeePayment.token = getOrCreateToken(token).id
+  originProposalValidatedFeePayment.platform = event.params._platformId.toString()
+  originProposalValidatedFeePayment.service = event.params._serviceId.toString()
+  originProposalValidatedFeePayment.token = getOrCreateToken(token).id
+  originProposalValidatedFeePayment.amount = event.params._amount
 
-  platformFeePayment.createdAt = event.block.timestamp
-  platformFeePayment.save()
+  originProposalValidatedFeePayment.createdAt = event.block.timestamp
+  originProposalValidatedFeePayment.save()
 
   const platformGainId = generateIdFromTwoElements(event.params._platformId.toString(), event.params._token.toHex())
   const platformGain = getOrCreatePlatformGain(platformGainId)
@@ -184,12 +183,6 @@ export function handlePlatformFeeReleased(event: PlatformFeeReleased): void {
 export function handleProtocolEscrowFeeRateUpdated(event: ProtocolEscrowFeeRateUpdated): void {
   const protocol = getOrCreateProtocol()
   protocol.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
-  protocol.save()
-}
-
-export function handleOriginPlatformEscrowFeeRateUpdated(event: OriginPlatformEscrowFeeRateUpdated): void {
-  const protocol = getOrCreateProtocol()
-  protocol.originPlatformEscrowFeeRate = event.params._originPlatformEscrowFeeRate
   protocol.save()
 }
 
