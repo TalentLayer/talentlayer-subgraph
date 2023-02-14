@@ -22,7 +22,7 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleCidUpdated(event: CidUpdated): void {
-  const platformId = event.params._tokenId
+  const platformId = event.params._platformId
   const platform = getOrCreatePlatform(platformId)
   const oldCid = platform.cid
   const newCid = event.params._newCid
@@ -58,7 +58,7 @@ export function handleCidUpdated(event: CidUpdated): void {
 }
 
 export function handleMint(event: Mint): void {
-  const platform = getOrCreatePlatform(event.params._tokenId)
+  const platform = getOrCreatePlatform(event.params._platformId)
   platform.address = event.params._platformOwnerAddress
   platform.name = event.params._platformName
 
@@ -116,12 +116,12 @@ export function handleMinArbitrationFeeTimeoutUpdated(event: MinArbitrationFeeTi
 
 export function handleServicePostingFeeUpdated(event: ServicePostingFeeUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
-  platform.servicePostingFee= event.params._servicePostingFee
+  platform.servicePostingFee = event.params._servicePostingFee
   platform.save()
 }
 
 export function handleProposalPostingFeeUpdated(event: ProposalPostingFeeUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
-  platform.proposalPostingFee= event.params._proposalPostingFee
+  platform.proposalPostingFee = event.params._proposalPostingFee
   platform.save()
 }
