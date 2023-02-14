@@ -67,6 +67,7 @@ export function getOrCreateUser(id: BigInt): User {
     user.rating = ZERO_BIGDEC
     user.createdAt = ZERO
     user.updatedAt = ZERO
+    user.delegates = []
     user.save()
   }
   return user
