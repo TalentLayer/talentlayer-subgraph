@@ -14,11 +14,6 @@ import {
   Protocol,
   Transaction,
   Evidence,
-  ServiceDescription,
-  ReviewDescription,
-  ProposalDescription,
-  UserDescription,
-  PlatformDescription,
   Keyword,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
@@ -128,7 +123,6 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
   return platform
 }
 
-// creation of getOrCreateToken function
 export function getOrCreateToken(tokenAddress: Bytes): Token {
   let contract = ERC20.bind(Address.fromBytes(tokenAddress))
   let token = Token.load(tokenAddress.toHex())
@@ -169,7 +163,8 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
         token.decimals = BigInt.fromI32(result)
       }
     }
-
+    // Token initially set to non-allowed. Status will be handled in "handleAllowedTokenListUpdated" handler
+    token.allowed = false
     token.save()
   }
   return token

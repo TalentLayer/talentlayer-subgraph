@@ -98,6 +98,8 @@ dataSources:
           handler: handleProposalValidated
         - event: ProposalRejected(uint256,uint256)
           handler: handleProposalRejected
+        - event: AllowedTokenListUpdated(address,bool)
+          handler: handleAllowedTokenListUpdated
       file: ./src/mappings/service-registry.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
