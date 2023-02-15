@@ -116,6 +116,8 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.name = ''
     platform.originServiceFeeRate = 0
     platform.originValidatedProposalFeeRate = 0
+    platform.servicePostingFee = ZERO
+    platform.proposalPostingFee = ZERO
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
     platform.arbitrationFeeTimeout = ZERO

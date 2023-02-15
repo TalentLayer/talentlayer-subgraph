@@ -18,7 +18,7 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleCidUpdated(event: CidUpdated): void {
-  const userId = event.params._tokenId
+  const userId = event.params._profileId
   const user = getOrCreateUser(userId)
   const newCid = event.params._newCid
   const oldCid = user.cid
@@ -54,7 +54,7 @@ export function handleCidUpdated(event: CidUpdated): void {
 }
 
 export function handleMint(event: Mint): void {
-  const user = getOrCreateUser(event.params._tokenId)
+  const user = getOrCreateUser(event.params._profileId)
   user.address = event.params._user.toHex()
   user.handle = event.params._handle
   const platform = getOrCreatePlatform(event.params._platformId)
@@ -79,7 +79,7 @@ export function handleMintFeeUpdated(event: MintFeeUpdated): void {
 }
 
 export function handleDelegateAdded(event: DelegateAdded): void {
-  const user = getOrCreateUser(event.params._tokenId)
+  const user = getOrCreateUser(event.params._profileId)
   const delegate = event.params._delegate.toHex()
 
   user.delegates = addToArray(user.delegates, delegate)
@@ -87,7 +87,7 @@ export function handleDelegateAdded(event: DelegateAdded): void {
 }
 
 export function handleDelegateRemoved(event: DelegateRemoved): void {
-  const user = getOrCreateUser(event.params._tokenId)
+  const user = getOrCreateUser(event.params._profileId)
   const delegate = event.params._delegate.toHex()
 
   user.delegates = removeFromArray(user.delegates, delegate)
