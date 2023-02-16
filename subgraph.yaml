@@ -9,7 +9,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerID
-      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
+      address: '0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -45,7 +45,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerReview
-      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
+      address: '0x40eEd878c6125160ab8c4c931FcFd083D0511AF1'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -72,7 +72,7 @@ dataSources:
     network: mumbai
     source:
       abi: ServiceRegistry
-      address: "0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e"
+      address: '0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -88,10 +88,8 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceCreated(uint256,uint256,uint256,uint256,uint256)
+        - event: ServiceCreated(uint256,uint256,uint256,string)
           handler: handleServiceCreated
-        - event: ServiceDataCreated(uint256,string)
-          handler: handleServiceDataCreated
         - event: ServiceDetailedUpdated(indexed uint256,string)
           handler: handleServiceDetailedUpdated
         - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint16)
@@ -100,8 +98,6 @@ dataSources:
           handler: handleProposalUpdated
         - event: ProposalValidated(uint256,uint256)
           handler: handleProposalValidated
-        - event: ProposalRejected(uint256,uint256)
-          handler: handleProposalRejected
         - event: AllowedTokenListUpdated(address,bool)
           handler: handleAllowedTokenListUpdated
       file: ./src/mappings/service-registry.ts
@@ -110,7 +106,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerEscrow
-      address: "0x330E249D7eE36652932Ef9667483e9415D82ca9C"
+      address: '0x330E249D7eE36652932Ef9667483e9415D82ca9C'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -162,7 +158,7 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerPlatformID
-      address: "0xCC107C35E5e8F245Cc420c2ce3445302FF2D6b3A"
+      address: '0xCC107C35E5e8F245Cc420c2ce3445302FF2D6b3A'
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -198,7 +194,7 @@ dataSources:
           handler: handleMinArbitrationFeeTimeoutUpdated
         - event: ServicePostingFeeUpdated(uint256,uint256)
           handler: handleServicePostingFeeUpdated
-        - event:  ProposalPostingFeeUpdated(uint256,uint256)
+        - event: ProposalPostingFeeUpdated(uint256,uint256)
           handler: handleProposalPostingFeeUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:

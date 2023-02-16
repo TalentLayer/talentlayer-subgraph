@@ -5,9 +5,7 @@ import {
   ServiceCreated,
   ServiceDetailedUpdated,
   ProposalCreated,
-  ProposalRejected,
   ProposalUpdated,
-  ServiceDataCreated,
   AllowedTokenListUpdated,
 } from '../../generated/ServiceRegistry/ServiceRegistry'
 import {
@@ -47,29 +45,6 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.platform = platform.id
 
   service.save()
-}
-
-export function handleServiceDataCreated(event: ServiceDataCreated): void {
-  const serviceId = event.params.id
-  const service = getOrCreateService(serviceId)
-  const cid = event.params.serviceDataUri
-
-  //These are set in handleServiceCreated as well.
-  //Could possibly be considered redundant to set here.
-  service.createdAt = event.block.timestamp
-  service.updatedAt = event.block.timestamp
-
-  //Notice: Storing cid required to remove on serviceDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with serviceId
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  service.cid = cid
-
-  service.save()
-
-  const context = new DataSourceContext()
-  context.setBigInt('serviceId', serviceId)
-  ServiceData.createWithContext(cid, context)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
@@ -141,15 +116,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   context.setString('proposalId', proposalId)
   ProposalData.createWithContext(cid, context)
 }
-
-export function handleProposalRejected(event: ProposalRejected): void {
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
-  proposal.status = 'Rejected'
-  proposal.updatedAt = event.block.timestamp
-  proposal.save()
-}
-
+npm run 
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
   const token = getOrCreateToken(event.params._tokenAddress)
   token.allowed = event.params._status
