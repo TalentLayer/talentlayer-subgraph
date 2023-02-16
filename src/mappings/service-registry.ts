@@ -19,28 +19,10 @@ import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
-
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
-
   service.buyer = getOrCreateUser(event.params.ownerId).id
-
-  if (event.params.ownerId != BigInt.zero()) {
-    service.seller = getOrCreateUser(event.params.ownerId).id
-  } else {
-    service.status = 'Opened'
-  }
-
-  service.sender = getOrCreateUser(event.params.ownerId).id
-
-  // if (event.params.initiatorId == event.params.buyerId) {
-  //   service.recipient = service.seller
-  // } else if (event.params.initiatorId == event.params.sellerId) {
-  //   service.recipient = service.buyer
-  // } else {
-  //   log.error('Service created by neither buyer nor seller, senderId: {}', [event.params.ownerId.toString()])
-  // }
-
+  service.status = 'Opened'
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
 
