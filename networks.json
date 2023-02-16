@@ -68,23 +68,23 @@
   "mumbai": {
     "TalentLayerID": {
       "address": "0x286D04de10977D47EF9F1d50a7072cdeAd088D3E",
-      "startBlock": 32108292
+      "startBlock": 32108038
     },
     "TalentLayerReview": {
       "address": "0x8398B0FfE674Ea993Cb38AE2E4e0Ac7111fE5852",
-      "startBlock": 32108292
+      "startBlock": 32108038
     },
     "TalentLayerService": {
       "address": "0x8d2587494796A1547702Ea78E9c6359351901c4B",
-      "startBlock": 32108292
+      "startBlock": 32108038
     },
     "TalentLayerEscrow": {
       "address": "0x2F9EBAc36cc020B81c4c624AbcfeC7DC8958Cf54",
-      "startBlock": 32108292
+      "startBlock": 32108038
     },
     "TalentLayerPlatformID": {
       "address": "0xa6f853Ba54cF24F203751D81b106A7D4e4eBFF14",
-      "startBlock": 32108292
+      "startBlock": 32108038
     }
   }
 }

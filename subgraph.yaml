@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: localhost
+    network: mumbai
     source:
       abi: TalentLayerID
-      address: "0xC51537E03f56650C63A9Feca4cCb5a039c77c822"
-      startBlock: 0
+      address: "0x286D04de10977D47EF9F1d50a7072cdeAd088D3E"
+      startBlock: 32108038
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -42,11 +42,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: localhost
+    network: mumbai
     source:
       abi: TalentLayerReview
-      address: "0x6A5BF452108DA389B7B38284E871f538671Ad375"
-      startBlock: 0
+      address: "0x8398B0FfE674Ea993Cb38AE2E4e0Ac7111fE5852"
+      startBlock: 32108038
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -69,11 +69,11 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
-    network: localhost
+    network: mumbai
     source:
       abi: TalentLayerService
-      address: "0x45E8F869Fd316741A9316f39bF09AD03Df88496f"
-      startBlock: 0
+      address: "0x8d2587494796A1547702Ea78E9c6359351901c4B"
+      startBlock: 32108038
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -101,11 +101,11 @@ dataSources:
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: localhost
+    network: mumbai
     source:
       abi: TalentLayerEscrow
-      address: "0x7A534501a6e63448EBC691f27B27B76d4F9b7E17"
-      startBlock: 0
+      address: "0x2F9EBAc36cc020B81c4c624AbcfeC7DC8958Cf54"
+      startBlock: 32108038
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -154,11 +154,11 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: localhost
+    network: mumbai
     source:
       abi: TalentLayerPlatformID
-      address: "0x05D8A2E01EB06c284ECBae607A2d0c2BE946Bf49"
-      startBlock: 0
+      address: "0xa6f853Ba54cF24F203751D81b106A7D4e4eBFF14"
+      startBlock: 32108038
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -211,7 +211,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: localhost
+    network: mumbai
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -224,7 +224,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: localhost
+    network: mumbai
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -237,7 +237,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: localhost
+    network: mumbai
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -251,7 +251,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: localhost
+    network: mumbai
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -264,4 +264,4 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: localhost
+    network: mumbai
