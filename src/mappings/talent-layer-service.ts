@@ -78,6 +78,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
+  proposal.expirationDate = event.params.expirationDate
 
   // we get the token address
   const tokenAddress = event.params.rateToken
@@ -129,7 +130,6 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = newCid
-
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
 

@@ -120,6 +120,7 @@ type Proposal @entity {
   cid: String # cid of the description
   platform: Platform # Platform on which proposal was created
   description: ProposalDescription @derivedFrom(field: "proposal") #Proposals that the description describes.
+  expirationDate: BigInt
 }
 
 type ProposalDescription @entity {
