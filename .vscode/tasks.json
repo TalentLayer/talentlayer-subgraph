@@ -15,7 +15,7 @@
     {
       "label": "Deploy-Goerly",
       "type": "shell",
-      "command": "make deploy-goerli"
+      "command": "make deploy-mumbai"
     }
   ]
 }

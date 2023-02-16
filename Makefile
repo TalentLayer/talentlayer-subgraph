@@ -12,8 +12,8 @@ sub:
 	npm run deploy-local
 
 # To launch this command, you need first to auth with the graph-cli and the subgraph
-# Goerli hosted subgraph: https://thegraph.com/hosted-service/subgraph/talentlayer/talent-layer-protocol
-deploy-goerli: 
+# Mumbai hosted subgraph: https://thegraph.com/hosted-service/subgraph/talentlayer/talent-layer-mumbai
+deploy-mumbai: 
 	graph codegen
-	graph build --network goerli
-	graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol
+	graph build --network mumbai
+	graph deploy --product hosted-service talentlayer/talent-layer-mumbai
