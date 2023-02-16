@@ -1,8 +1,21 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "ITalentLayerEscrow",
-  "sourceName": "contracts/ITalentLayerEscrow.sol",
+  "sourceName": "contracts/interfaces/ITalentLayerEscrow.sol",
   "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "appeal",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
     {
       "inputs": [
         {
@@ -112,6 +125,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getProtocolWallet",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -123,6 +149,11 @@
       "outputs": [
         {
           "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
             {
               "internalType": "address",
               "name": "sender",
@@ -155,13 +186,48 @@
             },
             {
               "internalType": "uint16",
-              "name": "originPlatformEscrowFeeRate",
+              "name": "originServiceFeeRate",
               "type": "uint16"
             },
             {
               "internalType": "uint16",
-              "name": "platformEscrowFeeRate",
+              "name": "originValidatedProposalFeeRate",
               "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "disputeId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "senderFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "receiverFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastInteraction",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum ITalentLayerEscrow.Status",
+              "name": "status",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes",
+              "name": "arbitratorExtraData",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256",
+              "name": "arbitrationFeeTimeout",
+              "type": "uint256"
             }
           ],
           "internalType": "struct ITalentLayerEscrow.Transaction",
@@ -176,9 +242,30 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_tokenId",
+          "name": "_transactionId",
           "type": "uint256"
-        },
+        }
+      ],
+      "name": "payArbitrationFeeByReceiver",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "payArbitrationFeeBySender",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
         {
           "internalType": "uint256",
           "name": "_transactionId",
@@ -199,11 +286,6 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "_transactionId",
           "type": "uint256"
         },
@@ -221,12 +303,61 @@
     {
       "inputs": [
         {
-          "internalType": "uint16",
-          "name": "_originPlatformEscrowFeeRate",
-          "type": "uint16"
+          "internalType": "uint256",
+          "name": "_disputeID",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_ruling",
+          "type": "uint256"
         }
       ],
-      "name": "updateOriginPlatformEscrowFeeRate",
+      "name": "rule",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_evidence",
+          "type": "string"
+        }
+      ],
+      "name": "submitEvidence",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "timeOutByReceiver",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "timeOutBySender",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

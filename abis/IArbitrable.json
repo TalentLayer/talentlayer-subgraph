@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IArbitrable",
-  "sourceName": "contracts/IArbitrable.sol",
+  "sourceName": "contracts/interfaces/IArbitrable.sol",
   "abi": [
     {
       "anonymous": false,
