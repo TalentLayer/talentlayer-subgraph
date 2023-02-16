@@ -1,4 +1,4 @@
-import { BigInt, Bytes, Address, log } from '@graphprotocol/graph-ts'
+import { BigInt, Bytes, Address, log, dataSource } from '@graphprotocol/graph-ts'
 import {
   User,
   Review,
@@ -136,8 +136,16 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
     token.address = tokenAddress
 
     if (tokenAddress.toHex() == ZERO_TOKEN_ADDRESS) {
-      token.symbol = 'ETH'
-      token.name = 'Ether'
+      if (dataSource.network() == 'polygon' || dataSource.network() == 'mumbai') {
+        token.symbol = 'MATIC'
+        token.name = 'Polygon'
+      } else if (dataSource.network() == 'avalanche' || dataSource.network() == 'fuji') {
+        token.symbol = 'AVAX'
+        token.name = 'Avalanche'
+      } else {
+        token.symbol = 'ETH'
+        token.name = 'Ether'
+      }
       token.decimals = BigInt.fromString('18')
     } else {
       let callResultSymbol = contract.try_symbol()
