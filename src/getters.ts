@@ -40,6 +40,7 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
     proposal.updatedAt = ZERO
     proposal.service = getOrCreateService(serviceId).id
     proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
+    proposal.expirationDate = ZERO
     proposal.save()
   }
   return proposal

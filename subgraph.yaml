@@ -6,10 +6,10 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerID
-      address: "0x58f7Fc8d443507B9A14A0Fe33330F07c85b474e9"
+      address: "0xC51537E03f56650C63A9Feca4cCb5a039c77c822"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -42,10 +42,10 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerReview
-      address: "0x40eEd878c6125160ab8c4c931FcFd083D0511AF1"
+      address: "0x6A5BF452108DA389B7B38284E871f538671Ad375"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -68,11 +68,11 @@ dataSources:
           handler: handleTransfer
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
-    name: ServiceRegistry
-    network: mumbai
+    name: TalentLayerService
+    network: localhost
     source:
-      abi: ServiceRegistry
-      address: "0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e"
+      abi: TalentLayerService
+      address: "0x45E8F869Fd316741A9316f39bF09AD03Df88496f"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -83,34 +83,28 @@ dataSources:
         - Proposal
         - ServiceDescription
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceCreated(uint256,uint256,uint256,uint256,uint256)
+        - event: ServiceCreated(uint256,uint256,uint256,string)
           handler: handleServiceCreated
-        - event: ServiceDataCreated(uint256,string)
-          handler: handleServiceDataCreated
         - event: ServiceDetailedUpdated(indexed uint256,string)
           handler: handleServiceDetailedUpdated
-        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint16)
+        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint16,uint256)
           handler: handleProposalCreated
-        - event: ProposalUpdated(uint256,uint256,string,address,uint256)
+        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
           handler: handleProposalUpdated
-        - event: ProposalValidated(uint256,uint256)
-          handler: handleProposalValidated
-        - event: ProposalRejected(uint256,uint256)
-          handler: handleProposalRejected
         - event: AllowedTokenListUpdated(address,bool)
           handler: handleAllowedTokenListUpdated
-      file: ./src/mappings/service-registry.ts
+      file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerEscrow
-      address: "0x330E249D7eE36652932Ef9667483e9415D82ca9C"
+      address: "0x7A534501a6e63448EBC691f27B27B76d4F9b7E17"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -138,7 +132,8 @@ dataSources:
           handler: handleFeesClaimed
         - event: OriginServiceFeeRateReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginServiceFeeRateReleased
-        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed address,uint256)
+        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed
+            address,uint256)
           handler: handleOriginValidatedProposalFeeRateReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
@@ -159,10 +154,10 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: mumbai
+    network: localhost
     source:
       abi: TalentLayerPlatformID
-      address: "0xCC107C35E5e8F245Cc420c2ce3445302FF2D6b3A"
+      address: "0x05D8A2E01EB06c284ECBae607A2d0c2BE946Bf49"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -198,7 +193,7 @@ dataSources:
           handler: handleMinArbitrationFeeTimeoutUpdated
         - event: ServicePostingFeeUpdated(uint256,uint256)
           handler: handleServicePostingFeeUpdated
-        - event:  ProposalPostingFeeUpdated(uint256,uint256)
+        - event: ProposalPostingFeeUpdated(uint256,uint256)
           handler: handleProposalPostingFeeUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
@@ -214,9 +209,9 @@ templates:
         - Service
         - Keyword
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
-    network: mumbai
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
+    network: localhost
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -227,9 +222,9 @@ templates:
       entities:
         - ProposalDescription
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
-    network: mumbai
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
+    network: localhost
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -242,7 +237,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: mumbai
+    network: localhost
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -256,7 +251,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: mumbai
+    network: localhost
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -269,4 +264,4 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: mumbai
+    network: localhost

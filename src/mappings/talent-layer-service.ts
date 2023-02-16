@@ -5,11 +5,9 @@ import {
   ServiceCreated,
   ServiceDetailedUpdated,
   ProposalCreated,
-  ProposalRejected,
   ProposalUpdated,
-  ServiceDataCreated,
   AllowedTokenListUpdated,
-} from '../../generated/ServiceRegistry/ServiceRegistry'
+} from '../../generated/TalentLayerService/TalentLayerService'
 import {
   getOrCreateService,
   getOrCreateProposal,
@@ -21,62 +19,25 @@ import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
-
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
-
-  service.buyer = getOrCreateUser(event.params.buyerId).id
-
-  if (event.params.sellerId != BigInt.zero()) {
-    service.seller = getOrCreateUser(event.params.sellerId).id
-  } else {
-    service.status = 'Opened'
-  }
-
-  service.sender = getOrCreateUser(event.params.initiatorId).id
-
-  if (event.params.initiatorId == event.params.buyerId) {
-    service.recipient = service.seller
-  } else if (event.params.initiatorId == event.params.sellerId) {
-    service.recipient = service.buyer
-  } else {
-    log.error('Service created by neither buyer nor seller, senderId: {}', [event.params.initiatorId.toString()])
-  }
-
+  service.buyer = getOrCreateUser(event.params.ownerId).id
+  service.status = 'Opened'
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
-
-  service.save()
-}
-
-export function handleServiceDataCreated(event: ServiceDataCreated): void {
-  const serviceId = event.params.id
-  const service = getOrCreateService(serviceId)
-  const cid = event.params.serviceDataUri
-
-  //These are set in handleServiceCreated as well.
-  //Could possibly be considered redundant to set here.
-  service.createdAt = event.block.timestamp
-  service.updatedAt = event.block.timestamp
-
-  //Notice: Storing cid required to remove on serviceDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with serviceId
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  service.cid = cid
-
+  service.cid = event.params.dataUri
   service.save()
 
   const context = new DataSourceContext()
-  context.setBigInt('serviceId', serviceId)
-  ServiceData.createWithContext(cid, context)
+  context.setBigInt('serviceId', event.params.id)
+  ServiceData.createWithContext(event.params.dataUri, context)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
   const serviceId = event.params.id
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
-  const newCid = event.params.newServiceDataUri
+  const newCid = event.params.dataUri
 
   //service.created set in handleServiceCreated.
   service.updatedAt = event.block.timestamp
@@ -107,16 +68,17 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
 
   proposal.service = getOrCreateService(event.params.serviceId).id
-  proposal.seller = User.load(event.params.sellerId.toString())!.id
+  proposal.seller = User.load(event.params.ownerId.toString())!.id
   // proposal.uri = event.params.proposalDataUri
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
+  proposal.expirationDate = event.params.expirationDate
 
   // we get the token address
   const tokenAddress = event.params.rateToken
@@ -126,7 +88,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
 
-  const cid = event.params.proposalDataUri
+  const cid = event.params.dataUri
 
   //Notice: Storing cid required to remove serviceDetailUpdated
   //Reason: Datastore can not get created entities.
@@ -142,14 +104,6 @@ export function handleProposalCreated(event: ProposalCreated): void {
   ProposalData.createWithContext(cid, context)
 }
 
-export function handleProposalRejected(event: ProposalRejected): void {
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
-  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
-  proposal.status = 'Rejected'
-  proposal.updatedAt = event.block.timestamp
-  proposal.save()
-}
-
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
   const token = getOrCreateToken(event.params._tokenAddress)
   token.allowed = event.params._status
@@ -159,9 +113,9 @@ export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): v
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
   const token = event.params.rateToken
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
-  const newCid = event.params.proposalDataUri
+  const newCid = event.params.dataUri
   const oldCid = proposal.cid
 
   proposal.rateToken = getOrCreateToken(token).id
@@ -176,7 +130,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = newCid
-
+  proposal.expirationDate = event.params._expirationDate
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
 
