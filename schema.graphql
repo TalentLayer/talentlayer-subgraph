@@ -53,6 +53,7 @@ type Review @entity {
   to: User! # reviewed user
   platform: Platform # Platform on which review nft was minted
   rating: BigInt
+  cid: String
   description: ReviewDescription @derivedFrom(field: "review")
 }
 

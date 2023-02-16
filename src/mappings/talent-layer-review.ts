@@ -15,7 +15,8 @@ export function handleMint(event: Mint): void {
   review.platform = platform.id
   review.rating = event.params._rating
   review.createdAt = event.block.timestamp
-  
+  review.cid = event.params._reviewUri
+
   let user = User.load(event.params._toId.toString())
   if (!user) return
   const rating = user.rating
@@ -25,13 +26,13 @@ export function handleMint(event: Mint): void {
   user.rating = rating
   user.numReviews = user.numReviews.plus(ONE)
   user.save()
-  
+
   review.save()
-  
+
   const cid = event.params._reviewUri
   const context = new DataSourceContext()
   context.setString('reviewId', review.id)
-  
+
   ReviewData.createWithContext(cid, context)
 }
 
