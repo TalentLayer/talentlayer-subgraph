@@ -94,7 +94,7 @@ dataSources:
           handler: handleServiceDetailedUpdated
         - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint16,uint256)
           handler: handleProposalCreated
-        - event: ProposalUpdated(uint256,uint256,string,address,uint256)
+        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
           handler: handleProposalUpdated
         - event: AllowedTokenListUpdated(address,bool)
           handler: handleAllowedTokenListUpdated

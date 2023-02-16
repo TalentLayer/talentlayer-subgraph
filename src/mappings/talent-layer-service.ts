@@ -130,6 +130,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = newCid
+  proposal.expirationDate = event.params._expirationDate
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
 
