@@ -25,8 +25,12 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.status = 'Opened'
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
-
+  service.cid = event.params.dataUri
   service.save()
+
+  const context = new DataSourceContext()
+  context.setBigInt('serviceId', event.params.id)
+  ServiceData.createWithContext(event.params.dataUri, context)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
