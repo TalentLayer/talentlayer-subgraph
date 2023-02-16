@@ -68,10 +68,10 @@ dataSources:
           handler: handleTransfer
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
-    name: ServiceRegistry
+    name: TalentLayerService
     network: localhost
     source:
-      abi: ServiceRegistry
+      abi: TalentLayerService
       address: "0x7e18f7e10781f8DaeB980C8Cf99ebb8415F9d02e"
       startBlock: 0
     mapping:
@@ -83,8 +83,8 @@ dataSources:
         - Proposal
         - ServiceDescription
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
@@ -211,8 +211,8 @@ templates:
         - Service
         - Keyword
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
     network: localhost
   - name: ProposalData
     kind: file/ipfs
@@ -224,8 +224,8 @@ templates:
       entities:
         - ProposalDescription
       abis:
-        - name: ServiceRegistry
-          file: ./abis/ServiceRegistry.json
+        - name: TalentLayerService
+          file: ./abis/TalentLayerService.json
     network: localhost
   - name: ReviewData
     kind: file/ipfs
