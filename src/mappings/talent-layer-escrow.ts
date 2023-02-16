@@ -70,14 +70,14 @@ export function handleTransactionCreated(event: TransactionCreated): void {
 export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
   const service = getOrCreateService(event.params.serviceId)
 
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.proposalId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
 
   log.warning('!!!!!! proposal ID', [proposalId])
   log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
 
   service.status = 'Confirmed'
-  service.seller = User.load(event.params.sellerId.toString())!.id
+  service.seller = User.load(event.params.proposalId.toString())!.id
   service.save()
 
   proposal.status = 'Validated'

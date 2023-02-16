@@ -23,23 +23,23 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
 
-  service.buyer = getOrCreateUser(event.params.buyerId).id
+  service.buyer = getOrCreateUser(event.params.ownerId).id
 
-  if (event.params.sellerId != BigInt.zero()) {
-    service.seller = getOrCreateUser(event.params.sellerId).id
+  if (event.params.ownerId != BigInt.zero()) {
+    service.seller = getOrCreateUser(event.params.ownerId).id
   } else {
     service.status = 'Opened'
   }
 
-  service.sender = getOrCreateUser(event.params.initiatorId).id
+  service.sender = getOrCreateUser(event.params.ownerId).id
 
-  if (event.params.initiatorId == event.params.buyerId) {
-    service.recipient = service.seller
-  } else if (event.params.initiatorId == event.params.sellerId) {
-    service.recipient = service.buyer
-  } else {
-    log.error('Service created by neither buyer nor seller, senderId: {}', [event.params.initiatorId.toString()])
-  }
+  // if (event.params.initiatorId == event.params.buyerId) {
+  //   service.recipient = service.seller
+  // } else if (event.params.initiatorId == event.params.sellerId) {
+  //   service.recipient = service.buyer
+  // } else {
+  //   log.error('Service created by neither buyer nor seller, senderId: {}', [event.params.ownerId.toString()])
+  // }
 
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
@@ -51,7 +51,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   const serviceId = event.params.id
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
-  const newCid = event.params.newServiceDataUri
+  const newCid = event.params.dataUri
 
   //service.created set in handleServiceCreated.
   service.updatedAt = event.block.timestamp
@@ -82,12 +82,12 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
 
   proposal.service = getOrCreateService(event.params.serviceId).id
-  proposal.seller = User.load(event.params.sellerId.toString())!.id
+  proposal.seller = User.load(event.params.ownerId.toString())!.id
   // proposal.uri = event.params.proposalDataUri
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
@@ -101,7 +101,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
 
-  const cid = event.params.proposalDataUri
+  const cid = event.params.dataUri
 
   //Notice: Storing cid required to remove serviceDetailUpdated
   //Reason: Datastore can not get created entities.
@@ -116,7 +116,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   context.setString('proposalId', proposalId)
   ProposalData.createWithContext(cid, context)
 }
-npm run 
+
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
   const token = getOrCreateToken(event.params._tokenAddress)
   token.allowed = event.params._status
@@ -126,9 +126,9 @@ export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): v
 
 export function handleProposalUpdated(event: ProposalUpdated): void {
   const token = event.params.rateToken
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.sellerId.toString())
+  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
-  const newCid = event.params.proposalDataUri
+  const newCid = event.params.dataUri
   const oldCid = proposal.cid
 
   proposal.rateToken = getOrCreateToken(token).id
