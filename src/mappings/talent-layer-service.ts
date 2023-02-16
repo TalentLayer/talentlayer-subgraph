@@ -74,7 +74,6 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = User.load(event.params.ownerId.toString())!.id
-  // proposal.uri = event.params.proposalDataUri
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
