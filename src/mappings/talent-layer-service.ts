@@ -7,7 +7,7 @@ import {
   ProposalCreated,
   ProposalUpdated,
   AllowedTokenListUpdated,
-} from '../../generated/ServiceRegistry/ServiceRegistry'
+} from '../../generated/TalentLayerService/TalentLayerService'
 import {
   getOrCreateService,
   getOrCreateProposal,
