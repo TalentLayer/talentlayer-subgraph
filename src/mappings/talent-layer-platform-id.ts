@@ -39,8 +39,6 @@ export function handleCidUpdated(event: CidUpdated): void {
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   platform.cid = newCid
 
-  platform.save()
-
   const context = new DataSourceContext()
   context.setBigInt('platformId', platformId)
 
@@ -55,6 +53,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   }
 
   PlatformData.createWithContext(newCid, context)
+
+  platform.description = newCid
+  platform.save()
 }
 
 export function handleMint(event: Mint): void {

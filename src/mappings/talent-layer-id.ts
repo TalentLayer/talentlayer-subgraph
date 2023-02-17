@@ -35,8 +35,6 @@ export function handleCidUpdated(event: CidUpdated): void {
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   user.cid = newCid
 
-  user.save()
-
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
 
@@ -51,6 +49,9 @@ export function handleCidUpdated(event: CidUpdated): void {
   }
 
   UserData.createWithContext(newCid, context)
+
+  user.description = newCid
+  user.save()
 }
 
 export function handleMint(event: Mint): void {

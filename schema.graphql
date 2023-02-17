@@ -22,7 +22,7 @@ type Service @entity {
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
   cid: String
-  description: ServiceDescription @derivedFrom(field: "service")
+  description: ServiceDescription
 }
 
 type ServiceDescription @entity {
@@ -54,7 +54,7 @@ type Review @entity {
   platform: Platform # Platform on which review nft was minted
   rating: BigInt
   cid: String
-  description: ReviewDescription @derivedFrom(field: "review")
+  description: ReviewDescription
 }
 
 type ReviewDescription @entity {
@@ -86,7 +86,7 @@ type User @entity {
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
-  description: UserDescription @derivedFrom(field: "user")
+  description: UserDescription
   delegates: [String!]! # list of user delegators
 }
 
@@ -120,7 +120,7 @@ type Proposal @entity {
   rateAmount: BigInt # Rate amount
   cid: String # cid of the description
   platform: Platform # Platform on which proposal was created
-  description: ProposalDescription @derivedFrom(field: "proposal") #Proposals that the description describes.
+  description: ProposalDescription #Proposals that the description describes.
   expirationDate: BigInt
 }
 
@@ -203,7 +203,7 @@ type Platform @entity {
   arbitratorExtraData: Bytes! # extra data for the arbitrator
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
   cid: String #cid of description
-  description: PlatformDescription @derivedFrom(field: "platform")
+  description: PlatformDescription
 }
 
 type PlatformDescription @entity {
