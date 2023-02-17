@@ -73,9 +73,6 @@ export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposal
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.proposalId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
 
-  log.warning('!!!!!! proposal ID', [proposalId])
-  log.warning('!!!!!! service ID', [event.params.serviceId.toString()])
-
   service.status = 'Confirmed'
   service.seller = User.load(event.params.proposalId.toString())!.id
   service.save()
