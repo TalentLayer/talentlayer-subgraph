@@ -26,11 +26,13 @@ export function handleServiceCreated(event: ServiceCreated): void {
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
   service.cid = event.params.dataUri
-  service.save()
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', event.params.id)
   ServiceData.createWithContext(event.params.dataUri, context)
+
+  service.description = event.params.dataUri
+  service.save()
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
@@ -49,8 +51,6 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   service.cid = newCid
 
-  service.save()
-
   const context = new DataSourceContext()
   context.setBigInt('serviceId', serviceId)
 
@@ -65,6 +65,9 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   }
 
   ServiceData.createWithContext(newCid, context)
+
+  service.description = newCid
+  service.save()
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
@@ -96,11 +99,12 @@ export function handleProposalCreated(event: ProposalCreated): void {
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = cid
 
-  proposal.save()
-
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
   ProposalData.createWithContext(cid, context)
+
+  proposal.description = cid
+  proposal.save()
 }
 
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
@@ -144,4 +148,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   }
 
   ProposalData.createWithContext(newCid, context)
+
+  proposal.description = newCid
+  proposal.save()
 }

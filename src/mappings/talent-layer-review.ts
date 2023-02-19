@@ -27,13 +27,14 @@ export function handleMint(event: Mint): void {
   user.numReviews = user.numReviews.plus(ONE)
   user.save()
 
-  review.save()
-
   const cid = event.params._reviewUri
   const context = new DataSourceContext()
   context.setString('reviewId', review.id)
 
   ReviewData.createWithContext(cid, context)
+
+  review.description = cid
+  review.save()
 }
 
 export function handleTransfer(event: Transfer): void {}

@@ -1,4 +1,4 @@
-import { json, JSONValue, JSONValueKind, BigInt, TypedMap, Bytes, dataSource } from '@graphprotocol/graph-ts'
+import { json, JSONValue, JSONValueKind, BigInt, TypedMap, Bytes, dataSource, log } from '@graphprotocol/graph-ts'
 import {
   ServiceDescription,
   ProposalDescription,
@@ -10,7 +10,14 @@ import { getOrCreateKeyword } from '../getters'
 
 //Adds metadata from ipfs as a entity called ServiceDescription.
 export function handleServiceData(content: Bytes): void {
-  const jsonObject = json.fromBytes(content).toObject()
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
+
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const serviceId = context.getBigInt('serviceId')
@@ -54,7 +61,13 @@ export function handleServiceData(content: Bytes): void {
 //Adds metadata from ipfs as a entity called ProposalDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handleProposalData(content: Bytes): void {
-  const jsonObject = json.fromBytes(content).toObject()
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const proposalId = context.getString('proposalId')
@@ -92,8 +105,15 @@ export function handleProposalData(content: Bytes): void {
 //The description entity has the id of the cid to the file on IPFS
 //Does not need to remove reviews because they can not be updated.
 export function handleReviewData(content: Bytes): void {
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
+
   const cid = dataSource.stringParam()
-  const jsonObject = json.fromBytes(content).toObject()
   const context = dataSource.context()
   const reviewId = context.getString('reviewId')
 
@@ -116,7 +136,14 @@ export function handleReviewData(content: Bytes): void {
 //Adds metadata from ipfs as a entity called UserDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handleUserData(content: Bytes): void {
-  const jsonObject = json.fromBytes(content).toObject()
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
+
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const userId = context.getBigInt('userId')
@@ -160,7 +187,14 @@ export function handleUserData(content: Bytes): void {
 //Adds metadata from ipfs as a entity called PlatformDescription.
 //The description entity has the id of the cid to the file on IPFS
 export function handlePlatformData(content: Bytes): void {
-  const jsonObject = json.fromBytes(content).toObject()
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
+
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const platformId = context.getBigInt('platformId')
