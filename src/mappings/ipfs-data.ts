@@ -94,7 +94,6 @@ export function handleProposalData(content: Bytes): void {
 
   //Non-mandatory (nullable) fields assigned below
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
-  description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
 

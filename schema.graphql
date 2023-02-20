@@ -128,7 +128,6 @@ type ProposalDescription @entity {
   id: ID! #Cid
   proposal: Proposal!
   startDate: BigInt
-  title: String
   about: String
   expectedHours: BigInt
 }
