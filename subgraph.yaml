@@ -135,7 +135,7 @@ dataSources:
           handler: handleOriginValidatedProposalFeeRateReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
-        - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
+        - event: TransactionCreated(uint256,uint256,uint256,address,uint256,uint256,uint256,uint16,uint16,uint16,address,bytes,uint256)
           handler: handleTransactionCreated
         - event: ArbitrationFeePayment(indexed uint256,uint8,uint8,uint256)
           handler: handleArbitrationFeePayment
