@@ -15,7 +15,6 @@ import {
   getOrCreateEvidence,
 } from '../getters'
 import {
-  ServiceProposalConfirmedWithDeposit,
   Payment,
   PaymentCompleted,
   FeesClaimed,
@@ -63,22 +62,18 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.arbitrator = event.params._arbitrator
   transaction.arbitratorExtraData = event.params._arbitratorExtraData
   transaction.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
-
   transaction.save()
-}
 
-export function handleServiceProposalConfirmedWithDeposit(event: ServiceProposalConfirmedWithDeposit): void {
-  const service = getOrCreateService(event.params.serviceId)
+  const service = getOrCreateService(event.params._serviceId)
 
-  const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.proposalId.toString())
-  const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
-
-  service.status = 'Confirmed'
-  service.seller = User.load(event.params.proposalId.toString())!.id
-  service.save()
-
+  const proposalId = generateIdFromTwoElements(event.params._serviceId.toString(), event.params._proposalId.toString())
+  const proposal = getOrCreateProposal(proposalId, event.params._serviceId)
   proposal.status = 'Validated'
   proposal.save()
+
+  service.status = 'Confirmed'
+  service.seller = User.load(event.params._proposalId.toString())!.id
+  service.save()
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {

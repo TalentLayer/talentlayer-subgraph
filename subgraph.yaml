@@ -122,8 +122,6 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceProposalConfirmedWithDeposit(uint256,uint256,uint256)
-          handler: handleServiceProposalConfirmedWithDeposit
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
         - event: Payment(uint256,uint8,address,uint256,uint256)
