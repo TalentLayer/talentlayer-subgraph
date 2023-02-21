@@ -51,7 +51,6 @@ type Review @entity {
   service: Service! # service this review is for
   createdAt: BigInt!
   to: User! # reviewed user
-  platform: Platform # Platform on which review nft was minted
   rating: BigInt
   cid: String
   description: ReviewDescription

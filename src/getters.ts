@@ -48,12 +48,10 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
 
 export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
   let review = Review.load(id.toString())
-  const service = getOrCreateService(serviceId)
   if (!review) {
     review = new Review(id.toString())
     review.to = getOrCreateUser(toId).id
-    review.service = service.id
-    review.platform = service.platform
+    review.service = getOrCreateService(serviceId).id
     review.createdAt = ZERO
     review.save()
   }
