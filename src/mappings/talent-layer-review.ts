@@ -1,7 +1,7 @@
 import { DataSourceContext } from '@graphprotocol/graph-ts'
 import { User } from '../../generated/schema'
 import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
-import { getOrCreatePlatform, getOrCreateReview } from '../getters'
+import { getOrCreateReview } from '../getters'
 import { ONE } from '../constants'
 import { ReviewData } from '../../generated/templates'
 
@@ -11,8 +11,6 @@ export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleMint(event: Mint): void {
   const review = getOrCreateReview(event.params._tokenId, event.params._serviceId, event.params._toId)
-  const platform = getOrCreatePlatform(event.params._platformId)
-  review.platform = platform.id
   review.rating = event.params._rating
   review.createdAt = event.block.timestamp
   review.cid = event.params._reviewUri
