@@ -39,8 +39,7 @@ type ServiceDescription @entity {
   rateAmount: BigInt
 }
 
-#TODO: Is this data immutable ?
-type Keyword @entity {
+type Keyword @entity (immutable: true) {
   id: ID! #Keyword
   # Derived from does not currently work because of open issue with duplicated entities.
   # Reason: createOrGetKeyword creates duplicated keywords from file data source (ipfs-data.ts)
@@ -58,8 +57,7 @@ type Review @entity (immutable: true) {
   description: ReviewDescription
 }
 
-#TODO: Is this data immutable ?
-type ReviewDescription @entity {
+type ReviewDescription @entity (immutable: true) {
   id: ID!
   content: String
   review: Review
@@ -92,8 +90,7 @@ type User @entity {
   delegates: [String!]! # list of user delegators
 }
 
-#TODO: Is this data immutable ?
-type UserDescription @entity {
+type UserDescription @entity (immutable: true) {
   id: ID! #cid
   title: String
   about: String
@@ -127,8 +124,7 @@ type Proposal @entity {
   expirationDate: BigInt
 }
 
-#TODO: Is this data immutable ?
-type ProposalDescription @entity {
+type ProposalDescription @entity (immutable: true) {
   id: ID! #Cid
   proposal: Proposal!
   startDate: BigInt
@@ -208,8 +204,7 @@ type Platform @entity {
   description: PlatformDescription
 }
 
-#TODO: Is this data immutable ?
-type PlatformDescription @entity {
+type PlatformDescription @entity (immutable: true) {
   id: ID! #cid
   about: String #text
   website: String #url
