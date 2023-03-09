@@ -9,6 +9,7 @@ import {
   Mint,
   MintFeeUpdated,
   OwnershipTransferred,
+  ShortHandlesMaxPriceUpdated,
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
@@ -109,4 +110,10 @@ function removeFromArray(arr: string[], value: string): string[] {
     arr.splice(index, 1)
   }
   return arr
+}
+
+export function handleShortHandlesMaxPriceUpdate(event: ShortHandlesMaxPriceUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.shortHandlesMaxPrice = event.params._price
+  protocol.save()
 }
