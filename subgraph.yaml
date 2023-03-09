@@ -39,6 +39,8 @@ dataSources:
           handler: handleDelegateAdded
         - event: DelegateRemoved(uint256,address)
           handler: handleDelegateRemoved
+        - event: ShortHandlesMaxPriceUpdated(uint256)
+          handler: handleShortHandlesMaxPriceUpdate
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview

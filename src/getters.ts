@@ -245,6 +245,7 @@ export function getOrCreateProtocol(): Protocol {
     protocol.protocolEscrowFeeRate = 0
     protocol.totalMintFees = ZERO
     protocol.minArbitrationFeeTimeout = ZERO
+    protocol.shortHandlesMaxPrice = ZERO
   }
   return protocol
 }
