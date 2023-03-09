@@ -25,8 +25,7 @@ type Service @entity {
   description: ServiceDescription
 }
 
-#TODO: Is this data immutable ?
-type ServiceDescription @entity {
+type ServiceDescription @entity (immutable: true) {
   id: ID! #cid
   service: Service!
   title: String
@@ -63,7 +62,7 @@ type ReviewDescription @entity (immutable: true) {
   review: Review
 }
 
-type Token @entity (immutable: true) {
+type Token @entity {
   id: ID! # token id
   address: Bytes! # token entity
   symbol: String! # token code
