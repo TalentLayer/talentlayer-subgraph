@@ -69,6 +69,7 @@ type Token @entity {
   name: String! # token name
   decimals: BigInt! # token decimals
   allowed: Boolean! # Whether the token is whitelisted or not
+  minimumTransactionAmount: BigInt! # Minimum amount of token that can be transferred
 }
 
 type User @entity {

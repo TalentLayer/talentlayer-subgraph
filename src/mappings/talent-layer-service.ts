@@ -110,6 +110,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
   const token = getOrCreateToken(event.params._tokenAddress)
   token.allowed = event.params._status
+  token.minimumTransactionAmount = event.params._minimumTransactionAmount
 
   token.save()
 }
