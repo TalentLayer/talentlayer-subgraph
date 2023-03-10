@@ -177,7 +177,8 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
     }
     // Token initially set to non-allowed. Status will be handled in "handleAllowedTokenListUpdated" handler
     token.allowed = false
-    token.save()
+    token.minimumTransactionAmount = ZERO
+      token.save()
   }
   return token
 }
