@@ -122,6 +122,7 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
     platform.arbitrationFeeTimeout = ZERO
+    platform.signer = ZERO_ADDRESS
     platform.save()
   }
   return platform
@@ -134,6 +135,7 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
   if (!token) {
     token = new Token(tokenAddress.toHex())
     token.address = tokenAddress
+    token.minimumTransactionAmount = ZERO
 
     if (tokenAddress.toHex() == ZERO_TOKEN_ADDRESS) {
       if (dataSource.network() == 'polygon' || dataSource.network() == 'mumbai') {

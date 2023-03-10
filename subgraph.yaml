@@ -97,7 +97,7 @@ dataSources:
           handler: handleProposalCreated
         - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
           handler: handleProposalUpdated
-        - event: AllowedTokenListUpdated(address,bool)
+        - event: AllowedTokenListUpdated(address,bool,uint256)
           handler: handleAllowedTokenListUpdated
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
@@ -194,6 +194,8 @@ dataSources:
           handler: handleServicePostingFeeUpdated
         - event: ProposalPostingFeeUpdated(uint256,uint256)
           handler: handleProposalPostingFeeUpdated
+        - event: SignerUpdated(uint256,address)
+          handler: handleSignerUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
   - name: ServiceData
