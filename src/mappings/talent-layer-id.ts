@@ -35,6 +35,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
   //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   user.cid = newCid
+  user.cid = roles
 
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
