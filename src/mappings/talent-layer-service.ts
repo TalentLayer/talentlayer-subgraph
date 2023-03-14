@@ -7,6 +7,7 @@ import {
   ProposalCreated,
   ProposalUpdated,
   AllowedTokenListUpdated,
+  MinCompletionPercentageUpdated,
 } from '../../generated/TalentLayerService/TalentLayerService'
 import {
   getOrCreateService,
@@ -14,6 +15,7 @@ import {
   getOrCreateToken,
   getOrCreatePlatform,
   getOrCreateUser,
+  getOrCreateProtocol,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
 
@@ -152,4 +154,10 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
 
   proposal.description = newCid
   proposal.save()
+}
+
+export function handleMinCompletionPercentageUpdated(event: MinCompletionPercentageUpdated): void {
+  const protocol = getOrCreateProtocol()
+  protocol.minServiceCompletionPercentage = event.params._minCompletionPercentage
+  protocol.save()
 }

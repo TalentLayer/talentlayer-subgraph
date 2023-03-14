@@ -99,6 +99,8 @@ dataSources:
           handler: handleProposalUpdated
         - event: AllowedTokenListUpdated(address,bool,uint256)
           handler: handleAllowedTokenListUpdated
+        - event: MinCompletionPercentageUpdated(uint256)
+          handler: handleMinCompletionPercentageUpdated
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow

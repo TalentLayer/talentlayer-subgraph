@@ -259,6 +259,7 @@ type Protocol @entity {
   totalMintFees: BigInt! # total mint fees collected
   minArbitrationFeeTimeout: BigInt! # minimum timeout to pay the arbitration fee
   shortHandlesMaxPrice: BigInt! # maximum price for a short handle
+  minServiceCompletionPercentage: BigInt! # minimum percentage of released amount for considering a service completed
 }
 
 type _Schema_ @fulltext (
