@@ -204,6 +204,7 @@ type Platform @entity {
   arbitrationFeeTimeout: BigInt! # timeout for the arbitration fee to be paid
   cid: String #cid of description
   description: PlatformDescription
+  signer: Bytes! # address of the platform signer
 }
 
 type PlatformDescription @entity(immutable: true) {

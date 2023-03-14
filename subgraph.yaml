@@ -194,6 +194,8 @@ dataSources:
           handler: handleServicePostingFeeUpdated
         - event: ProposalPostingFeeUpdated(uint256,uint256)
           handler: handleProposalPostingFeeUpdated
+        - event: SignerUpdated(uint256,address)
+          handler: handleSignerUpdated
       file: ./src/mappings/talent-layer-platform-id.ts
 templates:
   - name: ServiceData

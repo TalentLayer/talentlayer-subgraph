@@ -412,6 +412,25 @@
       "anonymous": false,
       "inputs": [
         {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_platformId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_signer",
+          "type": "address"
+        }
+      ],
+      "name": "SignerUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
           "indexed": true,
           "internalType": "address",
           "name": "from",
@@ -671,6 +690,11 @@
               "internalType": "uint256",
               "name": "arbitrationFeeTimeout",
               "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "signer",
+              "type": "address"
             }
           ],
           "internalType": "struct TalentLayerPlatformID.Platform",
@@ -1054,6 +1078,11 @@
           "internalType": "uint256",
           "name": "arbitrationFeeTimeout",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "signer",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -1462,6 +1491,24 @@
         }
       ],
       "name": "updateServicePostingFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_platformId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_signer",
+          "type": "address"
+        }
+      ],
+      "name": "updateSigner",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
