@@ -248,6 +248,7 @@ export function getOrCreateProtocol(): Protocol {
     protocol.totalMintFees = ZERO
     protocol.minArbitrationFeeTimeout = ZERO
     protocol.shortHandlesMaxPrice = ZERO
+    protocol.minServiceCompletionPercentage = ZERO
   }
   return protocol
 }
