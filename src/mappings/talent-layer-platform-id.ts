@@ -13,6 +13,7 @@ import {
   OriginValidatedProposalFeeRateUpdated,
   ProposalPostingFeeUpdated,
   ServicePostingFeeUpdated,
+  SignerUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
 import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
@@ -67,6 +68,7 @@ export function handleMint(event: Mint): void {
   platform.updatedAt = event.block.timestamp
 
   platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
+  platform.signer = event.params._platformOwnerAddress
 
   platform.save()
 
@@ -124,5 +126,11 @@ export function handleServicePostingFeeUpdated(event: ServicePostingFeeUpdated):
 export function handleProposalPostingFeeUpdated(event: ProposalPostingFeeUpdated): void {
   const platform = getOrCreatePlatform(event.params._platformId)
   platform.proposalPostingFee = event.params._proposalPostingFee
+  platform.save()
+}
+
+export function handleSignerUpdated(event: SignerUpdated): void {
+  const platform = getOrCreatePlatform(event.params._platformId)
+  platform.signer = event.params._signer
   platform.save()
 }

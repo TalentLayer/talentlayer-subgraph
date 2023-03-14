@@ -122,6 +122,7 @@ export function getOrCreatePlatform(platformId: BigInt): Platform {
     platform.arbitrator = ZERO_ADDRESS
     platform.arbitratorExtraData = Bytes.empty()
     platform.arbitrationFeeTimeout = ZERO
+    platform.signer = ZERO_ADDRESS
     platform.save()
   }
   return platform
