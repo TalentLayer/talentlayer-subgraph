@@ -88,7 +88,6 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription
   delegates: [String!]! # list of user delegators
-  roles: [String!]! # list of user roles
 }
 
 type UserDescription @entity(immutable: true) {
@@ -102,6 +101,8 @@ type UserDescription @entity(immutable: true) {
   country: String
   picture: String #url
   user: User!
+  role: String # buyer, seller, both
+  name: String # Custom user name
 }
 
 enum ProposalStatus {
