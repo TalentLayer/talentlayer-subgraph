@@ -177,6 +177,7 @@ export function handleUserData(content: Bytes): void {
   description.picture = getValueAsString(jsonObject, 'picture')
   description.role = getValueAsString(jsonObject, 'role')
   description.name = getValueAsString(jsonObject, 'name')
+  description.sismoVaultId = getValueAsString(jsonObject, 'sismoVaultId')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087

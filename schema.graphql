@@ -103,6 +103,7 @@ type UserDescription @entity(immutable: true) {
   user: User!
   role: String # buyer, seller, both
   name: String # Custom user name
+  sismoVaultId: String # Sismo vault id
 }
 
 enum ProposalStatus {
