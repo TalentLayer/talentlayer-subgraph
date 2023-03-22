@@ -13,6 +13,7 @@ import {
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
+import { UserDescription } from '../../generated/schema'
 
 export function handleApproval(event: Approval): void {}
 
@@ -29,29 +30,32 @@ export function handleCidUpdated(event: CidUpdated): void {
     user.createdAt = event.block.timestamp
   }
 
-  //Notice: Storing cid required to remove on userDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with userId
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  user.cid = newCid
+  let existingUserDescription = UserDescription.load(newCid)
+  if (!existingUserDescription) {
+    //Notice: Storing cid required to remove on userDetailUpdated
+    //Reason: Datastore can not get created entities.
+    //When the issue is solved it may be possible to swap cid with userId
+    //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
+    //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+    user.cid = newCid
 
-  const context = new DataSourceContext()
-  context.setBigInt('userId', userId)
+    const context = new DataSourceContext()
+    context.setBigInt('userId', userId)
 
-  // Removes user description from store to save space.
-  // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
-  // Reason: store.remove can not be called from within file datastore (ipfs-data).
-  // Solution: do not use store.remove when the following issue has been solved:
-  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  // When the issue is solved, change userDescription.id from cid to userId.
-  if (oldCid) {
-    store.remove('UserDescription', oldCid)
+    // Removes user description from store to save space.
+    // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
+    // Reason: store.remove can not be called from within file datastore (ipfs-data).
+    // Solution: do not use store.remove when the following issue has been solved:
+    // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
+    // When the issue is solved, change userDescription.id from cid to userId.
+    if (oldCid) {
+      store.remove('UserDescription', oldCid)
+    }
+
+    UserData.createWithContext(newCid, context)
+
+    user.description = newCid
   }
-
-  UserData.createWithContext(newCid, context)
-
-  user.description = newCid
   user.save()
 }
 
