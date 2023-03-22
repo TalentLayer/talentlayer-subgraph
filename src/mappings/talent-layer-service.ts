@@ -114,6 +114,13 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.description = cid
   proposal.save()
+
+  let proposalSeller = User.load(event.params.ownerId.toString())!.id
+  const notification = buildNotification(
+    'Proposal Created',
+    `Seller ${proposalSeller} created proposal ${proposalId} for service ${proposal.service}`,
+  )
+  sendEPNSNotification(User.load(proposalSeller.toString())!.address, notification)
 }
 
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
