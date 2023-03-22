@@ -9,8 +9,8 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerID
-      address: '0x286D04de10977D47EF9F1d50a7072cdeAd088D3E'
-      startBlock: 32108038
+      address: "0x7a9A09bd8bb3466Fa86f1b2A4514BB300E72bdfD"
+      startBlock: 33419800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -47,8 +47,8 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerReview
-      address: '0x8398B0FfE674Ea993Cb38AE2E4e0Ac7111fE5852'
-      startBlock: 32108038
+      address: "0x781a6026FF0498fbFe2a5c7C514a7A656543D6d5"
+      startBlock: 33419800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -73,8 +73,8 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerService
-      address: '0x8d2587494796A1547702Ea78E9c6359351901c4B'
-      startBlock: 32108038
+      address: "0xC17770a163B27FdC38ff8b3068A9Ef75104fc5B6"
+      startBlock: 33419800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -107,8 +107,8 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerEscrow
-      address: '0x2F9EBAc36cc020B81c4c624AbcfeC7DC8958Cf54'
-      startBlock: 32108038
+      address: "0xDA562881728884fCb74F71C59a008B88d8f1cf2C"
+      startBlock: 33419800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -158,8 +158,8 @@ dataSources:
     network: mumbai
     source:
       abi: TalentLayerPlatformID
-      address: '0xa6f853Ba54cF24F203751D81b106A7D4e4eBFF14'
-      startBlock: 32108038
+      address: "0x48E82821F26Ff2e2170cB4152031274e8Bff5445"
+      startBlock: 33419800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

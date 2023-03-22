@@ -8,7 +8,11 @@
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol",
     "create-local": "graph create --node http://localhost:8020/ talentlayer/talent-layer-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ talentlayer/talent-layer-protocol",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1",
+    "remove-mumbai": "graph remove --network mumbai akugone/aku-mumbai-talent-layer",
+    "mumbai-auth": "graph auth --product hosted-service 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",
+    "mumbai-build": "graph build --network mumbai",
+    "mumbai-deploy": "graph deploy --product hosted-service akugone/talent-layer-aku-push-test"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.35.0",

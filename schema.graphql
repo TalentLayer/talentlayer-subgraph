@@ -265,6 +265,18 @@ type Protocol @entity {
   minServiceCompletionPercentage: BigInt! # minimum percentage of released amount for considering a service completed
 }
 
+type EpnsNotificationCounter @entity {
+  id: ID!
+  totalCount: BigInt!
+}
+
+type EpnsPushNotification @entity {
+  id: ID!
+  notificationNumber: BigInt!
+  recipient: String!
+  notification: String!
+}
+
 type _Schema_
   @fulltext(
     name: "serviceDescriptionSearchRank"

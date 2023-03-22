@@ -17,7 +17,8 @@ import {
   getOrCreateUser,
   getOrCreateProtocol,
 } from '../getters'
-import { generateIdFromTwoElements } from './utils'
+import { buildNotification, generateIdFromTwoElements } from './utils'
+import { sendEPNSNotification } from './EPNSNotification'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const service = getOrCreateService(event.params.id)
@@ -35,6 +36,12 @@ export function handleServiceCreated(event: ServiceCreated): void {
 
   service.description = event.params.dataUri
   service.save()
+
+  const notification = buildNotification(
+    'Service Created',
+    `Buyer ${getOrCreateUser(event.params.ownerId).id} created service ${event.params.id}`,
+  )
+  sendEPNSNotification(User.load(getOrCreateUser(event.params.ownerId).id.toString())!.address, notification)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
