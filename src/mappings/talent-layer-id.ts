@@ -13,9 +13,6 @@ import {
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
-import { User } from '../../generated/schema'
-import { sendEPNSNotification } from './EPNSNotification'
-import { buildNotification } from './utils'
 
 export function handleApproval(event: Approval): void {}
 
@@ -72,9 +69,6 @@ export function handleMint(event: Mint): void {
   const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
   protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
   protocol.save()
-
-  const notification = buildNotification('New user', `New user with handle ${event.params._handle} has been minted`)
-  sendEPNSNotification(user.address, notification)
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}

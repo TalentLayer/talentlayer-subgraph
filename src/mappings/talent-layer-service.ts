@@ -36,12 +36,6 @@ export function handleServiceCreated(event: ServiceCreated): void {
 
   service.description = event.params.dataUri
   service.save()
-
-  const notification = buildNotification(
-    'Service Created',
-    `Buyer ${getOrCreateUser(event.params.ownerId).id} created service ${event.params.id}`,
-  )
-  sendEPNSNotification(User.load(getOrCreateUser(event.params.ownerId).id.toString())!.address, notification)
 }
 
 export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
@@ -115,12 +109,12 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.description = cid
   proposal.save()
 
-  let proposalSeller = User.load(event.params.ownerId.toString())!.id
+  let proposalSellerAddress = User.load(proposal.seller!)!.address
   const notification = buildNotification(
     'Proposal Created',
-    `Seller ${proposalSeller} created proposal ${proposalId} for service ${proposal.service}`,
+    `Seller ${proposalSellerAddress} created proposal ${proposalId} for service ${proposal.service}`,
   )
-  sendEPNSNotification(User.load(proposalSeller.toString())!.address, notification)
+  sendEPNSNotification(proposalSellerAddress, notification)
 }
 
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
@@ -168,6 +162,13 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
 
   proposal.description = newCid
   proposal.save()
+
+  let proposalSeller = User.load(event.params.ownerId.toString())!.id
+  const notification = buildNotification(
+    'Proposal Updated',
+    `Seller ${proposalSeller} updated proposal ${proposalId} for service ${proposal.service}`,
+  )
+  sendEPNSNotification(User.load(proposalSeller.toString())!.address, notification)
 }
 
 export function handleMinCompletionPercentageUpdated(event: MinCompletionPercentageUpdated): void {

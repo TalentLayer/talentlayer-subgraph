@@ -30,8 +30,9 @@ import {
   OriginServiceFeeRateReleased,
   OriginValidatedProposalFeeRateReleased,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
-import { generateIdFromTwoElements, generateUniqueId } from './utils'
+import { buildNotification, generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ZERO } from '../constants'
+import { sendEPNSNotification } from './EPNSNotification'
 
 enum Party {
   Sender,
@@ -74,12 +75,22 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   service.status = 'Confirmed'
   service.seller = User.load(event.params._proposalId.toString())!.id
   service.save()
+
+  // we get the transaction recevier address
+  let receiverAddress = User.load(transaction.receiver!)!.address
+  const notification = buildNotification('New Transaction', `New transaction created for service ${service.id}`)
+  sendEPNSNotification(receiverAddress, notification)
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
   service.save()
+
+  // build notification
+  let sellerAddress = User.load(service.seller!)!.address
+  const notification = buildNotification('Service Finished', `Service ${service.id} finished`)
+  sendEPNSNotification(sellerAddress, notification)
 }
 
 export function handlePayment(event: Payment): void {
