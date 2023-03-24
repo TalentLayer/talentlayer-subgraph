@@ -68,31 +68,14 @@ export function handleProposalData(content: Bytes): void {
     log.warning('Error parsing json: {}', [dataSource.stringParam()])
     return
   }
-  const cid = dataSource.stringParam()
+
   const context = dataSource.context()
   const proposalId = context.getString('proposalId')
+  const proposalDescriptionID = context.getString('proposalDescriptionID')
 
-  let description = new ProposalDescription(cid)
-
-  // Notice: Replaced with proposalId.toString()
-  // Reason: Creates duplicate proposals.
-  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
-  // description.proposal = getOrCreateProposal(proposalId).id
-
-  // Notice: getOrCreateProposal must be called before.
-  // Solution: getOrCreateProposal called in calling function.
+  let description = new ProposalDescription(proposalDescriptionID)
   description.proposal = proposalId.toString()
 
-  // Notice: Moved up to calling function
-  // Reason: store.remove does not remove the entity from store when called from here.
-  // if(context.isSet('oldCid')){
-  //   const oldCid = context.getString('oldCid')
-  //   if(oldCid){
-  //     store.remove('ProposalDescription', oldCid)
-  //   }
-  // }
-
-  //Non-mandatory (nullable) fields assigned below
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
@@ -143,32 +126,13 @@ export function handleUserData(content: Bytes): void {
     return
   }
 
-  const cid = dataSource.stringParam()
   const context = dataSource.context()
   const userId = context.getBigInt('userId')
   const id = context.getString('id')
 
   let description = new UserDescription(id)
-
-  // Notice: Replaced with userId.toString()
-  // Reason: Creates duplicate users.
-  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
-  // description.user = getOrCreateUser(userId).id
-
-  // Notice: getOrCreateUser must be called before.
-  // Solution: getOrCreateUser called in calling function.
   description.user = userId.toString()
 
-  // Notice: Moved up to calling function
-  // Reason: store.remove does not remove the entity from store when called from here.
-  // if(context.isSet('oldCid')){
-  //   const oldCid = context.getString('oldCid')
-  //   if(oldCid){
-  //     store.remove('UserDescription', oldCid)
-  //   }
-  // }
-
-  //Non-mandatory (nullable) fields assigned below
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
   description.skills_raw = getValueAsString(jsonObject, 'skills')!.toLowerCase()

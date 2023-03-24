@@ -84,28 +84,20 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
 
-  // we get the token address
-  const tokenAddress = event.params.rateToken
-  // we get the token contract to fill the entity
-  let token = getOrCreateToken(tokenAddress)
-
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
 
   const cid = event.params.dataUri
-
-  //Notice: Storing cid required to remove serviceDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with serviceId.
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = cid
+
+  const proposalDescriptionID = cid + '-' + event.block.timestamp.toString()
+  proposal.description = proposalDescriptionID
 
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
+  context.setString('proposalDescriptionID', proposalDescriptionID)
   ProposalData.createWithContext(cid, context)
 
-  proposal.description = cid
   proposal.save()
 }
 
