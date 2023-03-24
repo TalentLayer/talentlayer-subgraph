@@ -13,6 +13,7 @@ import {
   Transfer,
 } from '../../generated/TalentLayerID/TalentLayerID'
 import { getOrCreatePlatform, getOrCreateProtocol, getOrCreateUser } from '../getters'
+import { UserDescription } from '../../generated/schema'
 
 export function handleApproval(event: Approval): void {}
 
@@ -22,36 +23,17 @@ export function handleCidUpdated(event: CidUpdated): void {
   const userId = event.params._profileId
   const user = getOrCreateUser(userId)
   const newCid = event.params._newCid
-  const oldCid = user.cid
+  const dataId = newCid + '-' + event.block.timestamp.toString()
 
   user.updatedAt = event.block.timestamp
-  if (!oldCid) {
-    user.createdAt = event.block.timestamp
-  }
-
-  //Notice: Storing cid required to remove on userDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with userId
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   user.cid = newCid
+  user.description = dataId
 
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
-
-  // Removes user description from store to save space.
-  // Problem: unsuccessful ipfs fetch sets userDescription.user to null.
-  // Reason: store.remove can not be called from within file datastore (ipfs-data).
-  // Solution: do not use store.remove when the following issue has been solved:
-  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  // When the issue is solved, change userDescription.id from cid to userId.
-  if (oldCid) {
-    store.remove('UserDescription', oldCid)
-  }
-
+  context.setString('id', dataId)
   UserData.createWithContext(newCid, context)
 
-  user.description = newCid
   user.save()
 }
 
