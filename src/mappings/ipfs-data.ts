@@ -18,29 +18,12 @@ export function handleServiceData(content: Bytes): void {
     return
   }
 
-  const cid = dataSource.stringParam()
   const context = dataSource.context()
   const serviceId = context.getBigInt('serviceId')
+  const id = context.getString('id')
 
-  let description = new ServiceDescription(cid)
-
-  // Notice: Replaced with serviceId.toString()
-  // Reason: Creates duplicate services.
-  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
-  // description.service = getOrCreateService(serviceId).id
-
-  // Notice: getOrCreateService must be called before.
-  // Solution: getOrCreateService called in calling function.
+  let description = new ServiceDescription(id)
   description.service = serviceId.toString()
-
-  // Notice: Moved up to calling function
-  // Reason: store.remove does not remove the entity from store when called from here.
-  // if(context.isSet('oldCid')){
-  //   const oldCid = context.getString('oldCid')
-  //   if(oldCid){
-  //     store.remove('ServiceDescription', oldCid)
-  //   }
-  // }
 
   // Non-mandatory (nullable) fields assigned below
   description.title = getValueAsString(jsonObject, 'title')
@@ -71,9 +54,9 @@ export function handleProposalData(content: Bytes): void {
 
   const context = dataSource.context()
   const proposalId = context.getString('proposalId')
-  const proposalDescriptionID = context.getString('proposalDescriptionID')
+  const id = context.getString('id')
 
-  let description = new ProposalDescription(proposalDescriptionID)
+  let description = new ProposalDescription(id)
   description.proposal = proposalId.toString()
 
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
@@ -95,21 +78,12 @@ export function handleReviewData(content: Bytes): void {
     return
   }
 
-  const cid = dataSource.stringParam()
   const context = dataSource.context()
   const reviewId = context.getString('reviewId')
+  const id = context.getString('id')
 
-  let description = new ReviewDescription(cid)
-
-  // Notice: Replaced with reviewId
-  // Reason: Creates duplicate reviews.
-  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
-  // description.review = getOrCreateReview(reviewId).id
-
-  // Notice: getOrCreateReview must be called before.
-  // Solution: getOrCreateReview called in calling function.
+  let description = new ReviewDescription(id)
   description.review = reviewId
-
   description.content = getValueAsString(jsonObject, 'content')
 
   description.save()
@@ -161,30 +135,13 @@ export function handlePlatformData(content: Bytes): void {
     return
   }
 
-  const cid = dataSource.stringParam()
   const context = dataSource.context()
   const platformId = context.getBigInt('platformId')
+  const id = context.getString('id')
 
-  let description = new PlatformDescription(cid)
+  let description = new PlatformDescription(id)
 
-  // Notice: Replaced with platformId.toString()
-  // Reason: Creates duplicate platforms.
-  // Open issue https://github.com/graphprotocol/graph-node/issues/4087
-  // description.platform = getOrCreatePlatform(platformId).id
-
-  // Notice: getOrCreatePlatform must be called before.
-  // Solution: getOrCreatePlatform called in calling function.
   description.platform = platformId.toString()
-
-  // Notice: Moved up to calling function
-  // Reason: store.remove does not remove the entity from store when called from here.
-  // if(context.isSet('oldCid')){
-  //   const oldCid = context.getString('oldCid')
-  //   if(oldCid){
-  //     store.remove('PlatformDescription', oldCid)
-  //   }
-  // }
-
   description.about = getValueAsString(jsonObject, 'about')
   description.website = getValueAsString(jsonObject, 'website')
   description.logo = getValueAsString(jsonObject, 'logo')

@@ -26,12 +26,14 @@ export function handleMint(event: Mint): void {
   user.save()
 
   const cid = event.params._reviewUri
+  const dataId = cid + '-' + event.block.timestamp.toString()
   const context = new DataSourceContext()
   context.setString('reviewId', review.id)
+  context.setString('id', dataId)
 
   ReviewData.createWithContext(cid, context)
 
-  review.description = cid
+  review.description = dataId
   review.save()
 }
 
