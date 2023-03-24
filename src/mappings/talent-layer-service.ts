@@ -28,12 +28,14 @@ export function handleServiceCreated(event: ServiceCreated): void {
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
   service.cid = event.params.dataUri
+  const dataId = event.params.dataUri + '-' + event.block.timestamp.toString()
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', event.params.id)
+  context.setString('id', dataId)
   ServiceData.createWithContext(event.params.dataUri, context)
 
-  service.description = event.params.dataUri
+  service.description = dataId
   service.save()
 }
 
@@ -42,33 +44,23 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
   const newCid = event.params.dataUri
+  const dataId = newCid + '-' + event.block.timestamp.toString()
 
   //service.created set in handleServiceCreated.
   service.updatedAt = event.block.timestamp
-
-  //Notice: Storing cid required to remove on serviceDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with serviceId
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   service.cid = newCid
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', serviceId)
+  context.setString('id', dataId)
 
-  // Removes service description from store to save space.
-  // Problem: unsuccessful ipfs fetch sets serviceDescription.service to null.
-  // Reason: store.remove can not be called from within file datastore (ipfs-data).
-  // Solution: do not use store.remove when the following issue has been solved:
-  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  // When the issue is solved, change serviceDescription.id from cid to serviceId.
   if (oldCid) {
     store.remove('ServiceDescription', oldCid)
   }
 
   ServiceData.createWithContext(newCid, context)
 
-  service.description = newCid
+  service.description = dataId
   service.save()
 }
 
@@ -84,28 +76,23 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
 
-  // we get the token address
   const tokenAddress = event.params.rateToken
-  // we get the token contract to fill the entity
   let token = getOrCreateToken(tokenAddress)
 
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
 
   const cid = event.params.dataUri
-
-  //Notice: Storing cid required to remove serviceDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with serviceId.
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = cid
+
+  const dataId = cid + '-' + event.block.timestamp.toString()
+  proposal.description = dataId
 
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
+  context.setString('id', dataId)
   ProposalData.createWithContext(cid, context)
 
-  proposal.description = cid
   proposal.save()
 }
 
@@ -123,6 +110,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   const newCid = event.params.dataUri
   const oldCid = proposal.cid
+  const dataId = newCid + '-' + event.block.timestamp.toString()
 
   proposal.rateToken = getOrCreateToken(token).id
   proposal.rateAmount = event.params.rateAmount
@@ -130,29 +118,19 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   //proposal.created set in handleProposalCreated.
   proposal.updatedAt = event.block.timestamp
 
-  //Notice: Storing cid required to remove on proposalUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with proposalId
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   proposal.cid = newCid
   proposal.expirationDate = event.params._expirationDate
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
+  context.setString('id', dataId)
 
-  // Removes proposal description from store to save space.
-  // Problem: unsuccessful ipfs fetch sets proposalDescription.proposal to null.
-  // Reason: store.remove can not be called from within file datastore (ipfs-data).
-  // Solution: do not use store.remove when the following issue has been solved:
-  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  // When the issue is solved, change proposalDescription.id from cid to proposalId.
   if (oldCid) {
     store.remove('ProposalDescription', oldCid)
   }
 
   ProposalData.createWithContext(newCid, context)
 
-  proposal.description = newCid
+  proposal.description = dataId
   proposal.save()
 }
 

@@ -27,35 +27,26 @@ export function handleCidUpdated(event: CidUpdated): void {
   const platform = getOrCreatePlatform(platformId)
   const oldCid = platform.cid
   const newCid = event.params._newCid
+  const dataId = newCid + '-' + event.block.timestamp.toString()
 
   platform.updatedAt = event.block.timestamp
   if (!oldCid) {
     platform.createdAt = event.block.timestamp
   }
 
-  //Notice: Storing cid required to remove on platformDetailUpdated
-  //Reason: Datastore can not get created entities.
-  //When the issue is solved it may be possible to swap cid with platformId
-  //Alternatively the cid can be fetched and removed in the file data source template (ipfs-data.ts)
-  //Open issue: https://github.com/graphprotocol/graph-node/issues/4087
   platform.cid = newCid
 
   const context = new DataSourceContext()
   context.setBigInt('platformId', platformId)
+  context.setString('id', dataId)
 
-  // Removes platform description from store to save space.
-  // Problem: unsuccessful ipfs fetch sets platformDescription.platform to null.
-  // Reason: store.remove can not be called from within file datastore (ipfs-data).
-  // Solution: do not use store.remove when the following issue has been solved:
-  // Open issue: https://github.com/graphprotocol/graph-node/issues/4087
-  // When the issue is solved, change platformDescription.id from cid to platformId.
   if (oldCid) {
     store.remove('PlatformDescription', oldCid)
   }
 
   PlatformData.createWithContext(newCid, context)
 
-  platform.description = newCid
+  platform.description = dataId
   platform.save()
 }
 
