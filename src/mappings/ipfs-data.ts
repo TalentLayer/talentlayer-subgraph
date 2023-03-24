@@ -146,8 +146,9 @@ export function handleUserData(content: Bytes): void {
   const cid = dataSource.stringParam()
   const context = dataSource.context()
   const userId = context.getBigInt('userId')
+  const id = context.getString('id')
 
-  let description = new UserDescription(cid)
+  let description = new UserDescription(id)
 
   // Notice: Replaced with userId.toString()
   // Reason: Creates duplicate users.
