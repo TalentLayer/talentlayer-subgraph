@@ -23,10 +23,10 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleCidUpdated(event: CidUpdated): void {
-  const platformId = event.params._platformId
+  const platformId = event.params.platformId
   const platform = getOrCreatePlatform(platformId)
   const oldCid = platform.cid
-  const newCid = event.params._newCid
+  const newCid = event.params.newCid
   const dataId = newCid + '-' + event.block.timestamp.toString()
 
   platform.updatedAt = event.block.timestamp
@@ -51,21 +51,21 @@ export function handleCidUpdated(event: CidUpdated): void {
 }
 
 export function handleMint(event: Mint): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.address = event.params._platformOwnerAddress
-  platform.name = event.params._platformName
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.address = event.params.platformOwnerAddress
+  platform.name = event.params.platformName
 
   platform.createdAt = event.block.timestamp
   platform.updatedAt = event.block.timestamp
 
-  platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
-  platform.signer = event.params._platformOwnerAddress
+  platform.arbitrationFeeTimeout = event.params.arbitrationFeeTimeout
+  platform.signer = event.params.platformOwnerAddress
 
   platform.save()
 
   const protocol = getOrCreateProtocol()
   const currentTotalMintFees = protocol.totalMintFees || new BigInt(0)
-  protocol.totalMintFees = currentTotalMintFees.plus(event.params._fee)
+  protocol.totalMintFees = currentTotalMintFees.plus(event.params.fee)
   protocol.save()
 }
 
@@ -73,55 +73,55 @@ export function handleTransfer(event: Transfer): void {}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   const protocol = getOrCreateProtocol()
-  protocol.platformMintFee = event.params._mintFee
+  protocol.platformMintFee = event.params.mintFee
   protocol.save()
 }
 
 export function handleOriginServiceFeeRateUpdated(event: OriginServiceFeeRateUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.originServiceFeeRate = event.params._originServiceFeeRate
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.originServiceFeeRate = event.params.originServiceFeeRate
   platform.save()
 }
 
 export function handleOriginValidatedProposalFeeRateUpdated(event: OriginValidatedProposalFeeRateUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.originValidatedProposalFeeRate = event.params._originValidatedProposalFeeRate
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.originValidatedProposalFeeRate = event.params.originValidatedProposalFeeRate
   platform.save()
 }
 
 export function handleArbitratorUpdated(event: ArbitratorUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.arbitrator = event.params._arbitrator
-  platform.arbitratorExtraData = event.params._extraData
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.arbitrator = event.params.arbitrator
+  platform.arbitratorExtraData = event.params.extraData
   platform.save()
 }
 
 export function handleArbitrationFeeTimeoutUpdated(event: ArbitrationFeeTimeoutUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.arbitrationFeeTimeout = event.params._arbitrationFeeTimeout
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.arbitrationFeeTimeout = event.params.arbitrationFeeTimeout
   platform.save()
 }
 
 export function handleMinArbitrationFeeTimeoutUpdated(event: MinArbitrationFeeTimeoutUpdated): void {
   const protocol = getOrCreateProtocol()
-  protocol.minArbitrationFeeTimeout = event.params._minArbitrationFeeTimeout
+  protocol.minArbitrationFeeTimeout = event.params.minArbitrationFeeTimeout
   protocol.save()
 }
 
 export function handleServicePostingFeeUpdated(event: ServicePostingFeeUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.servicePostingFee = event.params._servicePostingFee
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.servicePostingFee = event.params.servicePostingFee
   platform.save()
 }
 
 export function handleProposalPostingFeeUpdated(event: ProposalPostingFeeUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.proposalPostingFee = event.params._proposalPostingFee
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.proposalPostingFee = event.params.proposalPostingFee
   platform.save()
 }
 
 export function handleSignerUpdated(event: SignerUpdated): void {
-  const platform = getOrCreatePlatform(event.params._platformId)
-  platform.signer = event.params._signer
+  const platform = getOrCreatePlatform(event.params.platformId)
+  platform.signer = event.params.signer
   platform.save()
 }

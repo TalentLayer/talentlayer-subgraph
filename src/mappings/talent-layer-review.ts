@@ -10,22 +10,22 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleMint(event: Mint): void {
-  const review = getOrCreateReview(event.params._tokenId, event.params._serviceId, event.params._toId)
-  review.rating = event.params._rating
+  const review = getOrCreateReview(event.params.tokenId, event.params.serviceId, event.params.toId)
+  review.rating = event.params.rating
   review.createdAt = event.block.timestamp
-  review.cid = event.params._reviewUri
+  review.cid = event.params.reviewUri
 
-  let user = User.load(event.params._toId.toString())
+  let user = User.load(event.params.toId.toString())
   if (!user) return
   const rating = user.rating
     .times(user.numReviews.toBigDecimal())
-    .plus(event.params._rating.toBigDecimal())
+    .plus(event.params.rating.toBigDecimal())
     .div(user.numReviews.plus(ONE).toBigDecimal())
   user.rating = rating
   user.numReviews = user.numReviews.plus(ONE)
   user.save()
 
-  const cid = event.params._reviewUri
+  const cid = event.params.reviewUri
   const dataId = cid + '-' + event.block.timestamp.toString()
   const context = new DataSourceContext()
   context.setString('reviewId', review.id)

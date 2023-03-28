@@ -97,9 +97,9 @@ export function handleProposalCreated(event: ProposalCreated): void {
 }
 
 export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
-  const token = getOrCreateToken(event.params._tokenAddress)
-  token.allowed = event.params._status
-  token.minimumTransactionAmount = event.params._minimumTransactionAmount
+  const token = getOrCreateToken(event.params.tokenAddress)
+  token.allowed = event.params.isWhitelisted
+  token.minimumTransactionAmount = event.params.minimumTransactionAmount
 
   token.save()
 }
@@ -119,7 +119,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   proposal.updatedAt = event.block.timestamp
 
   proposal.cid = newCid
-  proposal.expirationDate = event.params._expirationDate
+  proposal.expirationDate = event.params.expirationDate
   const context = new DataSourceContext()
   context.setString('proposalId', proposalId)
   context.setString('id', dataId)
@@ -136,6 +136,6 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
 
 export function handleMinCompletionPercentageUpdated(event: MinCompletionPercentageUpdated): void {
   const protocol = getOrCreateProtocol()
-  protocol.minServiceCompletionPercentage = event.params._minCompletionPercentage
+  protocol.minServiceCompletionPercentage = event.params.minCompletionPercentage
   protocol.save()
 }
