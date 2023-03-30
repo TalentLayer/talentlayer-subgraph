@@ -55,7 +55,11 @@ export function handleMint(event: Mint): void {
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  const user = getOrCreateUser(event.params.tokenId)
+  user.address = event.params.to.toHex()
+  user.save()
+}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   const protocol = getOrCreateProtocol()
