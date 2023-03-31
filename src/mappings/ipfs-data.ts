@@ -33,6 +33,7 @@ export function handleServiceData(content: Bytes): void {
   description.keywords_raw = getValueAsString(jsonObject, 'keywords')!.toLowerCase()
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsBigInt(jsonObject, 'rateAmount')
+  description.video = getValueAsString(jsonObject, 'video')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -62,6 +63,7 @@ export function handleProposalData(content: Bytes): void {
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
+  description.video = getValueAsString(jsonObject, 'video')
 
   description.save()
 }
@@ -116,6 +118,8 @@ export function handleUserData(content: Bytes): void {
   description.picture = getValueAsString(jsonObject, 'picture')
   description.role = getValueAsString(jsonObject, 'role')
   description.name = getValueAsString(jsonObject, 'name')
+  description.video = getValueAsString(jsonObject, 'video')
+  description.image = getValueAsString(jsonObject, 'image')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -145,6 +149,8 @@ export function handlePlatformData(content: Bytes): void {
   description.about = getValueAsString(jsonObject, 'about')
   description.website = getValueAsString(jsonObject, 'website')
   description.logo = getValueAsString(jsonObject, 'logo')
+  description.video = getValueAsString(jsonObject, 'video')
+  description.image = getValueAsString(jsonObject, 'image')
 
   description.save()
 }

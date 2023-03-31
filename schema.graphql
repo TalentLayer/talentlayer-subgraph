@@ -36,6 +36,7 @@ type ServiceDescription @entity(immutable: true) {
   keywords_raw: String #lowercase keywords in raw format
   rateToken: String
   rateAmount: BigInt
+  video: String #url
 }
 
 type Keyword @entity(immutable: true) {
@@ -103,6 +104,8 @@ type UserDescription @entity(immutable: true) {
   user: User!
   role: String # buyer, seller, both
   name: String # Custom user name
+  video: String #url
+  image: String #url
 }
 
 enum ProposalStatus {
@@ -132,6 +135,7 @@ type ProposalDescription @entity(immutable: true) {
   startDate: BigInt
   about: String
   expectedHours: BigInt
+  video: String #url
 }
 
 #NB: Payment sender will always be the Escrow Contract
@@ -213,6 +217,8 @@ type PlatformDescription @entity(immutable: true) {
   website: String #url
   logo: String #url
   platform: Platform!
+  video: String #url
+  image: String #url
 }
 
 enum FeeType {
