@@ -152,7 +152,8 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
     } else {
       let callResultSymbol = contract.try_symbol()
       if (callResultSymbol.reverted) {
-        log.info('Reverted {}', ['Reverted'])
+        log.warning('Symbol Reverted {}', ['Reverted'])
+        token.symbol = 'UKN'
       } else {
         let result = callResultSymbol.value
         log.info('Symbol {}', [result])
@@ -161,7 +162,8 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
 
       let callResultName = contract.try_name()
       if (callResultName.reverted) {
-        log.info('Reverted {}', ['Reverted'])
+        log.warning('Name Reverted {}', ['Reverted'])
+        token.name = 'Unknown'
       } else {
         let result = callResultName.value
         log.info('Name {}', [result])
@@ -170,10 +172,11 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
 
       let callResultDecimal = contract.try_decimals()
       if (callResultDecimal.reverted) {
-        log.info('Reverted {}', ['Reverted'])
+        log.warning('Decimals Reverted {}', ['Reverted'])
+        token.decimals = ZERO
       } else {
         let result = callResultDecimal.value
-        log.info('decimals {}', [result.toString()])
+        log.info('Decimals {}', [result.toString()])
         token.decimals = BigInt.fromI32(result)
       }
     }
