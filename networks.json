@@ -64,5 +64,27 @@
       "address": "0xEFD8dbC421380Ee04BAdB69216a0FD97F64CbFD4",
       "startBlock": 33676850
     }
+  },
+  "polygon": {
+    "TalentLayerID": {
+      "address": "0xD7D1B2b0A665F03618cb9a45Aa3070f789cb91f2",
+      "startBlock": 41128230
+    },
+    "TalentLayerReview": {
+      "address": "0x7bBC20c8Fcb75A126810161DFB1511f6D3B1f2bE",
+      "startBlock": 41128230
+    },
+    "TalentLayerService": {
+      "address": "0xae8Bba1a403816568230d92099ccB87f41BbcA78",
+      "startBlock": 41128230
+    },
+    "TalentLayerEscrow": {
+      "address": "0x21C716673897f4a2A3c12053f3973F51Ce7b0cf6",
+      "startBlock": 41128230
+    },
+    "TalentLayerPlatformID": {
+      "address": "0x09FF07297d48eD9aD870caCE4b33BF30869C1D17",
+      "startBlock": 41128230
+    }
   }
 }
