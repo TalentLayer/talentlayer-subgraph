@@ -32,7 +32,7 @@ export function handleServiceData(content: Bytes): void {
   description.expectedEndDate = getValueAsBigInt(jsonObject, 'expectedEndDate')
   description.keywords_raw = getValueAsString(jsonObject, 'keywords')!.toLowerCase()
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
-  description.rateAmount = getValueAsBigInt(jsonObject, 'rateAmount')
+  description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
   description.video_url = getValueAsString(jsonObject, 'video_url')
 
   //Creates duplicate values. Open issue
