@@ -41,6 +41,9 @@ export function handleMint(event: Mint): void {
   const user = getOrCreateUser(event.params.profileId)
   user.address = event.params.user.toHex()
   user.handle = event.params.handle
+  user.createdAt = event.block.timestamp
+  user.updatedAt = event.block.timestamp
+
   if (event.params.platformId.notEqual(BigInt.fromI32(0))) {
     const platform = getOrCreatePlatform(event.params.platformId)
     user.platform = platform.id
