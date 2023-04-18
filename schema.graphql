@@ -75,6 +75,7 @@ type Token @entity {
 
 type User @entity {
   id: ID! # user nft id
+  index: BigInt! # index of user
   handle: String! # handle of user
   createdAt: BigInt!
   updatedAt: BigInt!
