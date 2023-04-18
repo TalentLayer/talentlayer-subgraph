@@ -138,7 +138,7 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
     token.minimumTransactionAmount = ZERO
 
     if (tokenAddress.toHex() == ZERO_TOKEN_ADDRESS) {
-      if (dataSource.network() == 'polygon' || dataSource.network() == 'mumbai') {
+      if (dataSource.network() == 'matic' || dataSource.network() == 'mumbai') {
         token.symbol = 'MATIC'
         token.name = 'Polygon'
       } else if (dataSource.network() == 'avalanche' || dataSource.network() == 'fuji') {

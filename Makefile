@@ -19,7 +19,7 @@ deploy-mumbai:
 	graph deploy --product hosted-service talentlayer/talent-layer-mumbai
 
 ## Mumbai hosted subgraph: https://thegraph.com/hosted-service/subgraph/talentlayer/talentlayer-polygon
-deploy-polygon: 
+deploy-matic: 
 	graph codegen
-	graph build --network polygon
+	graph build --network matic
 	graph deploy --product hosted-service talentlayer/talentlayer-polygon

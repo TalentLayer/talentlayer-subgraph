@@ -6,7 +6,7 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: polygon
+    network: matic
     source:
       abi: TalentLayerID
       address: "0xD7D1B2b0A665F03618cb9a45Aa3070f789cb91f2"
@@ -44,7 +44,7 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: polygon
+    network: matic
     source:
       abi: TalentLayerReview
       address: "0x7bBC20c8Fcb75A126810161DFB1511f6D3B1f2bE"
@@ -70,7 +70,7 @@ dataSources:
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
-    network: polygon
+    network: matic
     source:
       abi: TalentLayerService
       address: "0xae8Bba1a403816568230d92099ccB87f41BbcA78"
@@ -104,7 +104,7 @@ dataSources:
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: polygon
+    network: matic
     source:
       abi: TalentLayerEscrow
       address: "0x21C716673897f4a2A3c12053f3973F51Ce7b0cf6"
@@ -155,7 +155,7 @@ dataSources:
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: polygon
+    network: matic
     source:
       abi: TalentLayerPlatformID
       address: "0x09FF07297d48eD9aD870caCE4b33BF30869C1D17"
@@ -214,7 +214,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: polygon
+    network: matic
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -227,7 +227,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: polygon
+    network: matic
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -240,7 +240,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: polygon
+    network: matic
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -254,7 +254,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: polygon
+    network: matic
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -267,4 +267,4 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: polygon
+    network: matic
