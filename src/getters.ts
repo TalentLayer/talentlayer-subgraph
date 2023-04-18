@@ -62,6 +62,7 @@ export function getOrCreateUser(id: BigInt): User {
   let user = User.load(id.toString())
   if (!user) {
     user = new User(id.toString())
+    user.index = id
     user.address = ZERO_ADDRESS.toHex()
     user.handle = ''
     user.numReviews = ZERO
