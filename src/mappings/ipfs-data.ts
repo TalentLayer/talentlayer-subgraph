@@ -111,7 +111,10 @@ export function handleUserData(content: Bytes): void {
 
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
-  description.skills_raw = getValueAsString(jsonObject, 'skills')!.toLowerCase()
+  const skills = getValueAsString(jsonObject, 'skills')
+  if (skills !== null) {
+    description.skills_raw = skills.toLowerCase()
+  }
   description.timezone = getValueAsBigInt(jsonObject, 'timezone')
   description.headline = getValueAsString(jsonObject, 'headline')
   description.country = getValueAsString(jsonObject, 'country')
