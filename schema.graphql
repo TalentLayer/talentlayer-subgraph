@@ -90,6 +90,7 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription
   delegates: [String!]! # list of user delegators
+  hasActivity: Boolean! # Whether the user has activity or not
 }
 
 type UserDescription @entity(immutable: true) {
