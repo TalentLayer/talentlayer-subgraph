@@ -16,18 +16,19 @@ import {
   getOrCreatePlatform,
   getOrCreateUser,
   getOrCreateProtocol,
+  getOrCreateUserStats,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
 
 export function handleServiceCreated(event: ServiceCreated): void {
-  const buyer = getOrCreateUser(event.params.ownerId)
-  buyer.hasActivity = true
-  buyer.save()
+  const buyerStats = getOrCreateUserStats(event.params.ownerId)
+  buyerStats.numCreatedServices.plus(BigInt.fromI32(1))
+  buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
-  service.buyer = buyer.id
+  service.buyer = getOrCreateUser(event.params.ownerId).id
   service.status = 'Opened'
   const platform = getOrCreatePlatform(event.params.platformId)
   service.platform = platform.id
@@ -69,16 +70,16 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const seller = getOrCreateUser(event.params.ownerId)
-  seller.hasActivity = true
-  seller.save()
+  const sellerStats = getOrCreateUserStats(event.params.ownerId)
+  sellerStats.numCreatedProposals.plus(BigInt.fromI32(1))
+  sellerStats.save()
 
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
 
   proposal.service = getOrCreateService(event.params.serviceId).id
-  proposal.seller = seller.id
+  proposal.seller = getOrCreateUser(event.params.ownerId).id
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id

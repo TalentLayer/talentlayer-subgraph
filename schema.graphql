@@ -90,7 +90,18 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription
   delegates: [String!]! # list of user delegators
-  hasActivity: Boolean! # Whether the user has activity or not
+  userStats: UserStats! @derivedFrom(field: "user")
+}
+
+type UserStats @entity {
+  id: ID! # ID of the user
+  numReceivedReviews: BigInt! # number of reviews user has received
+  numGivenReviews: BigInt! # number of reviews user has received
+  numCreatedServices: BigInt! # number of services user has created
+  numFinishedServices: BigInt! # number of services user has finished
+  numCreatedProposals: BigInt! # number of proposals user has created
+  numFinishedProposals: BigInt! # number of proposals user has finished
+  user: User! # Corresponding user
 }
 
 type UserDescription @entity(immutable: true) {
