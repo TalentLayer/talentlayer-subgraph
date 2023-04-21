@@ -1,7 +1,7 @@
-import {BigInt, DataSourceContext} from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
 import { User } from '../../generated/schema'
 import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
-import {getOrCreateReview, getOrCreateService, getOrCreateUser, getOrCreateUserStats} from '../getters'
+import { getOrCreateReview, getOrCreateService, getOrCreateUserStats } from '../getters'
 import { ONE } from '../constants'
 import { ReviewData } from '../../generated/templates'
 
