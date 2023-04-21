@@ -80,7 +80,6 @@ type User @entity {
   createdAt: BigInt!
   updatedAt: BigInt!
   platform: Platform # Platform on which user nft was minted
-  numReviews: BigInt! # number of reviews user has received
   address: String! # wallet address of user
   rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
