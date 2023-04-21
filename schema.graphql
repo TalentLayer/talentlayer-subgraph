@@ -1,9 +1,9 @@
 enum ServiceStatus {
-  Filled
-  Confirmed
-  Rejected
-  Finished
-  Opened
+  Opened,
+  Confirmed,
+  Finished,
+  Cancelled,
+  Uncompleted
 }
 
 enum PaymentType {
