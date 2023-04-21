@@ -13,6 +13,7 @@ import {
   getOrCreateProtocol,
   getOrCreateTransaction,
   getOrCreateEvidence,
+  getOrCreateUserStats,
 } from '../getters'
 import {
   Payment,
@@ -31,7 +32,7 @@ import {
   OriginValidatedProposalFeeRateReleased,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
-import { ZERO } from '../constants'
+import { ONE, ZERO } from '../constants'
 
 enum Party {
   Sender,
@@ -71,7 +72,6 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   proposal.status = 'Validated'
   proposal.save()
 
-  service.status = 'Confirmed'
   service.seller = User.load(event.params._proposalId.toString())!.id
   service.save()
 }
@@ -80,6 +80,14 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
   service.save()
+
+  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer))
+  buyerUserStats.numFinishedServices.plus(ONE)
+  buyerUserStats.save()
+
+  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller))
+  sellerUserStats.numFinishedProposals.plus(ONE)
+  sellerUserStats.save()
 }
 
 export function handlePayment(event: Payment): void {

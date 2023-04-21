@@ -1,5 +1,5 @@
-import { log, store, BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
-import { Platform, User } from '../../generated/schema'
+import { store, DataSourceContext } from '@graphprotocol/graph-ts'
+import { Platform } from '../../generated/schema'
 import { ServiceData, ProposalData } from '../../generated/templates'
 import {
   ServiceCreated,
@@ -19,10 +19,11 @@ import {
   getOrCreateUserStats,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
+import { ONE } from "../constants";
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const buyerStats = getOrCreateUserStats(event.params.ownerId)
-  buyerStats.numCreatedServices.plus(BigInt.fromI32(1))
+  buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
@@ -71,7 +72,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 
 export function handleProposalCreated(event: ProposalCreated): void {
   const sellerStats = getOrCreateUserStats(event.params.ownerId)
-  sellerStats.numCreatedProposals.plus(BigInt.fromI32(1))
+  sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
 
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
