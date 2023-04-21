@@ -81,11 +81,11 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   service.status = 'Finished'
   service.save()
 
-  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer))
+  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
   buyerUserStats.numFinishedServices.plus(ONE)
   buyerUserStats.save()
 
-  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller))
+  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
   sellerUserStats.numFinishedProposals.plus(ONE)
   sellerUserStats.save()
 }
