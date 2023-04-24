@@ -72,6 +72,7 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   proposal.status = 'Validated'
   proposal.save()
 
+  service.status = 'Confirmed'
   service.seller = User.load(event.params._proposalId.toString())!.id
   service.save()
 }
