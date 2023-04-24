@@ -87,9 +87,9 @@ type User @entity {
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
-  description: UserDescription
+  description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
-  userStats: UserStats! @derivedFrom(field: "user")
+  userStats: UserStats! # User proposal, service & reviews statistics
 }
 
 type UserStats @entity {
