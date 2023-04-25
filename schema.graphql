@@ -97,9 +97,9 @@ type UserStats @entity {
   numReceivedReviews: BigInt! # number of reviews user has received
   numGivenReviews: BigInt! # number of reviews user has given
   numCreatedServices: BigInt! # number of services user has created
-  numFinishedServices: BigInt! # number of services user has finished
+  numFinishedServicesAsBuyer: BigInt! # number of services user has finished as a buyer
   numCreatedProposals: BigInt! # number of proposals user has created
-  numFinishedProposals: BigInt! # number of proposals user has finished
+  numFinishedServicesAsSeller: BigInt! # number of services user has finished as a seller
   user: User! # Corresponding user
 }
 
