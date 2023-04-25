@@ -86,9 +86,9 @@ export function getOrCreateUserStats(id: BigInt): UserStats {
     userStats.numReceivedReviews = ZERO
     userStats.numGivenReviews = ZERO
     userStats.numCreatedServices = ZERO
-    userStats.numFinishedServices = ZERO
+    userStats.numFinishedServicesAsBuyer = ZERO
     userStats.numCreatedProposals = ZERO
-    userStats.numFinishedProposals = ZERO
+    userStats.numFinishedServicesAsSeller = ZERO
     userStats.save()
   }
   return userStats
