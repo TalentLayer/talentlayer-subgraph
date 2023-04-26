@@ -62,6 +62,9 @@ export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): 
 export function getOrCreateUser(id: BigInt): User {
   let user = User.load(id.toString())
   if (!user) {
+    const userStats = getOrCreateUserStats(id);
+    userStats.save()
+
     user = new User(id.toString())
     user.index = id
     user.address = ZERO_ADDRESS.toHex()
@@ -72,8 +75,6 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
   }
-  const userStats = getOrCreateUserStats(id);
-  user.userStats = userStats.id
 
   return user
 }
@@ -82,7 +83,6 @@ export function getOrCreateUserStats(id: BigInt): UserStats {
   let userStats = UserStats.load(id.toString())
   if (!userStats) {
     userStats = new UserStats(id.toString())
-    userStats.numGivenReviews = ZERO
     userStats.numReceivedReviews = ZERO
     userStats.numGivenReviews = ZERO
     userStats.numCreatedServices = ZERO
