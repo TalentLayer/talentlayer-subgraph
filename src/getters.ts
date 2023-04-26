@@ -23,7 +23,7 @@ export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
   if (!service) {
     service = new Service(id.toString())
-    service.status = 'Filled'
+    service.status = 'Opened'
     service.createdAt = ZERO
     service.updatedAt = ZERO
     service.save()
