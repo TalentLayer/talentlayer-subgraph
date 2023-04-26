@@ -15,6 +15,7 @@ import {
   Transaction,
   Evidence,
   Keyword,
+  UserStats,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -65,14 +66,32 @@ export function getOrCreateUser(id: BigInt): User {
     user.index = id
     user.address = ZERO_ADDRESS.toHex()
     user.handle = ''
-    user.numReviews = ZERO
     user.rating = ZERO_BIGDEC
     user.createdAt = ZERO
     user.updatedAt = ZERO
     user.delegates = []
     user.save()
   }
+  const userStats = getOrCreateUserStats(id);
+  user.userStats = userStats.id
+
   return user
+}
+
+export function getOrCreateUserStats(id: BigInt): UserStats {
+  let userStats = UserStats.load(id.toString())
+  if (!userStats) {
+    userStats = new UserStats(id.toString())
+    userStats.numGivenReviews = ZERO
+    userStats.numReceivedReviews = ZERO
+    userStats.numGivenReviews = ZERO
+    userStats.numCreatedServices = ZERO
+    userStats.numFinishedServicesAsBuyer = ZERO
+    userStats.numCreatedProposals = ZERO
+    userStats.numFinishedServicesAsSeller = ZERO
+    userStats.save()
+  }
+  return userStats
 }
 
 export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO): Transaction {

@@ -1,7 +1,7 @@
-import { DataSourceContext } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
 import { User } from '../../generated/schema'
 import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
-import { getOrCreateReview } from '../getters'
+import { getOrCreateReview, getOrCreateService, getOrCreateUserStats } from '../getters'
 import { ONE } from '../constants'
 import { ReviewData } from '../../generated/templates'
 
@@ -15,15 +15,30 @@ export function handleMint(event: Mint): void {
   review.createdAt = event.block.timestamp
   review.cid = event.params.reviewUri
 
-  let user = User.load(event.params.toId.toString())
-  if (!user) return
-  const rating = user.rating
-    .times(user.numReviews.toBigDecimal())
+  const receiver = User.load(event.params.toId.toString())
+  const receiverStats = getOrCreateUserStats(event.params.toId);
+
+  if (!receiver) return
+
+  receiver.rating
+    .times(receiverStats.numReceivedReviews.toBigDecimal())
     .plus(event.params.rating.toBigDecimal())
-    .div(user.numReviews.plus(ONE).toBigDecimal())
-  user.rating = rating
-  user.numReviews = user.numReviews.plus(ONE)
-  user.save()
+    .div(receiverStats.numReceivedReviews.plus(ONE).toBigDecimal())
+  receiverStats.numGivenReviews.plus(ONE)
+  receiver.save()
+  receiverStats.save()
+
+  const service = getOrCreateService(event.params.serviceId)
+  const buyerStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
+  const sellerStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
+
+  if(receiverStats.id == buyerStats.id) {
+    sellerStats.numGivenReviews.plus(ONE)
+    sellerStats.save()
+  } else {
+    buyerStats.numGivenReviews.plus(ONE)
+    buyerStats.save()
+  }
 
   const cid = event.params.reviewUri
   const dataId = cid + '-' + event.block.timestamp.toString()

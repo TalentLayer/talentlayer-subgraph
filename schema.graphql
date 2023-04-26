@@ -1,9 +1,9 @@
 enum ServiceStatus {
-  Filled
-  Confirmed
-  Rejected
-  Finished
-  Opened
+  Opened,
+  Confirmed,
+  Finished,
+  Cancelled,
+  Uncompleted
 }
 
 enum PaymentType {
@@ -80,7 +80,6 @@ type User @entity {
   createdAt: BigInt!
   updatedAt: BigInt!
   platform: Platform # Platform on which user nft was minted
-  numReviews: BigInt! # number of reviews user has received
   address: String! # wallet address of user
   rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
@@ -88,8 +87,20 @@ type User @entity {
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
-  description: UserDescription
+  description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
+  userStats: UserStats! # User proposal, service & reviews statistics
+}
+
+type UserStats @entity {
+  id: ID! # ID of the user
+  numReceivedReviews: BigInt! # number of reviews user has received
+  numGivenReviews: BigInt! # number of reviews user has given
+  numCreatedServices: BigInt! # number of services user has created
+  numFinishedServicesAsBuyer: BigInt! # number of services user has finished as a buyer
+  numCreatedProposals: BigInt! # number of proposals user has created
+  numFinishedServicesAsSeller: BigInt! # number of services user has finished as a seller
+  user: User! # Corresponding user
 }
 
 type UserDescription @entity(immutable: true) {

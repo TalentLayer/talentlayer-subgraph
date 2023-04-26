@@ -1,5 +1,5 @@
-import { log, store, BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
-import { Platform, User } from '../../generated/schema'
+import { store, DataSourceContext } from '@graphprotocol/graph-ts'
+import { Platform } from '../../generated/schema'
 import { ServiceData, ProposalData } from '../../generated/templates'
 import {
   ServiceCreated,
@@ -16,10 +16,16 @@ import {
   getOrCreatePlatform,
   getOrCreateUser,
   getOrCreateProtocol,
+  getOrCreateUserStats,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
+import { ONE } from "../constants";
 
 export function handleServiceCreated(event: ServiceCreated): void {
+  const buyerStats = getOrCreateUserStats(event.params.ownerId)
+  buyerStats.numCreatedServices.plus(ONE)
+  buyerStats.save()
+
   const service = getOrCreateService(event.params.id)
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
@@ -65,12 +71,16 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
+  const sellerStats = getOrCreateUserStats(event.params.ownerId)
+  sellerStats.numCreatedProposals.plus(ONE)
+  sellerStats.save()
+
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   proposal.status = 'Pending'
 
   proposal.service = getOrCreateService(event.params.serviceId).id
-  proposal.seller = User.load(event.params.ownerId.toString())!.id
+  proposal.seller = getOrCreateUser(event.params.ownerId).id
   proposal.rateToken = event.params.rateToken.toHexString()
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
