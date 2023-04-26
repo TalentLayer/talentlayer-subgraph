@@ -40,7 +40,7 @@ export function handleServiceData(content: Bytes): void {
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
-  description.keywords = createKeywordEntities(description.keywords_raw!)!
+  // description.keywords = createKeywordEntities(description.keywords_raw!)!
 
   description.save()
 }
@@ -128,7 +128,7 @@ export function handleUserData(content: Bytes): void {
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
-  //description.skills = createKeywordEntities(description.skills_raw!)!
+  // //description.skills = createKeywordEntities(description.skills_raw!)!
 
   description.save()
 }
@@ -182,7 +182,7 @@ function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string):
 }
 
 //Transforms a comma separated string of keywords into an Array of Keyword.id entities.
-function createKeywordEntities(keywords: string): string[] | null {
+// function createKeywordEntities(keywords: string): string[] | null {
   const _keywords = keywords.split(',')
 
   //To avoid returning an empty list, which is not allowed according to the schema.
