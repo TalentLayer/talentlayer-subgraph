@@ -72,11 +72,8 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-    const userStats = getOrCreateUserStats(id);
-    userStats.user = user.id
-    userStats.save()
 
-    user.userStats = userStats.id
+    user.userStats = getOrCreateUserStats(id).id
     user.save()
   }
   
@@ -87,6 +84,7 @@ export function getOrCreateUserStats(id: BigInt): UserStats {
   let userStats = UserStats.load(id.toString())
   if (!userStats) {
     userStats = new UserStats(id.toString())
+    userStats.user = getOrCreateUser(id).id
     userStats.numReceivedReviews = ZERO
     userStats.numGivenReviews = ZERO
     userStats.numCreatedServices = ZERO
