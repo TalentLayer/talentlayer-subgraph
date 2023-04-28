@@ -87,6 +87,7 @@ export function getOrCreateUserStats(id: BigInt): UserStats {
   let userStats = UserStats.load(id.toString())
   if (!userStats) {
     userStats = new UserStats(id.toString())
+    userStats.user = getOrCreateUser(id).id
     userStats.numReceivedReviews = ZERO
     userStats.numGivenReviews = ZERO
     userStats.numCreatedServices = ZERO
