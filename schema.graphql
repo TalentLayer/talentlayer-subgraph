@@ -89,7 +89,7 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
-  userStats: UserStats! # User proposal, service & reviews statistics
+  userStats: UserStats # User proposal, service & reviews statistics
 }
 
 type UserStats @entity {
@@ -100,7 +100,7 @@ type UserStats @entity {
   numFinishedServicesAsBuyer: BigInt! # number of services user has finished as a buyer
   numCreatedProposals: BigInt! # number of proposals user has created
   numFinishedServicesAsSeller: BigInt! # number of services user has finished as a seller
-  user: User # Corresponding user
+  user: User! # Corresponding user
 }
 
 type UserDescription @entity(immutable: true) {

@@ -62,9 +62,6 @@ export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): 
 export function getOrCreateUser(id: BigInt): User {
   let user = User.load(id.toString())
   if (!user) {
-    const userStats = getOrCreateUserStats(id);
-    userStats.save()
-
     user = new User(id.toString())
     user.index = id
     user.address = ZERO_ADDRESS.toHex()
@@ -73,6 +70,12 @@ export function getOrCreateUser(id: BigInt): User {
     user.createdAt = ZERO
     user.updatedAt = ZERO
     user.delegates = []
+    user.save()
+
+    const userStats = getOrCreateUserStats(id);
+    userStats.user = user.id
+    userStats.save()
+
     user.userStats = userStats.id
     user.save()
   }
