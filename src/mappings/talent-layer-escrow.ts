@@ -73,6 +73,7 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   proposal.save()
 
   service.status = 'Confirmed'
+  service.updatedAt = event.block.timestamp
   service.seller = User.load(event.params._proposalId.toString())!.id
   service.save()
 }
@@ -80,6 +81,7 @@ export function handleTransactionCreated(event: TransactionCreated): void {
 export function handlePaymentCompleted(event: PaymentCompleted): void {
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
+  service.updatedAt = event.block.timestamp
   service.save()
 
   const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))

@@ -79,7 +79,7 @@ export function getOrCreateUser(id: BigInt): User {
     user.userStats = userStats.id
     user.save()
   }
-
+  
   return user
 }
 

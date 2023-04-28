@@ -30,14 +30,17 @@ export function handleServiceData(content: Bytes): void {
   description.about = getValueAsString(jsonObject, 'about')
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.expectedEndDate = getValueAsBigInt(jsonObject, 'expectedEndDate')
-  description.keywords_raw = getValueAsString(jsonObject, 'keywords')!.toLowerCase()
+  const keywords = getValueAsString(jsonObject, 'keywords')
+  if (keywords !== null) {
+    description.keywords_raw = keywords.toLowerCase()
+  }
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
   description.video_url = getValueAsString(jsonObject, 'video_url')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
-  description.keywords = createKeywordEntities(description.keywords_raw!)!
+  // description.keywords = createKeywordEntities(description.keywords_raw!)!
 
   description.save()
 }
