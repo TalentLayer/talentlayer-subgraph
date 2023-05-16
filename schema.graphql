@@ -37,6 +37,7 @@ type ServiceDescription @entity(immutable: true) {
   rateToken: String
   rateAmount: String
   video_url: String
+  members: [User!] # List of members of the organization working on the service
 }
 
 type Keyword @entity(immutable: true) {
@@ -86,9 +87,12 @@ type User @entity {
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
+  servicesAsOrganization: [ServiceDescription!] @derivedFrom(field: "members") # services user is an buyer for
   totalGains: [UserGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
   description: UserDescription # User description (off chain data)
+  #  organizations_raw: String # Organization user belongs to
+  organizations: [UserDescription!] @derivedFrom(field: "members") # Organization user belongs to
   delegates: [String!]! # list of user delegators
   userStats: UserStats # User proposal, service & reviews statistics
 }
@@ -114,6 +118,9 @@ type UserDescription @entity(immutable: true) {
   headline: String
   country: String
   user: User!
+  isOrganization: Boolean
+  members: [User!] # List of members of the organization
+  #  members_raw: String
   role: String # buyer, seller, both
   name: String # Custom user name
   video_url: String #url
@@ -283,9 +290,9 @@ type Protocol @entity {
 }
 
 type _Schema_
-  @fulltext(
-    name: "serviceDescriptionSearchRank"
-    language: en
-    algorithm: proximityRank
-    include: [{ entity: "ServiceDescription", fields: [{ name: "title" }, { name: "keywords_raw" }] }]
-  )
+@fulltext(
+  name: "serviceDescriptionSearchRank"
+  language: en
+  algorithm: proximityRank
+  include: [{ entity: "ServiceDescription", fields: [{ name: "title" }, { name: "keywords_raw" }] }]
+)
