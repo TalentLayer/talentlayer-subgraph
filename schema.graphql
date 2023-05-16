@@ -81,7 +81,7 @@ type User @entity {
   createdAt: BigInt!
   updatedAt: BigInt!
   platform: Platform # Platform on which user nft was minted
-  numReviews: BigInt! # DEPRECATED - will be remove soon, use UserStats.numReceivedReviews instead
+  numReviews: BigInt # DEPRECATED - will be remove soon, use UserStats.numReceivedReviews instead
   address: String! # wallet address of user
   rating: BigDecimal! # average rating from reviews user has received
   reviews: [Review!] @derivedFrom(field: "to") # reviews of user
