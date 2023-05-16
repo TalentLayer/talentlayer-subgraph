@@ -37,6 +37,7 @@ export function handleServiceData(content: Bytes): void {
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
   description.video_url = getValueAsString(jsonObject, 'video_url')
+  description.members = getValueAsArray(jsonObject, 'members')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -125,10 +126,8 @@ export function handleUserData(content: Bytes): void {
   description.name = getValueAsString(jsonObject, 'name')
   description.video_url = getValueAsString(jsonObject, 'video_url')
   description.image_url = getValueAsString(jsonObject, 'image_url')
-
-  //Creates duplicate values. Open issue
-  //https://github.com/graphprotocol/graph-node/issues/4087
-  //description.skills = createKeywordEntities(description.skills_raw!)!
+  description.isOrganization = getValueAsBoolean(jsonObject, 'isOrganization')
+  description.members = getValueAsArray(jsonObject, 'members')
 
   description.save()
 }
@@ -179,6 +178,31 @@ function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string):
   }
 
   return value.toBigInt()
+}
+
+function getValueAsBoolean(jsonObject: TypedMap<string, JSONValue>, key: string): boolean {
+  const value = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.BOOL) {
+    return false
+  }
+
+  return value.toBool()
+}
+
+function getValueAsArray(jsonObject: TypedMap<string, JSONValue>, key: string): string[] | null {
+  const value: JSONValue | null = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.ARRAY) {
+    return null
+  }
+  let stringArray: string[] = []
+  for (let i: number = 0; i < stringArray.length; ++i) {
+    //TODO indexing error here
+    const stringValue: string = value[i].toString()
+    stringArray.push(stringValue)
+  }
+  return stringArray
 }
 
 //Transforms a comma separated string of keywords into an Array of Keyword.id entities.
