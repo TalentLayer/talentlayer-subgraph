@@ -199,7 +199,8 @@ function getValueAsArray(jsonObject: TypedMap<string, JSONValue>, key: string): 
   let stringArray: string[] = []
   for (let i: number = 0; i < stringArray.length; ++i) {
     //TODO indexing error here
-    const stringValue: string = value[i].toString()
+    const tmpValue: JSONValue = value[i]
+    const stringValue: string = tmpValue.toString()
     stringArray.push(stringValue)
   }
   return stringArray
