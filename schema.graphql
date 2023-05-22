@@ -184,8 +184,8 @@ type Transaction @entity {
   senderFee: BigInt! # fees paid by the sender for arbitration
   receiverFee: BigInt! # fees paid by the receiver for arbitration
   lastInteraction: BigInt! # timestamp of the last interaction by parties with the dispute
-  senderFeePaidAt: BigInt! # timestamp when the arbitration fee was paid by the sender
-  receiverFeePaidAt: BigInt! # timestamp when the arbitration fee was paid by the receiver
+  senderFeePaidAt: BigInt # timestamp when the arbitration fee was paid by the sender
+  receiverFeePaidAt: BigInt # timestamp when the arbitration fee was paid by the receiver
   status: TransactionStatus! # status of the payment
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
