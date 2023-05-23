@@ -196,6 +196,11 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
     if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+      if (transaction.status === 'WaitingReceiver') {
+        transaction.status = 'DisputeCreated'
+      } else {
+        transaction.status = 'WaitingSender'
+      }
       transaction.senderFeePaidAt = event.block.timestamp
     } else {
       // Reimbursement
@@ -205,6 +210,11 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
     if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+      if (transaction.status === 'WaitingSender') {
+        transaction.status = 'DisputeCreated'
+      } else {
+        transaction.status = 'WaitingReceiver'
+      }
       transaction.receiverFeePaidAt = event.block.timestamp
     } else {
       // Reimbursement
