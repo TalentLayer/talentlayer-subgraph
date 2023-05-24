@@ -265,6 +265,19 @@ templates:
       entities:
         - PlatformDescription
       abis:
-        - name: TalentLayerID
-          file: ./abis/TalentLayerID.json
-    network: matic
+        - name: TalentLayerPlatformID
+          file: ./abis/TalentLayerPlatformID.json
+    network: mumbai
+  - name: EvidenceData
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/ipfs-data.ts
+      handler: handleEvidenceData
+      entities:
+        - EvidenceDescription
+      abis:
+        - name: TalentLayerEscrow
+          file: ./abis/TalentLayerEscrow.json
+    network: mumbai
