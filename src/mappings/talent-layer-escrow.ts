@@ -251,7 +251,7 @@ export function handleEvidenceSubmitted(event: EvidenceSubmitted): void {
   const evidence = getOrCreateEvidence(evidenceId, event.params._transactionId)
   evidence.party = User.load(event.params._partyId.toString())!.id
   const cid = event.params._evidenceUri
-  evidence.uri = cid
+  evidence.cid = cid
 
   const dataId = cid + '-' + event.block.timestamp.toString()
   const context = new DataSourceContext()

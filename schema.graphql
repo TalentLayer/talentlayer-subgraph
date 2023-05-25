@@ -203,7 +203,7 @@ type Evidence @entity(immutable: true) {
   createdAt: BigInt! # Timestamp of block creation
   party: User! # party that submitted the evidence
   description: EvidenceDescription # ipfs data of the evidence
-  uri: String! # metadata URI of evidence
+  cid: String! # metadata URI of evidence
 }
 
 type EvidenceDescription @entity(immutable: true) {

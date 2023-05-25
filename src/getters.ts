@@ -72,11 +72,10 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-
     user.userStats = getOrCreateUserStats(id).id
     user.save()
   }
-  
+
   return user
 }
 
@@ -283,7 +282,7 @@ export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): 
   if (!evidence) {
     evidence = new Evidence(evidenceId)
     evidence.createdAt = ZERO
-    evidence.uri = ''
+    evidence.cid = ''
     evidence.transaction = getOrCreateTransaction(transactionId).id
   }
   return evidence
