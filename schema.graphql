@@ -193,7 +193,6 @@ type Transaction @entity {
   ruling: BigInt # ruling of the arbitrator on the dispute
   evidences: [Evidence!] @derivedFrom(field: "transaction") # proposals for this service
   metaEvidenceUri: String! # uri of the dispute metadata
-#  metaEvidenceDescription: MetaEvidenceDescription # Entity indexing the MetaEvidence ipfs data
   payments: [Payment!] @derivedFrom(field: "transaction") # payments related to this transaction
 }
 
@@ -215,11 +214,6 @@ type EvidenceDescription @entity(immutable: true) {
   name: String # name of the evidence
   description: String # description of the evidence
 }
-
-#type MetaEvidenceDescription @entity(immutable: true) {
-#  id: ID! # MetaData cid + block.timestamp
-#  transaction: Transaction! # Transaction entity
-#}
 
 type Platform @entity {
   id: ID! # platform id
