@@ -139,13 +139,10 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = getOrCreateUser(event.params.ownerId).id
-  proposal.rateToken = event.params.rateToken.toHexString()
+  proposal.rateToken = getOrCreateToken(event.params.rateToken).id
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
-
-  const tokenAddress = event.params.rateToken
-  let token = getOrCreateToken(tokenAddress)
 
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
