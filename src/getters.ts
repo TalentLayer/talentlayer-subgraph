@@ -24,6 +24,8 @@ export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
   if (!service) {
     service = new Service(id.toString())
+    service.token = getOrCreateToken(ZERO_ADDRESS).id
+    service.referralAmount = ZERO
     service.status = 'Opened'
     service.createdAt = ZERO
     service.updatedAt = ZERO
@@ -72,11 +74,10 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-
     user.userStats = getOrCreateUserStats(id).id
     user.save()
   }
-  
+
   return user
 }
 
