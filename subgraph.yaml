@@ -103,6 +103,48 @@ dataSources:
           handler: handleMinCompletionPercentageUpdated
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
+    name: TalentLayerServiceV2
+    network: matic
+    source:
+      abi: TalentLayerServiceV2
+      address: "0xae8Bba1a403816568230d92099ccB87f41BbcA78"
+      startBlock: 41128230
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Service
+        - Proposal
+        - ServiceDescription
+      abis:
+        - name: TalentLayerServiceV2
+          file: ./abis/TalentLayerServiceV2.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: ServiceCreated(uint256,uint256,uint256,string)
+          handler: handleServiceCreated
+        - event: ServiceDetailedUpdated(indexed uint256,string)
+          handler: handleServiceDetailedUpdated
+        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
+          handler: handleProposalCreated
+        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
+          handler: handleProposalUpdated
+        - event: AllowedTokenListUpdated(address,bool,uint256)
+          handler: handleAllowedTokenListUpdated
+        - event: MinCompletionPercentageUpdated(uint256)
+          handler: handleMinCompletionPercentageUpdated
+        - event: ServiceCreatedWithReferral(indexed uint256,uint256,uint256,string,address,uint256)
+          handler: handleServiceCreatedWithReferral
+        - event: ServiceUpdated(indexed uint256,string,uint256,address)
+          handler: handleServiceUpdated
+        - event: ProposalCreatedWithoutToken(uint256,uint256,string,uint8,uint256,uint256,uint256)
+          handler: handleProposalCreatedWithoutToken
+        - event: ProposalUpdatedWithoutToken(uint256,uint256,string,uint256,uint256)
+          handler: handleProposalUpdatedWithoutToken
+      file: ./src/mappings/talent-layer-service.ts
+  - kind: ethereum/contract
     name: TalentLayerEscrow
     network: matic
     source:
