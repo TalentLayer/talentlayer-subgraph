@@ -137,7 +137,8 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = getOrCreateUser(event.params.ownerId).id
-  proposal.rateToken = getOrCreateToken(event.params.rateToken).id
+  // Handled in getOrCreateProposal
+  // proposal.rateToken = getOrCreateToken(event.params.rateToken).id
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate

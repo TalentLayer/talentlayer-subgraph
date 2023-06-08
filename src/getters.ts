@@ -37,12 +37,14 @@ export function getOrCreateService(id: BigInt): Service {
 export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   let proposal = Proposal.load(id)
   if (!proposal) {
+    const service = getOrCreateService(serviceId)
+
     proposal = new Proposal(id)
     proposal.status = 'Pending'
     proposal.createdAt = ZERO
     proposal.updatedAt = ZERO
-    proposal.service = getOrCreateService(serviceId).id
-    proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
+    proposal.service = service.id
+    proposal.rateToken = service.token
     proposal.expirationDate = ZERO
     proposal.save()
   }
