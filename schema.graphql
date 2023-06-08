@@ -141,6 +141,7 @@ type Proposal @entity {
   platform: Platform # Platform on which proposal was created
   description: ProposalDescription #Proposals that the description describes.
   expirationDate: BigInt
+  referrer: User # Optional referrer for the proposal
 }
 
 type ProposalDescription @entity(immutable: true) {

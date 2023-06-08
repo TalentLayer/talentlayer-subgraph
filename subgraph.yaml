@@ -101,13 +101,14 @@ dataSources:
           handler: handleAllowedTokenListUpdated
         - event: MinCompletionPercentageUpdated(uint256)
           handler: handleMinCompletionPercentageUpdated
-        - event: ServiceCreatedWithReferral(indexed uint256,uint256,uint256,string,address,uint256)
+        - event: ServiceCreatedWithReferral(indexed
+            uint256,uint256,uint256,string,address,uint256)
           handler: handleServiceCreatedWithReferral
         - event: ServiceUpdated(indexed uint256,string,uint256,address)
           handler: handleServiceUpdated
-        - event: ProposalCreatedWithoutToken(uint256,uint256,string,uint8,uint256,uint256,uint256)
+        - event: ProposalCreatedWithoutToken(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
           handler: handleProposalCreatedWithoutToken
-        - event: ProposalUpdatedWithoutToken(uint256,uint256,string,uint256,uint256)
+        - event: ProposalUpdatedWithoutToken(uint256,uint256,string,uint256,uint256,uint256)
           handler: handleProposalUpdatedWithoutToken
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
