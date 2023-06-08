@@ -36,7 +36,6 @@ type ServiceDescription @entity(immutable: true) {
   expectedEndDate: BigInt
   keywords: [Keyword!] #keywords
   keywords_raw: String #lowercase keywords in raw format
-  rateToken: String
   rateAmount: String
   video_url: String
 }
@@ -135,7 +134,7 @@ type Proposal @entity {
   updatedAt: BigInt! # timestamp of the last change
   status: ProposalStatus! # Proposal status
   seller: User # Proposal seller
-  rateToken: Token # DEPRECATED - Rate token entity
+  rateToken: Token # Rate token entity
   rateAmount: BigInt # Rate amount
   cid: String # cid of the description
   platform: Platform # Platform on which proposal was created

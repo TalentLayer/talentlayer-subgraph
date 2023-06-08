@@ -34,7 +34,6 @@ export function handleServiceData(content: Bytes): void {
   if (keywords !== null) {
     description.keywords_raw = keywords.toLowerCase()
   }
-  description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
   description.video_url = getValueAsString(jsonObject, 'video_url')
 
