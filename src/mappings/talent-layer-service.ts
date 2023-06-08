@@ -23,7 +23,7 @@ import {
   getOrCreateUserStats,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
-import { ONE } from '../constants'
+import { ONE, ZERO } from '../constants'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const buyerStats = getOrCreateUserStats(event.params.ownerId)
@@ -172,7 +172,9 @@ export function handleProposalCreatedWithoutToken(event: ProposalCreatedWithoutT
   proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
-  proposal.referrer = getOrCreateUser(event.params.referrerId).id
+  if (event.params.referrerId != ZERO) {
+    proposal.referrer = getOrCreateUser(event.params.referrerId).id
+  }
 
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
@@ -236,7 +238,9 @@ export function handleProposalUpdatedWithoutToken(event: ProposalUpdatedWithoutT
   const dataId = newCid + '-' + event.block.timestamp.toString()
 
   proposal.rateAmount = event.params.rateAmount
-  proposal.referrer = getOrCreateUser(event.params.referrerId).id
+  if (event.params.referrerId != ZERO) {
+    proposal.referrer = getOrCreateUser(event.params.referrerId).id
+  }
 
   //proposal.created set in handleProposalCreated.
   proposal.updatedAt = event.block.timestamp
