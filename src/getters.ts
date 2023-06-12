@@ -16,9 +16,11 @@ import {
   Evidence,
   Keyword,
   UserStats,
+  ReferrerGain,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
+import { generateIdFromTwoElements } from './mappings/utils'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -299,4 +301,19 @@ export function getOrCreateKeyword(id: string): Keyword {
     keyword.save()
   }
   return keyword
+}
+
+export function getOrCreateReferralGain(userId: string, tokenAddress: Address): ReferrerGain {
+  const referrerGainId = generateIdFromTwoElements(userId, tokenAddress.toString())
+  let referrerGain = ReferrerGain.load(referrerGainId)
+  if (!referrerGain) {
+    referrerGain = new ReferrerGain(referrerGainId.toString())
+    referrerGain.user = getOrCreateUser(BigInt.fromString(userId)).id
+    referrerGain.token = getOrCreateToken(tokenAddress).id
+    referrerGain.totalGain = ZERO
+    referrerGain.services = []
+
+    referrerGain.save()
+  }
+  return referrerGain
 }

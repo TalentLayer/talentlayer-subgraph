@@ -14,6 +14,8 @@ import {
   getOrCreateTransaction,
   getOrCreateEvidence,
   getOrCreateUserStats,
+  getOrCreateReferralGain,
+  getOrCreateUser,
 } from '../getters'
 import {
   Payment,
@@ -24,12 +26,12 @@ import {
   HasToPayFee,
   Dispute,
   RulingExecuted,
-  Evidence,
   MetaEvidence,
   ArbitrationFeePayment,
   EvidenceSubmitted,
   OriginServiceFeeRateReleased,
   OriginValidatedProposalFeeRateReleased,
+  ReferralAmountReleased,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ONE, ZERO } from '../constants'
@@ -256,4 +258,20 @@ export function handleMetaEvidence(event: MetaEvidence): void {
   const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
   transaction.metaEvidenceUri = event.params._evidence
   transaction.save()
+}
+
+export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
+  const referrer = getOrCreateUser(event.params._referrerId)
+  const referralGain = getOrCreateReferralGain(referrer.id, event.params._token)
+  referralGain.services = addToArray(referralGain.services, getOrCreateService(event.params._serviceId).id)
+  referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
+
+  referralGain.save()
+}
+
+function addToArray(arr: string[], value: string): string[] {
+  if (arr.indexOf(value) === -1) {
+    arr.push(value)
+  }
+  return arr
 }
