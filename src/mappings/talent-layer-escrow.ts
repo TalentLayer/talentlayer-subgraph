@@ -1,4 +1,4 @@
-import { BigInt, log } from '@graphprotocol/graph-ts'
+import { BigInt } from '@graphprotocol/graph-ts'
 import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -15,7 +15,6 @@ import {
   getOrCreateEvidence,
   getOrCreateUserStats,
   getOrCreateReferralGain,
-  getOrCreateUser,
 } from '../getters'
 import {
   Payment,
@@ -264,7 +263,7 @@ export function handleMetaEvidence(event: MetaEvidence): void {
 }
 
 export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
-  const referralGain = getOrCreateReferralGain(getOrCreateUser(event.params._referrerId).id, event.params._token)
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
   referralGain.services.push(getOrCreateService(event.params._serviceId).id)
   referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
 

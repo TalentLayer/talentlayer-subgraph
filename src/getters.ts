@@ -303,12 +303,12 @@ export function getOrCreateKeyword(id: string): Keyword {
   return keyword
 }
 
-export function getOrCreateReferralGain(userId: string, tokenAddress: Address): ReferralGain {
-  const referralGainId = generateIdFromTwoElements(userId, tokenAddress.toString())
+export function getOrCreateReferralGain(userId: BigInt, tokenAddress: Address): ReferralGain {
+  const referralGainId = generateIdFromTwoElements(userId.toString(), tokenAddress.toHex())
   let referralGain = ReferralGain.load(referralGainId)
   if (!referralGain) {
     referralGain = new ReferralGain(referralGainId)
-    referralGain.user = getOrCreateUser(BigInt.fromString(userId)).id
+    referralGain.user = getOrCreateUser(userId).id
     referralGain.token = getOrCreateToken(tokenAddress).id
     referralGain.totalGain = ZERO
     referralGain.services = []
