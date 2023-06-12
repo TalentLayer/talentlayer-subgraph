@@ -88,7 +88,7 @@ type User @entity {
   buyerServices: [Service!] @derivedFrom(field: "buyer") # services user is an buyer for
   sellerServices: [Service!] @derivedFrom(field: "seller") # services user is an seller for
   totalGains: [UserGain!] @derivedFrom(field: "user")
-  referrerGains: [ReferrerGain!] @derivedFrom(field: "user")
+  referralGains: [ReferralGain!] @derivedFrom(field: "user")
   cid: String #cid of the description
   description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
@@ -274,7 +274,7 @@ type UserGain @entity {
   totalGain: BigInt! # total User gain
 }
 
-type ReferrerGain @entity {
+type ReferralGain @entity {
   id: ID! # concatenation of userId + token entity
   user: User # user receiving the referral gain
   token: Token # token entity

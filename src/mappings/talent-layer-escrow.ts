@@ -261,17 +261,9 @@ export function handleMetaEvidence(event: MetaEvidence): void {
 }
 
 export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
-  const referrer = getOrCreateUser(event.params._referrerId)
-  const referralGain = getOrCreateReferralGain(referrer.id, event.params._token)
-  referralGain.services = addToArray(referralGain.services, getOrCreateService(event.params._serviceId).id)
+  const referralGain = getOrCreateReferralGain(getOrCreateUser(event.params._referrerId).id, event.params._token)
+  referralGain.services.push(getOrCreateService(event.params._serviceId).id)
   referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
 
   referralGain.save()
-}
-
-function addToArray(arr: string[], value: string): string[] {
-  if (arr.indexOf(value) === -1) {
-    arr.push(value)
-  }
-  return arr
 }
