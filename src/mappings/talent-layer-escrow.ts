@@ -77,6 +77,9 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   service.status = 'Confirmed'
   service.updatedAt = event.block.timestamp
   service.seller = User.load(event.params._proposalId.toString())!.id
+  if (proposal.referrer != null && proposal.referrer != '0') {
+    service.referrer = User.load(proposal.referrer!)!.id
+  }
   service.save()
 }
 

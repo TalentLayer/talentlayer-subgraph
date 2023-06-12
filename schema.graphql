@@ -20,6 +20,7 @@ type Service @entity {
   status: ServiceStatus! # service status
   buyer: User # service buyer
   seller: User # service seller
+  referrer: User # service referrer (optional)
   transaction: Transaction @derivedFrom(field: "service") # transaction associated with this service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
   platform: Platform # Platform on which service was created
