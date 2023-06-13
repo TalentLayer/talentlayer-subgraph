@@ -27,7 +27,7 @@ import { ONE, ZERO } from '../constants'
 
 export function handleServiceCreated(event: ServiceCreated): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
-  buyerStats.numCreatedServices.plus(ONE)
+  buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
@@ -50,7 +50,7 @@ export function handleServiceCreated(event: ServiceCreated): void {
 }
 export function handleServiceCreatedWithReferral(event: ServiceCreatedWithReferral): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
-  buyerStats.numCreatedServices.plus(ONE)
+  buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
@@ -128,7 +128,7 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
 
 export function handleProposalCreated(event: ProposalCreated): void {
   const sellerStats = getOrCreateUserStat(event.params.ownerId)
-  sellerStats.numCreatedProposals.plus(ONE)
+  sellerStats.numCreatedProposals = sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
 
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
@@ -161,7 +161,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 }
 export function handleProposalCreatedWithoutToken(event: ProposalCreatedWithoutToken): void {
   const sellerStats = getOrCreateUserStat(event.params.ownerId)
-  sellerStats.numCreatedProposals.plus(ONE)
+  sellerStats.numCreatedProposals = sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
 
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
