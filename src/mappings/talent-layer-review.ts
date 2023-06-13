@@ -17,8 +17,6 @@ export function handleMint(event: Mint): void {
   const receiver = getOrCreateUser(event.params.toId)
   const receiverStats = getOrCreateUserStat(event.params.toId)
 
-  // if (!receiver) return
-
   // Update receiver rating stats
   if (receiverStats.numReceivedReviews == ZERO) {
     receiver.rating = receiver.rating.plus(event.params.rating.toBigDecimal())
@@ -27,8 +25,6 @@ export function handleMint(event: Mint): void {
       .times(receiverStats.numReceivedReviews.toBigDecimal())
       .plus(event.params.rating.toBigDecimal())
       .div(receiverStats.numReceivedReviews.plus(ONE).toBigDecimal())
-    // TODO No need ?
-    // receiverStats.numGivenReviews.plus(ONE)
   }
   receiverStats.numReceivedReviews = receiverStats.numReceivedReviews.plus(ONE)
 
@@ -49,7 +45,7 @@ export function handleMint(event: Mint): void {
   }
 
   //If the service included a referral amount && a referrer; & if the user receiving the review was the person referred
-  if (service.referrer != null && service.referralAmount.lt(ZERO) && receiver.id == service.seller) {
+  if (service.referrer != null && service.referralAmount.gt(ZERO) && receiver.id == service.seller) {
     const referrerStats = getOrCreateUserStat(BigInt.fromString(service.referrer!))
     referrerStats.numReferredUsers = referrerStats.numReferredUsers.plus(ONE)
     if (referrerStats.numReferredUsersReviewsReceived == ZERO) {
