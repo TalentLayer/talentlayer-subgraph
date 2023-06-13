@@ -15,7 +15,7 @@ import {
   Transaction,
   Evidence,
   Keyword,
-  UserStats,
+  UserStat,
   ReferralGain,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
@@ -78,27 +78,30 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-    user.userStats = getOrCreateUserStats(id).id
+    user.userStat = getOrCreateUserStat(id).id
     user.save()
   }
 
   return user
 }
 
-export function getOrCreateUserStats(id: BigInt): UserStats {
-  let userStats = UserStats.load(id.toString())
-  if (!userStats) {
-    userStats = new UserStats(id.toString())
-    userStats.user = getOrCreateUser(id).id
-    userStats.numReceivedReviews = ZERO
-    userStats.numGivenReviews = ZERO
-    userStats.numCreatedServices = ZERO
-    userStats.numFinishedServicesAsBuyer = ZERO
-    userStats.numCreatedProposals = ZERO
-    userStats.numFinishedServicesAsSeller = ZERO
-    userStats.save()
+export function getOrCreateUserStat(id: BigInt): UserStat {
+  let userStat = UserStat.load(id.toString())
+  if (!userStat) {
+    userStat = new UserStat(id.toString())
+    userStat.user = getOrCreateUser(id).id
+    userStat.numReceivedReviews = ZERO
+    userStat.numGivenReviews = ZERO
+    userStat.numCreatedServices = ZERO
+    userStat.numFinishedServicesAsBuyer = ZERO
+    userStat.numCreatedProposals = ZERO
+    userStat.numFinishedServicesAsSeller = ZERO
+    userStat.numReferredUsers = ZERO
+    userStat.numReferredUsersReviewsReceived = ZERO
+    userStat.averageReferredRating = ZERO_BIGDEC
+    userStat.save()
   }
-  return userStats
+  return userStat
 }
 
 export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO): Transaction {
@@ -303,15 +306,15 @@ export function getOrCreateKeyword(id: string): Keyword {
   return keyword
 }
 
-export function getOrCreateReferralGain(userId: BigInt, tokenAddress: Address): ReferralGain {
+export function getOrCreateReferralGain(userId: BigInt, tokenAddress: Address, serviceId: BigInt): ReferralGain {
   const referralGainId = generateIdFromTwoElements(userId.toString(), tokenAddress.toHex())
   let referralGain = ReferralGain.load(referralGainId)
   if (!referralGain) {
     referralGain = new ReferralGain(referralGainId)
     referralGain.user = getOrCreateUser(userId).id
     referralGain.token = getOrCreateToken(tokenAddress).id
+    referralGain.service = getOrCreateService(serviceId).id
     referralGain.totalGain = ZERO
-    referralGain.services = []
 
     referralGain.save()
   }

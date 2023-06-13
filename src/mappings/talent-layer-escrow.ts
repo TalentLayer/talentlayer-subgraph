@@ -13,7 +13,7 @@ import {
   getOrCreateProtocol,
   getOrCreateTransaction,
   getOrCreateEvidence,
-  getOrCreateUserStats,
+  getOrCreateUserStat,
   getOrCreateReferralGain,
 } from '../getters'
 import {
@@ -86,15 +86,20 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
   service.updatedAt = event.block.timestamp
+  if (service.referrer != null && service.referrer != '0') {
+    const referrerUserStat = getOrCreateUserStat(BigInt.fromString(service.referrer!))
+    referrerUserStat.numReferredUsers.plus(ONE)
+    referrerUserStat.save()
+  }
   service.save()
 
-  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
-  buyerUserStats.numFinishedServicesAsBuyer.plus(ONE)
-  buyerUserStats.save()
+  const buyerUserStat = getOrCreateUserStat(BigInt.fromString(service.buyer!))
+  buyerUserStat.numFinishedServicesAsBuyer.plus(ONE)
+  buyerUserStat.save()
 
-  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
-  sellerUserStats.numFinishedServicesAsSeller.plus(ONE)
-  sellerUserStats.save()
+  const sellerUserStat = getOrCreateUserStat(BigInt.fromString(service.seller!))
+  sellerUserStat.numFinishedServicesAsSeller.plus(ONE)
+  sellerUserStat.save()
 }
 
 export function handlePayment(event: Payment): void {
@@ -263,8 +268,8 @@ export function handleMetaEvidence(event: MetaEvidence): void {
 }
 
 export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
-  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
-  referralGain.services.push(getOrCreateService(event.params._serviceId).id)
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token, event.params._serviceId)
+  referralGain.service = getOrCreateService(event.params._serviceId).id
   referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
 
   referralGain.save()

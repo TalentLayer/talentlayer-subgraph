@@ -16,14 +16,14 @@ type Service @entity {
   createdAt: BigInt! # timestamp of block creation
   updatedAt: BigInt! # timestamp of the last change
   token: Token! # Token entity
-  referralAmount: BigInt # Referral amount
+  referralAmount: BigInt! # Referral amount
   status: ServiceStatus! # service status
   buyer: User # service buyer
   seller: User # service seller
   referrer: User # service referrer (optional)
   transaction: Transaction @derivedFrom(field: "service") # transaction associated with this service
   proposals: [Proposal!] @derivedFrom(field: "service") # proposals for this service
-  platform: Platform # Platform on which service was created
+  platform: Platform # Platform on which the service was created
   cid: String
   description: ServiceDescription
 }
@@ -93,18 +93,21 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
-  userStats: UserStats # User proposal, service & reviews statistics
+  userStat: UserStat # User proposal, service & reviews statistics
 }
 
-type UserStats @entity {
+type UserStat @entity {
   id: ID! # ID of the user
+  user: User! # Corresponding user
   numReceivedReviews: BigInt! # number of reviews user has received
   numGivenReviews: BigInt! # number of reviews user has given
   numCreatedServices: BigInt! # number of services user has created
   numFinishedServicesAsBuyer: BigInt! # number of services user has finished as a buyer
   numCreatedProposals: BigInt! # number of proposals user has created
   numFinishedServicesAsSeller: BigInt! # number of services user has finished as a seller
-  user: User! # Corresponding user
+  numReferredUsers: BigInt! # number of users user has referred
+  numReferredUsersReviewsReceived: BigInt! # number of reviews referred users received
+  averageReferredRating: BigDecimal! # average rating of referred referred services
 }
 
 type UserDescription @entity(immutable: true) {
@@ -279,7 +282,7 @@ type ReferralGain @entity {
   id: ID! # concatenation of userId + token entity
   user: User # user receiving the referral gain
   token: Token # token entity
-  services: [Service!]! # Services which issued referral amounts
+  service: Service! # Service which issued referral gain
   totalGain: BigInt! # total User gain
 }
 
