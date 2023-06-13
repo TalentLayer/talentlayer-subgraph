@@ -106,7 +106,7 @@ type UserStat @entity {
   numCreatedProposals: BigInt! # number of proposals user has created
   numFinishedServicesAsSeller: BigInt! # number of services user has finished as a seller
   numReferredUsers: BigInt! # number of users user has referred
-  numReferredUsersReviewsReceived: BigInt! # number of reviews referred users received
+  numReferredUsersReviewsReceived: BigInt! # number of reviews referred users received (used for stat calculation)
   averageReferredRating: BigDecimal! # average rating of referred referred services
 }
 
