@@ -1,34 +1,29 @@
 import { store, DataSourceContext } from '@graphprotocol/graph-ts'
-import { Platform } from '../../generated/schema'
-import { ServiceData, ProposalData } from '../../generated/templates'
-import {
-  ServiceCreated,
-  ProposalCreated,
-  AllowedTokenListUpdated,
-  MinCompletionPercentageUpdated,
-  ServiceUpdated,
-  ProposalUpdated,
-} from '../../generated/TalentLayerService/TalentLayerService'
+import { Platform } from '../../../generated/schema'
+import { ServiceData, ProposalData } from '../../../generated/templates'
 import {
   getOrCreateService,
   getOrCreateProposal,
   getOrCreateToken,
   getOrCreatePlatform,
   getOrCreateUser,
-  getOrCreateProtocol,
   getOrCreateUserStat,
-} from '../getters'
-import { generateIdFromTwoElements } from './utils'
-import { ONE, ZERO } from '../constants'
+} from '../../getters'
+import { generateIdFromTwoElements } from '../utils'
+import { ONE } from '../../constants'
+import {
+  ProposalUpdated as ProposalUpdatedV1,
+  ProposalCreated as ProposalCreatedV1,
+  ServiceCreated as ServiceCreatedV1,
+  ServiceDetailedUpdated,
+} from '../../../generated/templates/ServiceData/TalentLayerServiceV1'
 
-export function handleServiceCreated(event: ServiceCreated): void {
+export function handleServiceCreatedV1(event: ServiceCreatedV1): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
   buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
-  service.token = getOrCreateToken(event.params.rateToken).id
-  service.referralAmount = event.params.referralAmount
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp
   service.buyer = getOrCreateUser(event.params.ownerId).id
@@ -47,7 +42,7 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.save()
 }
 
-export function handleServiceUpdated(event: ServiceUpdated): void {
+export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
   const serviceId = event.params.id
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
@@ -57,7 +52,6 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
   //service.created set in handleServiceCreated.
   service.updatedAt = event.block.timestamp
   service.cid = newCid
-  service.referralAmount = event.params.referralAmount
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', serviceId)
@@ -73,7 +67,7 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
   service.save()
 }
 
-export function handleProposalCreated(event: ProposalCreated): void {
+export function handleProposalCreatedV1(event: ProposalCreatedV1): void {
   const sellerStats = getOrCreateUserStat(event.params.ownerId)
   sellerStats.numCreatedProposals = sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
@@ -84,12 +78,11 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = getOrCreateUser(event.params.ownerId).id
-  proposal.rateAmount = event.params.amount
+  // Handled in getOrCreateProposal
+  proposal.rateToken = getOrCreateToken(event.params.rateToken).id
+  proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
-  if (event.params.referrerId != ZERO) {
-    proposal.referrer = getOrCreateUser(event.params.referrerId).id
-  }
 
   proposal.createdAt = event.block.timestamp
   proposal.updatedAt = event.block.timestamp
@@ -108,25 +101,16 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.save()
 }
 
-export function handleAllowedTokenListUpdated(event: AllowedTokenListUpdated): void {
-  const token = getOrCreateToken(event.params.tokenAddress)
-  token.allowed = event.params.isWhitelisted
-  token.minimumTransactionAmount = event.params.minimumTransactionAmount
-
-  token.save()
-}
-
-export function handleProposalUpdated(event: ProposalUpdated): void {
+export function handleProposalUpdatedV1(event: ProposalUpdatedV1): void {
+  const token = event.params.rateToken
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   const newCid = event.params.dataUri
   const oldCid = proposal.cid
   const dataId = newCid + '-' + event.block.timestamp.toString()
 
-  proposal.rateAmount = event.params.amount
-  if (event.params.referrerId != ZERO) {
-    proposal.referrer = getOrCreateUser(event.params.referrerId).id
-  }
+  proposal.rateToken = getOrCreateToken(token).id
+  proposal.rateAmount = event.params.rateAmount
 
   //proposal.created set in handleProposalCreated.
   proposal.updatedAt = event.block.timestamp
@@ -145,10 +129,4 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
 
   proposal.description = dataId
   proposal.save()
-}
-
-export function handleMinCompletionPercentageUpdated(event: MinCompletionPercentageUpdated): void {
-  const protocol = getOrCreateProtocol()
-  protocol.minServiceCompletionPercentage = event.params.minCompletionPercentage
-  protocol.save()
 }

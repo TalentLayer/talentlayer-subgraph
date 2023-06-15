@@ -1,5 +1,5 @@
 import { BigInt } from '@graphprotocol/graph-ts'
-import { Transaction, User } from '../../generated/schema'
+import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
   getOrCreatePayment,
@@ -57,8 +57,9 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
-  transaction.service = getOrCreateService(event.params._serviceId).id
-  // transaction.service = Service.load(event.params._serviceId.toString())!.id
+  //TODO Null here => Service not indexed
+  // transaction.service = getOrCreateService(event.params._serviceId).id
+  transaction.service = Service.load(event.params._serviceId.toString())!.id
   transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
   transaction.originServiceFeeRate = event.params._originServiceFeeRate
   transaction.originValidatedProposalFeeRate = event.params._originValidatedProposalFeeRate
