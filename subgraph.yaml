@@ -216,8 +216,8 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-        - name: TalentLayerServiceV1
-          file: ./abis/archives/TalentLayerServiceV1.json
+        - name: TalentLayerService
+          file: ./abis/archives/TalentLayerService.json
     network: mumbai
   - name: ProposalData
     kind: file/ipfs
@@ -273,10 +273,10 @@ templates:
           file: ./abis/TalentLayerID.json
     network: mumbai
   - kind: ethereum/contract
-    name: TalentLayerService
+    name: TalentLayerServiceV1
     network: mumbai
     source:
-      abi: TalentLayerServiceV1
+      abi: TalentLayerService
       address: "0x9B7C6FB51D2EEE39b259BDe874710642120a58ED"
       startBlock: 36516030
     mapping:
@@ -288,8 +288,8 @@ templates:
         - Proposal
         - ServiceDescription
       abis:
-        - name: TalentLayerServiceV1
-          file: ./abis/archives/TalentLayerServiceV1.json
+        - name: TalentLayerService
+          file: ./abis/archives/TalentLayerService.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
