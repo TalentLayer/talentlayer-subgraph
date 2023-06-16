@@ -2,17 +2,16 @@ import { store, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Platform } from '../../generated/schema'
 import { ServiceData, ProposalData } from '../../generated/templates'
 import {
-  ServiceCreated,
-  ServiceCreated1 as ServiceCreatedWithTestUpgrade,
-  ProposalCreated,
+  ServiceCreated as ServiceCreatedV1,
+  ServiceCreated1 as ServiceCreatedCurrent,
+  ServiceDetailedUpdated as ServiceUpdatedV1,
+  ServiceUpdated as ServiceUpdatedCurrent,
+  ProposalCreated as ProposalCreatedV1,
+  ProposalCreated1 as ProposalCreatedCurrent,
+  ProposalUpdated as ProposalUpdatedV1,
+  ProposalUpdated1 as ProposalUpdatedCurrent,
   AllowedTokenListUpdated,
   MinCompletionPercentageUpdated,
-  ServiceUpdated,
-  ProposalUpdated,
-  ServiceCreatedWithReferral,
-  ServiceDetailedUpdated,
-  ProposalCreatedWithReferrer,
-  ProposalUpdatedWithReferrer,
 } from '../../generated/TalentLayerService/TalentLayerService'
 import {
   getOrCreateService,
@@ -27,7 +26,7 @@ import { generateIdFromTwoElements } from './utils'
 import { ONE, ZERO } from '../constants'
 
 // =================== Legacy V1 Events ===================
-export function handleServiceCreated(event: ServiceCreated): void {
+export function handleServiceCreatedV1(event: ServiceCreatedV1): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
   buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
@@ -51,7 +50,7 @@ export function handleServiceCreated(event: ServiceCreated): void {
   service.save()
 }
 
-export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): void {
+export function handleServiceDetailedUpdated(event: ServiceUpdatedV1): void {
   const serviceId = event.params.id
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
@@ -76,7 +75,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
   service.save()
 }
 
-export function handleProposalCreated(event: ProposalCreated): void {
+export function handleProposalCreatedV1(event: ProposalCreatedV1): void {
   const sellerStats = getOrCreateUserStat(event.params.ownerId)
   sellerStats.numCreatedProposals = sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
@@ -110,7 +109,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.save()
 }
 
-export function handleProposalUpdated(event: ProposalUpdated): void {
+export function handleProposalUpdatedV1(event: ProposalUpdatedV1): void {
   const token = event.params.rateToken
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
@@ -140,9 +139,9 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   proposal.save()
 }
 
-// =================== V2 Events ===================
+// =================== V2 Events (current upgrade) ===================
 
-export function handleServiceCreatedWithReferral(event: ServiceCreatedWithReferral): void {
+export function handleServiceCreated(event: ServiceCreatedCurrent): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
   buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
@@ -168,33 +167,7 @@ export function handleServiceCreatedWithReferral(event: ServiceCreatedWithReferr
   service.save()
 }
 
-export function handleServiceCreatedWithReferralTest(event: ServiceCreatedWithTestUpgrade): void {
-  const buyerStats = getOrCreateUserStat(event.params.ownerId)
-  buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
-  buyerStats.save()
-
-  const service = getOrCreateService(event.params.id)
-  service.rateToken = getOrCreateToken(event.params.rateToken).id
-  service.referralAmount = event.params.referralAmount
-  service.createdAt = event.block.timestamp
-  service.updatedAt = event.block.timestamp
-  service.buyer = getOrCreateUser(event.params.ownerId).id
-  service.status = 'Opened'
-  const platform = getOrCreatePlatform(event.params.platformId)
-  service.platform = platform.id
-  service.cid = event.params.dataUri
-  const dataId = event.params.dataUri + '-' + event.block.timestamp.toString()
-
-  const context = new DataSourceContext()
-  context.setBigInt('serviceId', event.params.id)
-  context.setString('id', dataId)
-  ServiceData.createWithContext(event.params.dataUri, context)
-
-  service.description = dataId
-  service.save()
-}
-
-export function handleServiceUpdated(event: ServiceUpdated): void {
+export function handleServiceUpdated(event: ServiceUpdatedCurrent): void {
   const serviceId = event.params.id
   const service = getOrCreateService(serviceId)
   const oldCid = service.cid
@@ -220,7 +193,7 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
   service.save()
 }
 
-export function handleProposalCreatedWithReferrer(event: ProposalCreatedWithReferrer): void {
+export function handleProposalCreated(event: ProposalCreatedCurrent): void {
   const sellerStats = getOrCreateUserStat(event.params.ownerId)
   sellerStats.numCreatedProposals = sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
@@ -255,7 +228,7 @@ export function handleProposalCreatedWithReferrer(event: ProposalCreatedWithRefe
   proposal.save()
 }
 
-export function handleProposalUpdatedWithReferrer(event: ProposalUpdatedWithReferrer): void {
+export function handleProposalUpdated(event: ProposalUpdatedCurrent): void {
   const proposalId = generateIdFromTwoElements(event.params.serviceId.toString(), event.params.ownerId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params.serviceId)
   const newCid = event.params.dataUri

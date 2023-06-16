@@ -89,28 +89,27 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceCreatedWithReferral(uint256,uint256,uint256,string,address,uint256)
-          handler: handleServiceCreatedWithReferral
-        - event: ProposalCreatedWithReferrer(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
-          handler: handleProposalCreatedWithReferrer
-        - event: ProposalUpdatedWithReferrer(uint256,uint256,string,uint256,uint256,uint256)
-          handler: handleProposalUpdatedWithReferrer
+        - event: ServiceCreated(uint256,uint256,uint256,string,address,uint256)
+          handler: handleServiceCreated
+        - event: ServiceUpdated(uint256,string,uint256)
+          handler: handleServiceUpdated
+        - event: ProposalCreated(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
+          handler: handleProposalCreated
+        - event: ProposalUpdated(uint256,uint256,string,uint256,uint256,uint256)
+          handler: handleProposalUpdated
         - event: AllowedTokenListUpdated(address,bool,uint256)
           handler: handleAllowedTokenListUpdated
         - event: MinCompletionPercentageUpdated(uint256)
           handler: handleMinCompletionPercentageUpdated
-        - event: ServiceUpdated(uint256,string,uint256)
-          handler: handleServiceUpdated
+          # Legacy events
         - event: ServiceCreated(uint256,uint256,uint256,string)
-          handler: handleServiceCreated
-        - event: ServiceCreated(indexed uint256,uint256,uint256,string,address,uint256)
-          handler: handleServiceCreatedWithReferralTest
+          handler: handleServiceCreatedV1
         - event: ServiceDetailedUpdated(indexed uint256,string)
           handler: handleServiceDetailedUpdated
         - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
-          handler: handleProposalCreated
+          handler: handleProposalCreatedV1
         - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
-          handler: handleProposalUpdated
+          handler: handleProposalUpdatedV1
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
