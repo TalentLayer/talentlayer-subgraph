@@ -291,8 +291,9 @@ type ReferralGain @entity {
   id: ID! # concatenation of userId + token entity
   user: User # user receiving the referral gain
   token: Token # token entity
-  service: Service! # Service which issued referral gain
+  service: Service # Service which issued referral gain
   totalGain: BigInt! # total User gain
+  availableBalance: BigInt! # Balance available to be claimed
 }
 
 type Protocol @entity {

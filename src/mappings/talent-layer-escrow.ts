@@ -271,9 +271,10 @@ export function handleMetaEvidence(event: MetaEvidence): void {
 }
 
 export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
-  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token, event.params._serviceId)
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
   referralGain.service = getOrCreateService(event.params._serviceId).id
   referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
+  referralGain.availableBalance = referralGain.availableBalance.plus(event.params._amount)
 
   referralGain.save()
 }
@@ -290,4 +291,9 @@ export function handleReferralAmountClaimed(event: ReferralAmountClaimed): void 
   referralClaim.createdAt = event.block.timestamp
 
   referralClaim.save()
+
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
+  referralGain.availableBalance = referralGain.availableBalance.minus(event.params._amount)
+
+  referralGain.save()
 }
