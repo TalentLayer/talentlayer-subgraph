@@ -3,12 +3,13 @@ import { Platform } from '../../generated/schema'
 import { ServiceData, ProposalData } from '../../generated/templates'
 import {
   ServiceCreated,
+  ServiceCreated1 as ServiceCreatedWithTestUpgrade,
   ProposalCreated,
   AllowedTokenListUpdated,
   MinCompletionPercentageUpdated,
   ServiceUpdated,
   ProposalUpdated,
-  ServiceCreatedWithReferral as ServiceCreatedWithReferralEvent,
+  ServiceCreatedWithReferral,
   ServiceDetailedUpdated,
   ProposalCreatedWithReferrer,
   ProposalUpdatedWithReferrer,
@@ -141,13 +142,39 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
 
 // =================== V2 Events ===================
 
-export function ServiceCreatedWithReferral(event: ServiceCreatedWithReferralEvent): void {
+export function handleServiceCreatedWithReferral(event: ServiceCreatedWithReferral): void {
   const buyerStats = getOrCreateUserStat(event.params.ownerId)
   buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
   const service = getOrCreateService(event.params.id)
-  service.token = getOrCreateToken(event.params.rateToken).id
+  service.rateToken = getOrCreateToken(event.params.rateToken).id
+  service.referralAmount = event.params.referralAmount
+  service.createdAt = event.block.timestamp
+  service.updatedAt = event.block.timestamp
+  service.buyer = getOrCreateUser(event.params.ownerId).id
+  service.status = 'Opened'
+  const platform = getOrCreatePlatform(event.params.platformId)
+  service.platform = platform.id
+  service.cid = event.params.dataUri
+  const dataId = event.params.dataUri + '-' + event.block.timestamp.toString()
+
+  const context = new DataSourceContext()
+  context.setBigInt('serviceId', event.params.id)
+  context.setString('id', dataId)
+  ServiceData.createWithContext(event.params.dataUri, context)
+
+  service.description = dataId
+  service.save()
+}
+
+export function handleServiceCreatedWithReferralTest(event: ServiceCreatedWithTestUpgrade): void {
+  const buyerStats = getOrCreateUserStat(event.params.ownerId)
+  buyerStats.numCreatedServices = buyerStats.numCreatedServices.plus(ONE)
+  buyerStats.save()
+
+  const service = getOrCreateService(event.params.id)
+  service.rateToken = getOrCreateToken(event.params.rateToken).id
   service.referralAmount = event.params.referralAmount
   service.createdAt = event.block.timestamp
   service.updatedAt = event.block.timestamp

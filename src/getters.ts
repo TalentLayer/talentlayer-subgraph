@@ -27,7 +27,7 @@ export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
   if (!service) {
     service = new Service(id.toString())
-    service.token = getOrCreateToken(ZERO_ADDRESS).id
+    service.rateToken = getOrCreateToken(ZERO_ADDRESS).id
     service.referralAmount = ZERO
     service.status = 'Opened'
     service.createdAt = ZERO
@@ -47,7 +47,7 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
     proposal.createdAt = ZERO
     proposal.updatedAt = ZERO
     proposal.service = service.id
-    proposal.rateToken = service.token
+    proposal.rateToken = service.rateToken
     proposal.expirationDate = ZERO
     proposal.save()
   }

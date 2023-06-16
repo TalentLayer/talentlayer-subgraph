@@ -15,7 +15,7 @@ type Service @entity {
   id: ID! # service id
   createdAt: BigInt! # timestamp of block creation
   updatedAt: BigInt! # timestamp of the last change
-  token: Token! # Token entity
+  rateToken: Token! # Token entity
   referralAmount: BigInt! # Referral amount
   status: ServiceStatus! # service status
   buyer: User # service buyer
