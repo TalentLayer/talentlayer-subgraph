@@ -89,18 +89,27 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceCreated(indexed uint256,uint256,uint256,string,address,uint256)
-          handler: handleServiceCreated
-        - event: ProposalCreated(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
-          handler: handleProposalCreated
-        - event: ProposalUpdated(uint256,uint256,string,uint256,uint256,uint256)
-          handler: handleProposalUpdated
+        - event: ServiceCreatedWithReferral(uint256,uint256,uint256,string,address,uint256)
+          handler: handleServiceCreatedWithReferral
+        - event: ProposalCreatedWithReferrer(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
+          handler: handleProposalCreatedWithReferrer
+        - event: ProposalUpdatedWithReferrer(uint256,uint256,string,uint256,uint256,uint256)
+          handler: handleProposalUpdatedWithReferrer
         - event: AllowedTokenListUpdated(address,bool,uint256)
           handler: handleAllowedTokenListUpdated
         - event: MinCompletionPercentageUpdated(uint256)
           handler: handleMinCompletionPercentageUpdated
-        - event: ServiceUpdated(indexed uint256,string,uint256)
+        - event: ServiceUpdated(uint256,string,uint256)
           handler: handleServiceUpdated
+          # Legacy V1 events
+        - event: ServiceCreated(uint256,uint256,uint256,string)
+          handler: handleServiceCreated
+        - event: ServiceDetailedUpdated(indexed uint256,string)
+          handler: handleServiceDetailedUpdated
+        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
+          handler: handleProposalCreated
+        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
+          handler: handleProposalUpdated
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
@@ -133,8 +142,7 @@ dataSources:
           handler: handleFeesClaimed
         - event: OriginServiceFeeRateReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginServiceFeeRateReleased
-        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed
-            address,uint256)
+        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginValidatedProposalFeeRateReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
@@ -216,8 +224,6 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-        - name: TalentLayerService
-          file: ./abis/archives/TalentLayerService.json
     network: mumbai
   - name: ProposalData
     kind: file/ipfs
@@ -272,33 +278,3 @@ templates:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
     network: mumbai
-  - kind: ethereum/contract
-    name: TalentLayerServiceV1
-    network: mumbai
-    source:
-      abi: TalentLayerService
-      address: "0x9B7C6FB51D2EEE39b259BDe874710642120a58ED"
-      startBlock: 36516030
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Service
-        - Proposal
-        - ServiceDescription
-      abis:
-        - name: TalentLayerService
-          file: ./abis/archives/TalentLayerService.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-      eventHandlers:
-        - event: ServiceCreated(uint256,uint256,uint256,string)
-          handler: handleServiceCreatedV1
-        - event: ServiceDetailedUpdated(indexed uint256,string)
-          handler: handleServiceDetailedUpdated
-        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
-          handler: handleProposalCreatedV1
-        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
-          handler: handleProposalUpdatedV1
-      file: ./src/mappings/archives/talent-layer-serviceV1.ts
