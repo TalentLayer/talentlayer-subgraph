@@ -15,6 +15,8 @@ import {
   getOrCreateEvidence,
   getOrCreateUserStat,
   getOrCreateReferralGain,
+  getOrCreateReferralClaim,
+  getOrCreateUser,
 } from '../getters'
 import {
   Payment,
@@ -31,6 +33,7 @@ import {
   OriginServiceFeeRateReleased,
   OriginValidatedProposalFeeRateReleased,
   ReferralAmountReleased,
+  ReferralAmountClaimed,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ONE, ZERO } from '../constants'
@@ -57,8 +60,6 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
-  //TODO Null here => Service not indexed
-  // transaction.service = getOrCreateService(event.params._serviceId).id
   transaction.service = Service.load(event.params._serviceId.toString())!.id
   transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
   transaction.originServiceFeeRate = event.params._originServiceFeeRate
@@ -275,4 +276,18 @@ export function handleReferralAmountReleased(event: ReferralAmountReleased): voi
   referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
 
   referralGain.save()
+}
+
+export function handleReferralAmountClaimed(event: ReferralAmountClaimed): void {
+  const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
+  const referralClaim = getOrCreateReferralClaim(claimId)
+
+  referralClaim.user = getOrCreateUser(event.params._referrerId).id
+  referralClaim.token = getOrCreateToken(event.params._token).id
+  referralClaim.amount = event.params._amount
+
+  referralClaim.transactionHash = event.transaction.hash.toHex()
+  referralClaim.createdAt = event.block.timestamp
+
+  referralClaim.save()
 }

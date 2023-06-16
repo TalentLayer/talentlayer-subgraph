@@ -101,7 +101,6 @@ dataSources:
           handler: handleMinCompletionPercentageUpdated
         - event: ServiceUpdated(uint256,string,uint256)
           handler: handleServiceUpdated
-          # Legacy V1 events
         - event: ServiceCreated(uint256,uint256,uint256,string)
           handler: handleServiceCreated
         - event: ServiceDetailedUpdated(indexed uint256,string)
@@ -142,7 +141,8 @@ dataSources:
           handler: handleFeesClaimed
         - event: OriginServiceFeeRateReleased(uint256,uint256,indexed address,uint256)
           handler: handleOriginServiceFeeRateReleased
-        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed address,uint256)
+        - event: OriginValidatedProposalFeeRateReleased(uint256,uint256,indexed
+            address,uint256)
           handler: handleOriginValidatedProposalFeeRateReleased
         - event: ProtocolEscrowFeeRateUpdated(uint16)
           handler: handleProtocolEscrowFeeRateUpdated
@@ -162,6 +162,8 @@ dataSources:
           handler: handleMetaEvidence
         - event: ReferralAmountReleased(indexed uint256,uint256,indexed address,uint256)
           handler: handleReferralAmountReleased
+        - event: ReferralAmountClaimed(uint256,indexed address,uint256)
+          handler: handleReferralAmountClaimed
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID

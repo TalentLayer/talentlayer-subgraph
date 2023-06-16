@@ -17,6 +17,7 @@ import {
   Keyword,
   UserStat,
   ReferralGain,
+  ReferralBalanceClaim,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -319,4 +320,14 @@ export function getOrCreateReferralGain(userId: BigInt, tokenAddress: Address, s
     referralGain.save()
   }
   return referralGain
+}
+
+export function getOrCreateReferralClaim(referralClaimId: string): ReferralBalanceClaim {
+  let claim = ReferralBalanceClaim.load(referralClaimId)
+  if (!claim) {
+    claim = new ReferralBalanceClaim(referralClaimId)
+    claim.amount = ZERO
+    claim.save()
+  }
+  return claim
 }
