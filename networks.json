@@ -45,28 +45,24 @@
   },
   "mumbai": {
     "TalentLayerID": {
-      "address": "0x87a247A1Aed184F7BC2b4F287Fc23D82E720721b",
-      "startBlock": 36843729
+      "address": "0x3F87289e6Ec2D05C32d8A74CCfb30773fF549306",
+      "startBlock": 33676850
     },
     "TalentLayerReview": {
-      "address": "0x815035199D281be97D092710fE659445F1EB0DC9",
-      "startBlock": 36843729
+      "address": "0x050F59E1871d3B7ca97e6fb9DCE64b3818b14B18",
+      "startBlock": 33676850
     },
     "TalentLayerService": {
-      "address": "0x9B7C6FB51D2EEE39b259BDe874710642120a58ED",
-      "startBlock": 36843729
+      "address": "0x27ED516dC1df64b4c1517A64aa2Bb72a434a5A6D",
+      "startBlock": 33676850
     },
     "TalentLayerEscrow": {
-      "address": "0xC184101F1C1E4D71bd18F88FB7f36F53ec4F2De8",
-      "startBlock": 36843729
+      "address": "0x4bE920eC3e8552292B2147480111063E0dc36872",
+      "startBlock": 33676850
     },
     "TalentLayerPlatformID": {
-      "address": "0xE95a9d7d673716e40B8aa9851592672D6D697c25",
-      "startBlock": 36843729
-    },
-    "TalentLayerPlatformIDV1": {
-      "address": "0x9B7C6FB51D2EEE39b259BDe874710642120a58ED",
-      "startBlock": 36843729
+      "address": "0xEFD8dbC421380Ee04BAdB69216a0FD97F64CbFD4",
+      "startBlock": 33676850
     }
   },
   "matic": {
