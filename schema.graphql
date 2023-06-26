@@ -293,7 +293,7 @@ type ReferralGain @entity {
   token: Token # token entity
   service: Service # Service which issued referral gain
   totalGain: BigInt! # total User gain
-  availableBalance: BigInt! # Balance available to be claimed
+  availableBalance: BigInt! # balance available to be claimed
 }
 
 type Protocol @entity {
