@@ -1,8 +1,8 @@
 enum ServiceStatus {
-  Opened,
-  Confirmed,
-  Finished,
-  Cancelled,
+  Opened
+  Confirmed
+  Finished
+  Cancelled
   Uncompleted
 }
 
@@ -118,6 +118,12 @@ type UserDescription @entity(immutable: true) {
   name: String # Custom user name
   video_url: String #url
   image_url: String #url
+  mail: MailNotifications # Mail entity
+}
+
+type MailNotifications @entity(immutable: true) {
+  id: ID! # UserDescription's id
+  proposalConsent: Boolean
 }
 
 enum ProposalStatus {

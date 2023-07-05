@@ -4,8 +4,9 @@
   "scripts": {
     "codegen": "graph codegen",
     "graphhelp": "graph help",
-    "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ talentlayer/talent-layer-protocol",
+    "build": "graph build --network mumbai",
+    "auth": "graph auth --network mumbai --product hosted-service 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",
+    "deploy": "graph deploy --product hosted-service akugone/web3mail-tl-mumbai",
     "create-local": "graph create --node http://localhost:8020/ talentlayer/talent-layer-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ talentlayer/talent-layer-protocol",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1"
