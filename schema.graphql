@@ -118,10 +118,10 @@ type UserDescription @entity(immutable: true) {
   name: String # Custom user name
   video_url: String #url
   image_url: String #url
-  mail: MailNotifications # Mail entity
+  mail: UserMailNotifications # Mail entity
 }
 
-type MailNotifications @entity(immutable: true) {
+type UserMailNotifications @entity(immutable: true) {
   id: ID! # UserDescription's id
   proposalConsent: Boolean
 }

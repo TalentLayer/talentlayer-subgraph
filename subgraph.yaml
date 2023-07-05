@@ -250,6 +250,7 @@ templates:
       handler: handleUserData
       entities:
         - UserDescription
+        - UserMailNotifications
         - Keyword
       abis:
         - name: TalentLayerID
