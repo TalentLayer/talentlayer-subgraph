@@ -1,4 +1,4 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -37,6 +37,7 @@ import {
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ONE, ZERO } from '../constants'
+import { EvidenceData } from '../../generated/templates'
 
 enum Party {
   Sender,
@@ -217,6 +218,7 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
     if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.receiverFee = transaction.receiverFee.plus(event.params._amount)
+      transaction.receiverFeePaidAt = event.block.timestamp
     } else {
       // Reimbursement
       transaction.receiverFee = transaction.receiverFee.minus(event.params._amount)
@@ -261,7 +263,17 @@ export function handleEvidenceSubmitted(event: EvidenceSubmitted): void {
   const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const evidence = getOrCreateEvidence(evidenceId, event.params._transactionId)
   evidence.party = User.load(event.params._partyId.toString())!.id
-  evidence.cid = event.params._evidenceUri
+  const cid = event.params._evidenceUri
+  evidence.cid = cid
+
+  const dataId = cid + '-' + event.block.timestamp.toString()
+  const context = new DataSourceContext()
+  context.setString('evidenceId', evidence.id)
+  context.setString('id', dataId)
+
+  EvidenceData.createWithContext(cid, context)
+  evidence.description = dataId
+
   evidence.save()
 }
 
