@@ -292,7 +292,7 @@ export function getOrCreateEvidence(evidenceId: string, transactionId: BigInt): 
   if (!evidence) {
     evidence = new Evidence(evidenceId)
     evidence.createdAt = ZERO
-    evidence.uri = ''
+    evidence.cid = ''
     evidence.transaction = getOrCreateTransaction(transactionId).id
   }
   return evidence

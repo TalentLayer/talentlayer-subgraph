@@ -191,6 +191,8 @@ type Transaction @entity {
   senderFee: BigInt! # fees paid by the sender for arbitration
   receiverFee: BigInt! # fees paid by the receiver for arbitration
   lastInteraction: BigInt! # timestamp of the last interaction by parties with the dispute
+  senderFeePaidAt: BigInt # timestamp when the arbitration fee was paid by the sender
+  receiverFeePaidAt: BigInt # timestamp when the arbitration fee was paid by the receiver
   status: TransactionStatus! # status of the payment
   arbitrator: Bytes! # address of the arbitrator contract
   arbitratorExtraData: Bytes! # extra data for the arbitrator
@@ -206,7 +208,18 @@ type Evidence @entity(immutable: true) {
   transaction: Transaction! # transaction entity
   createdAt: BigInt! # Timestamp of block creation
   party: User! # party that submitted the evidence
-  uri: String! # metadata URI of evidence
+  description: EvidenceDescription # ipfs data of the evidence
+  cid: String! # metadata URI of evidence
+}
+
+type EvidenceDescription @entity(immutable: true) {
+  id: ID! # Evidence cid + block.timestamp
+  evidence: Evidence! # Evidence entity
+  fileUri: String # "ipfs/" + cid of evidence
+  fileHash: String # hash of the evidence file
+  fileTypeExtension: String # extension of the evidence file
+  name: String # name of the evidence
+  description: String # description of the evidence
 }
 
 type Platform @entity {

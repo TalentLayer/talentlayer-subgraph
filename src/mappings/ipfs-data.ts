@@ -5,6 +5,7 @@ import {
   UserDescription,
   PlatformDescription,
   ReviewDescription,
+  EvidenceDescription,
 } from '../../generated/schema'
 import { getOrCreateKeyword } from '../getters'
 
@@ -154,6 +155,31 @@ export function handlePlatformData(content: Bytes): void {
   description.website = getValueAsString(jsonObject, 'website')
   description.video_url = getValueAsString(jsonObject, 'video_url')
   description.image_url = getValueAsString(jsonObject, 'image_url')
+
+  description.save()
+}
+
+export function handleEvidenceData(content: Bytes): void {
+  const checkJson = json.try_fromBytes(content)
+  const jsonObject = checkJson.isOk ? checkJson.value.toObject() : null
+
+  if (jsonObject === null) {
+    log.warning('Error parsing json: {}', [dataSource.stringParam()])
+    return
+  }
+
+  const context = dataSource.context()
+  const evidenceId = context.getString('evidenceId')
+  const id = context.getString('id')
+
+  let description = new EvidenceDescription(id)
+  description.evidence = evidenceId.toString()
+
+  description.fileUri = getValueAsString(jsonObject, 'fileUri')
+  description.fileHash = getValueAsString(jsonObject, 'fileHash')
+  description.fileTypeExtension = getValueAsString(jsonObject, 'fileTypeExtension')
+  description.name = getValueAsString(jsonObject, 'name')
+  description.description = getValueAsString(jsonObject, 'description')
 
   description.save()
 }

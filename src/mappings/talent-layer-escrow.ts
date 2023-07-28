@@ -208,6 +208,7 @@ export function handleArbitrationFeePayment(event: ArbitrationFeePayment): void 
     if (event.params._paymentType === ArbitrationFeePaymentType.Pay) {
       // Payment
       transaction.senderFee = transaction.senderFee.plus(event.params._amount)
+      transaction.senderFeePaidAt = event.block.timestamp
     } else {
       // Reimbursement
       transaction.senderFee = transaction.senderFee.minus(event.params._amount)
@@ -260,7 +261,7 @@ export function handleEvidenceSubmitted(event: EvidenceSubmitted): void {
   const evidenceId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const evidence = getOrCreateEvidence(evidenceId, event.params._transactionId)
   evidence.party = User.load(event.params._partyId.toString())!.id
-  evidence.uri = event.params._evidenceUri
+  evidence.cid = event.params._evidenceUri
   evidence.save()
 }
 
