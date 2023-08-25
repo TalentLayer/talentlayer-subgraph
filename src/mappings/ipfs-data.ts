@@ -5,6 +5,7 @@ import {
   UserDescription,
   PlatformDescription,
   ReviewDescription,
+  UserWeb3mailPreferences,
 } from '../../generated/schema'
 import { getOrCreateKeyword } from '../getters'
 
@@ -126,6 +127,33 @@ export function handleUserData(content: Bytes): void {
   description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
   description.imageUrl = getValueAsString(jsonObject, 'imageUrl')
 
+  const web3mailPreferencesObject = getValueAsObject(jsonObject, 'web3mailPreferences')
+  if (web3mailPreferencesObject) {
+    let web3mailPreferences = new UserWeb3mailPreferences(id)
+    web3mailPreferences.activeOnNewService = getValueAsBoolean(web3mailPreferencesObject, 'activeOnNewService', true)
+    web3mailPreferences.activeOnNewProposal = getValueAsBoolean(web3mailPreferencesObject, 'activeOnNewProposal', true)
+    web3mailPreferences.activeOnProposalValidated = getValueAsBoolean(
+      web3mailPreferencesObject,
+      'activeOnProposalValidated',
+      true,
+    )
+    web3mailPreferences.activeOnFundRelease = getValueAsBoolean(web3mailPreferencesObject, 'activeOnFundRelease', true)
+    web3mailPreferences.activeOnReview = getValueAsBoolean(web3mailPreferencesObject, 'activeOnReview', true)
+    web3mailPreferences.activeOnPlatformMarketing = getValueAsBoolean(
+      web3mailPreferencesObject,
+      'activeOnPlatformMarketing',
+      true,
+    )
+    web3mailPreferences.activeOnProtocolMarketing = getValueAsBoolean(
+      web3mailPreferencesObject,
+      'activeOnProtocolMarketing',
+      true,
+    )
+    web3mailPreferences.save()
+
+    description.web3mailPreferences = id
+  }
+
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
   //description.skills = createKeywordEntities(description.skills_raw!)!
@@ -161,6 +189,16 @@ export function handlePlatformData(content: Bytes): void {
 
 //==================================== Help functions ===========================================
 
+function getValueAsObject(jsonObject: TypedMap<string, JSONValue>, key: string): TypedMap<string, JSONValue> | null {
+  const value = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.OBJECT) {
+    return null
+  }
+
+  return value.toObject()
+}
+
 function getValueAsString(jsonObject: TypedMap<string, JSONValue>, key: string): string | null {
   const value = jsonObject.get(key)
 
@@ -179,6 +217,16 @@ function getValueAsBigInt(jsonObject: TypedMap<string, JSONValue>, key: string):
   }
 
   return value.toBigInt()
+}
+
+function getValueAsBoolean(jsonObject: TypedMap<string, JSONValue>, key: string, defaulValue: boolean): boolean {
+  const value = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.BOOL) {
+    return defaulValue
+  }
+
+  return value.toBool()
 }
 
 //Transforms a comma separated string of keywords into an Array of Keyword.id entities.
