@@ -36,7 +36,7 @@ export function handleServiceData(content: Bytes): void {
   }
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
-  description.video_url = getValueAsString(jsonObject, 'video_url')
+  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -66,7 +66,7 @@ export function handleProposalData(content: Bytes): void {
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
-  description.video_url = getValueAsString(jsonObject, 'video_url')
+  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
 
   description.save()
 }
@@ -123,8 +123,8 @@ export function handleUserData(content: Bytes): void {
   description.country = getValueAsString(jsonObject, 'country')
   description.role = getValueAsString(jsonObject, 'role')
   description.name = getValueAsString(jsonObject, 'name')
-  description.video_url = getValueAsString(jsonObject, 'video_url')
-  description.image_url = getValueAsString(jsonObject, 'image_url')
+  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
+  description.imageUrl = getValueAsString(jsonObject, 'imageUrl')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -153,8 +153,8 @@ export function handlePlatformData(content: Bytes): void {
   description.platform = platformId.toString()
   description.about = getValueAsString(jsonObject, 'about')
   description.website = getValueAsString(jsonObject, 'website')
-  description.video_url = getValueAsString(jsonObject, 'video_url')
-  description.image_url = getValueAsString(jsonObject, 'image_url')
+  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
+  description.imageUrl = getValueAsString(jsonObject, 'imageUrl')
 
   description.save()
 }
