@@ -118,6 +118,18 @@ type UserDescription @entity(immutable: true) {
   name: String # Custom user name
   videoUrl: String #url
   imageUrl: String #url
+  web3mailPreferences: UserWeb3mailPreferences
+}
+
+type UserWeb3mailPreferences @entity(immutable: true) {
+  id: ID! #cid
+  activeOnNewService: Boolean
+  activeOnNewProposal: Boolean
+  activeOnProposalValidated: Boolean
+  activeOnFundRelease: Boolean
+  activeOnReview: Boolean
+  activeOnPlatformMarketing: Boolean
+  activeOnProtocolMarketing: Boolean
 }
 
 enum ProposalStatus {
