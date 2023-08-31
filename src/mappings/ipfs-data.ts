@@ -143,12 +143,12 @@ export function handleUserData(content: Bytes): void {
     web3mailPreferences.activeOnPlatformMarketing = getValueAsBoolean(
       web3mailPreferencesObject,
       'activeOnPlatformMarketing',
-      true,
+      false,
     )
     web3mailPreferences.activeOnProtocolMarketing = getValueAsBoolean(
       web3mailPreferencesObject,
       'activeOnProtocolMarketing',
-      true,
+      false,
     )
     web3mailPreferences.save()
 
