@@ -131,7 +131,7 @@ export function handleUserData(content: Bytes): void {
   const web3mailPreferencesObject = getValueAsObject(jsonObject, 'web3mailPreferences')
   if (web3mailPreferencesObject) {
     let web3mailPreferences = new UserWeb3mailPreferences(id)
-    web3mailPreferences.activeOnNewService = getValueAsBoolean(web3mailPreferencesObject, 'activeOnNewService', true)
+    web3mailPreferences.activeOnNewService = getValueAsBoolean(web3mailPreferencesObject, 'activeOnNewService', false)
     web3mailPreferences.activeOnNewProposal = getValueAsBoolean(web3mailPreferencesObject, 'activeOnNewProposal', true)
     web3mailPreferences.activeOnProposalValidated = getValueAsBoolean(
       web3mailPreferencesObject,
