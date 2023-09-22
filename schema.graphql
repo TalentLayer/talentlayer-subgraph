@@ -307,11 +307,11 @@ type Protocol @entity {
   minServiceCompletionPercentage: BigInt! # minimum percentage of released amount for considering a service completed
 }
 
-# Comment to prevent error on build
-# type _Schema_
-#   @fulltext(
-#     name: "serviceDescriptionSearchRank"
-#     language: en
-#     algorithm: proximityRank
-#     include: [{ entity: "ServiceDescription", fields: [{ name: "title" }, { name: "keywords_raw" }] }]
-#   )
+# Comment to prevent error on build is your graph node don't support it and have the error "Fulltext search is not yet deterministic"
+type _Schema_
+  @fulltext(
+    name: "serviceDescriptionSearchRank"
+    language: en
+    algorithm: proximityRank
+    include: [{ entity: "ServiceDescription", fields: [{ name: "title" }, { name: "keywords_raw" }] }]
+  )
