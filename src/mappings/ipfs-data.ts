@@ -38,7 +38,7 @@ export function handleServiceData(content: Bytes): void {
   }
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
   description.rateAmount = getValueAsString(jsonObject, 'rateAmount')
-  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
+  description.video_url = getValueAsString(jsonObject, 'video_url')
 
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
@@ -68,7 +68,7 @@ export function handleProposalData(content: Bytes): void {
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.about = getValueAsString(jsonObject, 'about')
   description.expectedHours = getValueAsBigInt(jsonObject, 'expectedHours')
-  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
+  description.video_url = getValueAsString(jsonObject, 'video_url')
 
   description.save()
 }
@@ -125,8 +125,8 @@ export function handleUserData(content: Bytes): void {
   description.country = getValueAsString(jsonObject, 'country')
   description.role = getValueAsString(jsonObject, 'role')
   description.name = getValueAsString(jsonObject, 'name')
-  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
-  description.imageUrl = getValueAsString(jsonObject, 'imageUrl')
+  description.video_url = getValueAsString(jsonObject, 'video_url')
+  description.image_url = getValueAsString(jsonObject, 'image_url')
 
   const web3mailPreferencesObject = getValueAsObject(jsonObject, 'web3mailPreferences')
   if (web3mailPreferencesObject) {
@@ -182,8 +182,8 @@ export function handlePlatformData(content: Bytes): void {
   description.platform = platformId.toString()
   description.about = getValueAsString(jsonObject, 'about')
   description.website = getValueAsString(jsonObject, 'website')
-  description.videoUrl = getValueAsString(jsonObject, 'videoUrl')
-  description.imageUrl = getValueAsString(jsonObject, 'imageUrl')
+  description.video_url = getValueAsString(jsonObject, 'video_url')
+  description.image_url = getValueAsString(jsonObject, 'image_url')
 
   description.save()
 }
