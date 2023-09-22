@@ -118,6 +118,18 @@ type UserDescription @entity(immutable: true) {
   name: String # Custom user name
   video_url: String #url
   image_url: String #url
+  web3mailPreferences: UserWeb3mailPreferences
+}
+
+type UserWeb3mailPreferences @entity(immutable: true) {
+  id: ID! #cid
+  activeOnNewService: Boolean
+  activeOnNewProposal: Boolean
+  activeOnProposalValidated: Boolean
+  activeOnFundRelease: Boolean
+  activeOnReview: Boolean
+  activeOnPlatformMarketing: Boolean
+  activeOnProtocolMarketing: Boolean
 }
 
 enum ProposalStatus {
@@ -295,6 +307,7 @@ type Protocol @entity {
   minServiceCompletionPercentage: BigInt! # minimum percentage of released amount for considering a service completed
 }
 
+# Comment to prevent error on build is your graph node don't support it and have the error "Fulltext search is not yet deterministic"
 type _Schema_
   @fulltext(
     name: "serviceDescriptionSearchRank"
