@@ -165,6 +165,9 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
       } else if (dataSource.network() == 'avalanche' || dataSource.network() == 'fuji') {
         token.symbol = 'AVAX'
         token.name = 'Avalanche'
+      } else if (dataSource.network() == 'iexec') {
+        token.symbol = 'RLC'
+        token.name = 'iExec RLC'
       } else {
         token.symbol = 'ETH'
         token.name = 'Ether'
