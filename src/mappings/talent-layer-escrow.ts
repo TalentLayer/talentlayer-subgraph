@@ -1,4 +1,4 @@
-import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext, log } from '@graphprotocol/graph-ts'
 import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -79,8 +79,33 @@ export function handleTransactionCreated(event: TransactionCreated): void {
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
+  const protocol = getOrCreateProtocol()
   const service = getOrCreateService(event.params._serviceId)
-  service.status = 'Finished'
+
+  // at this time, there are forcelly a transaction and a buyer, but typing don't know about it
+  if (!service.transaction || !service.buyer) {
+    log.warning("transaction or buyer can't be null at this point", ['Reverted'])
+    return
+  }
+
+  const proposalId = generateIdFromTwoElements(event.params._serviceId.toString(), service.buyer?.toString())
+  const proposal = getOrCreateProposal(proposalId, event.params._serviceId)
+  const transaction = getOrCreateTransaction(BigInt.fromString(service.transaction))
+
+  // same here, will not be null
+  if (!proposal.rateAmount) {
+    log.warning("rateAmount can't be null at this point", ['Reverted'])
+    return
+  }
+
+  const releasedAmount = proposal.rateAmount.minus(transaction.amount)
+  const releasedPercentage = releasedAmount.times(BigInt.fromString('100')).div(proposal.rateAmount)
+  if (releasedPercentage >= protocol.minServiceCompletionPercentage) {
+    service.status = 'Finished'
+  } else {
+    service.status = 'Uncompleted'
+  }
+
   service.updatedAt = event.block.timestamp
   service.save()
 
