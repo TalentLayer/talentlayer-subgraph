@@ -267,7 +267,7 @@ templates:
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
-    network: mumbai
+    network: matic
   - name: EvidenceData
     kind: file/ipfs
     mapping:
@@ -280,4 +280,4 @@ templates:
       abis:
         - name: TalentLayerEscrow
           file: ./abis/TalentLayerEscrow.json
-    network: mumbai
+    network: matic
