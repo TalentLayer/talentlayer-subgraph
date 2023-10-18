@@ -129,7 +129,18 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
   return transaction
 }
 
-export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Payment {
+export function getOrCreatePayment(paymentId: string, serviceId: BigInt, proposalId: BigInt): Payment {
+  let payment = Payment.load(paymentId)
+  if (!payment) {
+    payment = new Payment(paymentId.toString())
+    payment.service = getOrCreateService(serviceId).id
+    payment.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
+    payment.amount = ZERO
+    payment.paymentType = ''
+  }
+  return payment
+}
+export function getOrCreatePaymentV1(paymentId: string, serviceId: BigInt): Payment {
   let payment = Payment.load(paymentId)
   if (!payment) {
     payment = new Payment(paymentId.toString())
