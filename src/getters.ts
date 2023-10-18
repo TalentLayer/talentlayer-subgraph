@@ -47,7 +47,19 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   return proposal
 }
 
-export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
+export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt, proposalId: BigInt): Review {
+  let review = Review.load(id.toString())
+  if (!review) {
+    review = new Review(id.toString())
+    review.to = getOrCreateUser(toId).id
+    review.service = getOrCreateService(serviceId).id
+    review.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
+    review.createdAt = ZERO
+    review.save()
+  }
+  return review
+}
+export function getOrCreateReviewV1(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
   let review = Review.load(id.toString())
   if (!review) {
     review = new Review(id.toString())
