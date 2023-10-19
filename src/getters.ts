@@ -329,6 +329,7 @@ export function getOrCreateArbitrator(address: Address): Arbitrator {
   if (!arbitrator) {
     arbitrator = new Arbitrator(address.toString())
     arbitrator.address = ZERO_ADDRESS
+    arbitrator.isValid = false
     arbitrator.isInternal = false
     arbitrator.save()
   }

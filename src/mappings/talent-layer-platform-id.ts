@@ -94,6 +94,7 @@ export function handleOriginValidatedProposalFeeRateUpdated(event: OriginValidat
 export function handleArbitratorAdded(event: ArbitratorAdded): void {
   const arbitrator = getOrCreateArbitrator(event.params.arbitrator)
   arbitrator.address = event.params.arbitrator
+  arbitrator.isValid = true
   arbitrator.isInternal = event.params.isInternal
   arbitrator.save()
 }
@@ -101,6 +102,7 @@ export function handleArbitratorAdded(event: ArbitratorAdded): void {
 export function handleArbitratorRemoved(event: ArbitratorRemoved): void {
   const arbitrator = getOrCreateArbitrator(event.params.arbitrator)
   arbitrator.address = event.params.arbitrator
+  arbitrator.isValid = false
   arbitrator.isInternal = false
   arbitrator.save()
 }
