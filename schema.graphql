@@ -309,6 +309,13 @@ type Protocol @entity {
   minServiceCompletionPercentage: BigInt! # minimum percentage of released amount for considering a service completed
 }
 
+type Arbitrator @entity {
+  id: ID! # arbitrator address
+  address: Bytes! # address of the arbitrator contract
+  isValid: Boolean! # whether the arbitrator is valid or not
+  isInternal: Boolean! # whether the arbitrator is internal or not
+}
+
 # Comment to prevent error on build is your graph node don't support it and have the error "Fulltext search is not yet deterministic"
 type _Schema_
   @fulltext(

@@ -193,6 +193,10 @@ dataSources:
           handler: handleOriginValidatedProposalFeeRateUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
+        - event: ArbitratorAdded(address,bool)
+          handler: handleArbitratorAdded
+        - event: ArbitratorRemoved(address)
+          handler: handleArbitratorRemoved
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
           handler: handleArbitrationFeeTimeoutUpdated
         - event: MinArbitrationFeeTimeoutUpdated(uint256)

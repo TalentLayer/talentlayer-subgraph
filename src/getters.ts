@@ -16,6 +16,7 @@ import {
   Evidence,
   Keyword,
   UserStats,
+  Arbitrator,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
@@ -321,4 +322,15 @@ export function getOrCreateKeyword(id: string): Keyword {
     keyword.save()
   }
   return keyword
+}
+
+export function getOrCreateArbitrator(address: Address): Arbitrator {
+  let arbitrator = Arbitrator.load(address.toString())
+  if (!arbitrator) {
+    arbitrator = new Arbitrator(address.toString())
+    arbitrator.address = ZERO_ADDRESS
+    arbitrator.isInternal = false
+    arbitrator.save()
+  }
+  return arbitrator
 }
