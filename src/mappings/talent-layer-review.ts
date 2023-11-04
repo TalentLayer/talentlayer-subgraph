@@ -20,11 +20,12 @@ export function handleMint(event: Mint): void {
 
   if (!receiver) return
 
+  receiverStats.numGivenReviews = receiverStats.numGivenReviews.plus(ONE)
   receiver.rating
     .times(receiverStats.numReceivedReviews.toBigDecimal())
     .plus(event.params.rating.toBigDecimal())
-    .div(receiverStats.numReceivedReviews.plus(ONE).toBigDecimal())
-  receiverStats.numGivenReviews.plus(ONE)
+    .div(receiverStats.numReceivedReviews.toBigDecimal())
+
   receiver.save()
   receiverStats.save()
 
@@ -33,10 +34,10 @@ export function handleMint(event: Mint): void {
   const sellerStats = getOrCreateUserStat(BigInt.fromString(service.seller!))
 
   if (receiverStats.id == buyerStats.id) {
-    sellerStats.numGivenReviews.plus(ONE)
+    sellerStats.numGivenReviews
     sellerStats.save()
   } else {
-    buyerStats.numGivenReviews.plus(ONE)
+    buyerStats.numGivenReviews
     buyerStats.save()
   }
 
