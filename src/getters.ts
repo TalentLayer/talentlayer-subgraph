@@ -72,7 +72,7 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-    user.userStat = getOrCreateUserStat(id).id
+    user.userStats = getOrCreateUserStat(id).id
     user.save()
   }
 

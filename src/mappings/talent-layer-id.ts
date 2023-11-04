@@ -39,7 +39,7 @@ export function handleCidUpdated(event: CidUpdated): void {
 
 export function handleMint(event: Mint): void {
   const user = getOrCreateUser(event.params.profileId)
-  user.userStat = event.params.profileId.toString()
+  user.userStats = event.params.profileId.toString()
   user.address = event.params.user.toHex()
   user.handle = event.params.handle
   user.createdAt = event.block.timestamp

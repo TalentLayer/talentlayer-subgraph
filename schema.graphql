@@ -90,10 +90,10 @@ type User @entity {
   cid: String #cid of the description
   description: UserDescription # User description (off chain data)
   delegates: [String!]! # list of user delegators
-  userStat: UserStat # User proposal, service & reviews statistics
+  userStats: UserStat # User proposal, service & reviews statistics
 }
 
-type UserStat @entity {
+type UserStat @entity { # no s no fix plural
   id: ID! # ID of the user
   numReceivedReviews: BigInt! # number of reviews user has received
   numGivenReviews: BigInt! # number of reviews user has given
