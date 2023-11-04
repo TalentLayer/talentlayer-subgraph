@@ -20,11 +20,12 @@ export function handleMint(event: Mint): void {
 
   if (!receiver) return
 
-  receiverStats.numGivenReviews = receiverStats.numGivenReviews.plus(ONE)
   receiver.rating
-    .times(receiverStats.numReceivedReviews.toBigDecimal())
+    .times(receiverStats.numReceivedReviews.plus(ONE).toBigDecimal())
     .plus(event.params.rating.toBigDecimal())
-    .div(receiverStats.numReceivedReviews.toBigDecimal())
+    .div(receiverStats.numReceivedReviews.plus(ONE).toBigDecimal())
+
+  receiverStats.numGivenReviews = receiverStats.numGivenReviews.plus(ONE)
 
   receiver.save()
   receiverStats.save()
