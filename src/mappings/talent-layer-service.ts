@@ -16,13 +16,13 @@ import {
   getOrCreatePlatform,
   getOrCreateUser,
   getOrCreateProtocol,
-  getOrCreateUserStats,
+  getOrCreateUserStat,
 } from '../getters'
 import { generateIdFromTwoElements } from './utils'
-import { ONE } from "../constants";
+import { ONE } from '../constants'
 
 export function handleServiceCreated(event: ServiceCreated): void {
-  const buyerStats = getOrCreateUserStats(event.params.ownerId)
+  const buyerStats = getOrCreateUserStat(event.params.ownerId)
   buyerStats.numCreatedServices.plus(ONE)
   buyerStats.save()
 
@@ -71,7 +71,7 @@ export function handleServiceDetailedUpdated(event: ServiceDetailedUpdated): voi
 }
 
 export function handleProposalCreated(event: ProposalCreated): void {
-  const sellerStats = getOrCreateUserStats(event.params.ownerId)
+  const sellerStats = getOrCreateUserStat(event.params.ownerId)
   sellerStats.numCreatedProposals.plus(ONE)
   sellerStats.save()
 

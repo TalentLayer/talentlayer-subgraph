@@ -13,7 +13,7 @@ import {
   getOrCreateProtocol,
   getOrCreateTransaction,
   getOrCreateEvidence,
-  getOrCreateUserStats,
+  getOrCreateUserStat,
 } from '../getters'
 import {
   Payment,
@@ -84,13 +84,13 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   service.updatedAt = event.block.timestamp
   service.save()
 
-  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
-  buyerUserStats.numFinishedServicesAsBuyer.plus(ONE)
-  buyerUserStats.save()
+  const buyerUserStat = getOrCreateUserStat(BigInt.fromString(service.buyer!))
+  buyerUserStat.numFinishedServicesAsBuyer.plus(ONE)
+  buyerUserStat.save()
 
-  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
-  sellerUserStats.numFinishedServicesAsSeller.plus(ONE)
-  sellerUserStats.save()
+  const sellerUserStat = getOrCreateUserStat(BigInt.fromString(service.seller!))
+  sellerUserStat.numFinishedServicesAsSeller.plus(ONE)
+  sellerUserStat.save()
 }
 
 export function handlePayment(event: Payment): void {
