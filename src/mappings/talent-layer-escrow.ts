@@ -13,7 +13,10 @@ import {
   getOrCreateProtocol,
   getOrCreateTransaction,
   getOrCreateEvidence,
-  getOrCreateUserStats,
+  getOrCreateUserStat,
+  getOrCreateReferralGain,
+  getOrCreateReferralClaim,
+  getOrCreateUser,
 } from '../getters'
 import {
   Payment,
@@ -29,6 +32,8 @@ import {
   EvidenceSubmitted,
   OriginServiceFeeRateReleased,
   OriginValidatedProposalFeeRateReleased,
+  ReferralAmountReleased,
+  ReferralAmountClaimed,
 } from '../../generated/TalentLayerEscrow/TalentLayerEscrow'
 import { generateIdFromTwoElements, generateUniqueId } from './utils'
 import { ONE, ZERO } from '../constants'
@@ -75,6 +80,9 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   service.status = 'Confirmed'
   service.updatedAt = event.block.timestamp
   service.seller = User.load(event.params._proposalId.toString())!.id
+  if (proposal.referrer != null && proposal.referrer != '0') {
+    service.referrer = User.load(proposal.referrer!)!.id
+  }
   service.save()
 }
 
@@ -82,15 +90,20 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
   service.updatedAt = event.block.timestamp
+  if (service.referrer != null && service.referrer != '0') {
+    const referrerUserStat = getOrCreateUserStat(BigInt.fromString(service.referrer!))
+    referrerUserStat.numReferredUsers.plus(ONE)
+    referrerUserStat.save()
+  }
   service.save()
 
-  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
-  buyerUserStats.numFinishedServicesAsBuyer.plus(ONE)
-  buyerUserStats.save()
+  const buyerUserStat = getOrCreateUserStat(BigInt.fromString(service.buyer!))
+  buyerUserStat.numFinishedServicesAsBuyer = buyerUserStat.numFinishedServicesAsBuyer.plus(ONE)
+  buyerUserStat.save()
 
-  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
-  sellerUserStats.numFinishedServicesAsSeller.plus(ONE)
-  sellerUserStats.save()
+  const sellerUserStat = getOrCreateUserStat(BigInt.fromString(service.seller!))
+  sellerUserStat.numFinishedServicesAsSeller = sellerUserStat.numFinishedServicesAsSeller.plus(ONE)
+  sellerUserStat.save()
 }
 
 export function handlePayment(event: Payment): void {
@@ -268,4 +281,32 @@ export function handleMetaEvidence(event: MetaEvidence): void {
   const transaction = getOrCreateTransaction(event.params._metaEvidenceID)
   transaction.metaEvidenceUri = event.params._evidence
   transaction.save()
+}
+
+export function handleReferralAmountReleased(event: ReferralAmountReleased): void {
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
+  referralGain.service = getOrCreateService(event.params._serviceId).id
+  referralGain.totalGain = referralGain.totalGain.plus(event.params._amount)
+  referralGain.availableBalance = referralGain.availableBalance.plus(event.params._amount)
+
+  referralGain.save()
+}
+
+export function handleReferralAmountClaimed(event: ReferralAmountClaimed): void {
+  const claimId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
+  const referralClaim = getOrCreateReferralClaim(claimId)
+
+  referralClaim.user = getOrCreateUser(event.params._referrerId).id
+  referralClaim.token = getOrCreateToken(event.params._token).id
+  referralClaim.amount = event.params._amount
+
+  referralClaim.transactionHash = event.transaction.hash.toHex()
+  referralClaim.createdAt = event.block.timestamp
+
+  referralClaim.save()
+
+  const referralGain = getOrCreateReferralGain(event.params._referrerId, event.params._token)
+  referralGain.availableBalance = referralGain.availableBalance.minus(event.params._amount)
+
+  referralGain.save()
 }

@@ -89,18 +89,27 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: ServiceCreated(uint256,uint256,uint256,string)
+        - event: ServiceCreated(uint256,uint256,uint256,string,address,uint256)
           handler: handleServiceCreated
-        - event: ServiceDetailedUpdated(indexed uint256,string)
-          handler: handleServiceDetailedUpdated
-        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
+        - event: ServiceUpdated(uint256,string,uint256)
+          handler: handleServiceUpdated
+        - event: ProposalCreated(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
           handler: handleProposalCreated
-        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
+        - event: ProposalUpdated(uint256,uint256,string,uint256,uint256,uint256)
           handler: handleProposalUpdated
         - event: AllowedTokenListUpdated(address,bool,uint256)
           handler: handleAllowedTokenListUpdated
         - event: MinCompletionPercentageUpdated(uint256)
           handler: handleMinCompletionPercentageUpdated
+          # Legacy events
+        - event: ServiceCreated(uint256,uint256,uint256,string)
+          handler: handleServiceCreatedV1
+        - event: ServiceDetailedUpdated(indexed uint256,string)
+          handler: handleServiceDetailedUpdated
+        - event: ProposalCreated(uint256,uint256,string,uint8,address,uint256,uint256,uint256)
+          handler: handleProposalCreatedV1
+        - event: ProposalUpdated(uint256,uint256,string,address,uint256,uint256)
+          handler: handleProposalUpdatedV1
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
@@ -152,6 +161,10 @@ dataSources:
           handler: handleEvidenceSubmitted
         - event: MetaEvidence(indexed uint256,string)
           handler: handleMetaEvidence
+        - event: ReferralAmountReleased(indexed uint256,uint256,indexed address,uint256)
+          handler: handleReferralAmountReleased
+        - event: ReferralAmountClaimed(uint256,indexed address,uint256)
+          handler: handleReferralAmountClaimed
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID

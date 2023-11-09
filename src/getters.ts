@@ -15,15 +15,20 @@ import {
   Transaction,
   Evidence,
   Keyword,
-  UserStats,
+  UserStat,
+  ReferralGain,
+  ReferralBalanceClaim,
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
+import { generateIdFromTwoElements } from './mappings/utils'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
   if (!service) {
     service = new Service(id.toString())
+    service.rateToken = getOrCreateToken(ZERO_ADDRESS).id
+    service.referralAmount = ZERO
     service.status = 'Opened'
     service.createdAt = ZERO
     service.updatedAt = ZERO
@@ -35,12 +40,14 @@ export function getOrCreateService(id: BigInt): Service {
 export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   let proposal = Proposal.load(id)
   if (!proposal) {
+    const service = getOrCreateService(serviceId)
+
     proposal = new Proposal(id)
     proposal.status = 'Pending'
     proposal.createdAt = ZERO
     proposal.updatedAt = ZERO
-    proposal.service = getOrCreateService(serviceId).id
-    proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
+    proposal.service = service.id
+    proposal.rateToken = service.rateToken
     proposal.expirationDate = ZERO
     proposal.save()
   }
@@ -72,27 +79,30 @@ export function getOrCreateUser(id: BigInt): User {
     user.delegates = []
     user.save()
 
-    user.userStats = getOrCreateUserStats(id).id
+    user.userStat = getOrCreateUserStat(id).id
     user.save()
   }
 
   return user
 }
 
-export function getOrCreateUserStats(id: BigInt): UserStats {
-  let userStats = UserStats.load(id.toString())
-  if (!userStats) {
-    userStats = new UserStats(id.toString())
-    userStats.user = getOrCreateUser(id).id
-    userStats.numReceivedReviews = ZERO
-    userStats.numGivenReviews = ZERO
-    userStats.numCreatedServices = ZERO
-    userStats.numFinishedServicesAsBuyer = ZERO
-    userStats.numCreatedProposals = ZERO
-    userStats.numFinishedServicesAsSeller = ZERO
-    userStats.save()
+export function getOrCreateUserStat(id: BigInt): UserStat {
+  let userStat = UserStat.load(id.toString())
+  if (!userStat) {
+    userStat = new UserStat(id.toString())
+    userStat.user = getOrCreateUser(id).id
+    userStat.numReceivedReviews = ZERO
+    userStat.numGivenReviews = ZERO
+    userStat.numCreatedServices = ZERO
+    userStat.numFinishedServicesAsBuyer = ZERO
+    userStat.numCreatedProposals = ZERO
+    userStat.numFinishedServicesAsSeller = ZERO
+    userStat.numReferredUsers = ZERO
+    userStat.numReferredUsersReviewsReceived = ZERO
+    userStat.averageReferredRating = ZERO_BIGDEC
+    userStat.save()
   }
-  return userStats
+  return userStat
 }
 
 export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO): Transaction {
@@ -298,4 +308,29 @@ export function getOrCreateKeyword(id: string): Keyword {
     keyword.save()
   }
   return keyword
+}
+
+export function getOrCreateReferralGain(userId: BigInt, tokenAddress: Address): ReferralGain {
+  const referralGainId = generateIdFromTwoElements(userId.toString(), tokenAddress.toHex())
+  let referralGain = ReferralGain.load(referralGainId)
+  if (!referralGain) {
+    referralGain = new ReferralGain(referralGainId)
+    referralGain.user = getOrCreateUser(userId).id
+    referralGain.token = getOrCreateToken(tokenAddress).id
+    referralGain.totalGain = ZERO
+    referralGain.availableBalance = ZERO
+
+    referralGain.save()
+  }
+  return referralGain
+}
+
+export function getOrCreateReferralClaim(referralClaimId: string): ReferralBalanceClaim {
+  let claim = ReferralBalanceClaim.load(referralClaimId)
+  if (!claim) {
+    claim = new ReferralBalanceClaim(referralClaimId)
+    claim.amount = ZERO
+    claim.save()
+  }
+  return claim
 }
