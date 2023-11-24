@@ -20,6 +20,7 @@ import {
 } from '../generated/schema'
 import { PROTOCOL_ID, ZERO, ZERO_ADDRESS, ZERO_BIGDEC, ZERO_TOKEN_ADDRESS } from './constants'
 import { ERC20 } from '../generated/TalentLayerEscrow/ERC20'
+import { generateIdFromTwoElements } from './mappings/utils'
 
 export function getOrCreateService(id: BigInt): Service {
   let service = Service.load(id.toString())
@@ -48,24 +49,14 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   return proposal
 }
 
-export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt, proposalId: BigInt): Review {
+export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt, userId: BigInt): Review {
   let review = Review.load(id.toString())
   if (!review) {
     review = new Review(id.toString())
     review.to = getOrCreateUser(toId).id
     review.service = getOrCreateService(serviceId).id
+    const proposalId = generateIdFromTwoElements(serviceId.toString(), userId.toString())
     review.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
-    review.createdAt = ZERO
-    review.save()
-  }
-  return review
-}
-export function getOrCreateReviewV1(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
-  let review = Review.load(id.toString())
-  if (!review) {
-    review = new Review(id.toString())
-    review.to = getOrCreateUser(toId).id
-    review.service = getOrCreateService(serviceId).id
     review.createdAt = ZERO
     review.save()
   }
@@ -130,24 +121,14 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
   return transaction
 }
 
-export function getOrCreatePayment(paymentId: string, serviceId: BigInt, proposalId: BigInt): Payment {
+export function getOrCreatePayment(paymentId: string, serviceId: BigInt, userId: BigInt): Payment {
   let payment = Payment.load(paymentId)
   if (!payment) {
     payment = new Payment(paymentId.toString())
     payment.service = getOrCreateService(serviceId).id
+    const proposalId = generateIdFromTwoElements(serviceId.toString(), userId.toString())
     payment.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
     payment.amount = ZERO
-    payment.paymentType = ''
-  }
-  return payment
-}
-export function getOrCreatePaymentV1(paymentId: string, serviceId: BigInt): Payment {
-  let payment = Payment.load(paymentId)
-  if (!payment) {
-    payment = new Payment(paymentId.toString())
-    payment.service = getOrCreateService(serviceId).id
-    payment.amount = ZERO
-    payment.paymentType = ''
   }
   return payment
 }
@@ -334,4 +315,28 @@ export function getOrCreateArbitrator(address: Address): Arbitrator {
     arbitrator.save()
   }
   return arbitrator
+}
+
+// Legacy Getters
+export function getOrCreateReviewV1(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
+  let review = Review.load(id.toString())
+  if (!review) {
+    review = new Review(id.toString())
+    review.to = getOrCreateUser(toId).id
+    review.service = getOrCreateService(serviceId).id
+    review.createdAt = ZERO
+    review.save()
+  }
+  return review
+}
+
+export function getOrCreatePaymentV1(paymentId: string, serviceId: BigInt): Payment {
+  let payment = Payment.load(paymentId)
+  if (!payment) {
+    payment = new Payment(paymentId.toString())
+    payment.service = getOrCreateService(serviceId).id
+    payment.amount = ZERO
+    payment.paymentType = ''
+  }
+  return payment
 }

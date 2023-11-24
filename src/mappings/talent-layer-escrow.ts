@@ -272,7 +272,7 @@ export function handleMetaEvidence(event: MetaEvidence): void {
   transaction.save()
 }
 
-// Legavy Events
+// Legacy Events
 export function handlePaymentV1(event: PaymentV1): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const payment = getOrCreatePaymentV1(paymentId, event.params._serviceId)
