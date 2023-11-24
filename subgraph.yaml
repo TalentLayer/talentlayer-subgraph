@@ -173,6 +173,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Platform
+        - Arbitrator
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
@@ -261,6 +262,7 @@ templates:
       handler: handleUserData
       entities:
         - UserDescription
+        - UserWeb3mailPreferences
         - Keyword
       abis:
         - name: TalentLayerID
