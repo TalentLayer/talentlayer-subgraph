@@ -5,6 +5,8 @@ import {
   Approval,
   ApprovalForAll,
   ArbitrationFeeTimeoutUpdated,
+  ArbitratorAdded,
+  ArbitratorRemoved,
   ArbitratorUpdated,
   CidUpdated,
   MinArbitrationFeeTimeoutUpdated,
@@ -16,7 +18,7 @@ import {
   SignerUpdated,
   Transfer,
 } from '../../generated/TalentLayerPlatformID/TalentLayerPlatformID'
-import { getOrCreatePlatform, getOrCreateProtocol } from '../getters'
+import { getOrCreateArbitrator, getOrCreatePlatform, getOrCreateProtocol } from '../getters'
 
 export function handleApproval(event: Approval): void {}
 
@@ -87,6 +89,22 @@ export function handleOriginValidatedProposalFeeRateUpdated(event: OriginValidat
   const platform = getOrCreatePlatform(event.params.platformId)
   platform.originValidatedProposalFeeRate = event.params.originValidatedProposalFeeRate
   platform.save()
+}
+
+export function handleArbitratorAdded(event: ArbitratorAdded): void {
+  const arbitrator = getOrCreateArbitrator(event.params.arbitrator)
+  arbitrator.address = event.params.arbitrator
+  arbitrator.isValid = true
+  arbitrator.isInternal = event.params.isInternal
+  arbitrator.save()
+}
+
+export function handleArbitratorRemoved(event: ArbitratorRemoved): void {
+  const arbitrator = getOrCreateArbitrator(event.params.arbitrator)
+  arbitrator.address = event.params.arbitrator
+  arbitrator.isValid = false
+  arbitrator.isInternal = false
+  arbitrator.save()
 }
 
 export function handleArbitratorUpdated(event: ArbitratorUpdated): void {

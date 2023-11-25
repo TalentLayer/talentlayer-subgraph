@@ -63,10 +63,14 @@ dataSources:
           handler: handleApproval
         - event: ApprovalForAll(indexed address,indexed address,bool)
           handler: handleApprovalForAll
-        - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
+        - event: Mint(indexed uint256,indexed uint256,indexed
+            uint256,uint256,string,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+          # Legacy events
+        - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
+          handler: handleMintV1
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
@@ -127,7 +131,7 @@ dataSources:
       eventHandlers:
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
-        - event: Payment(uint256,uint8,address,uint256,uint256)
+        - event: Payment(uint256,uint8,address,uint256,uint256,uint256)
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
@@ -152,6 +156,9 @@ dataSources:
           handler: handleEvidenceSubmitted
         - event: MetaEvidence(indexed uint256,string)
           handler: handleMetaEvidence
+          # Legacy events
+        - event: Payment(uint256,uint8,address,uint256,uint256)
+          handler: handlePaymentV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
@@ -166,6 +173,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Platform
+        - Arbitrator
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
@@ -188,6 +196,10 @@ dataSources:
           handler: handleOriginValidatedProposalFeeRateUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
+        - event: ArbitratorAdded(address,bool)
+          handler: handleArbitratorAdded
+        - event: ArbitratorRemoved(address)
+          handler: handleArbitratorRemoved
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
           handler: handleArbitrationFeeTimeoutUpdated
         - event: MinArbitrationFeeTimeoutUpdated(uint256)
