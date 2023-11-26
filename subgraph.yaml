@@ -17,6 +17,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - User
+        - UserStat
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
@@ -63,10 +64,14 @@ dataSources:
           handler: handleApproval
         - event: ApprovalForAll(indexed address,indexed address,bool)
           handler: handleApprovalForAll
-        - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
+        - event: Mint(indexed uint256,indexed uint256,indexed
+            uint256,uint256,string,uint256)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+          # Legacy events
+        - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
+          handler: handleMintV1
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
@@ -128,6 +133,10 @@ dataSources:
         - FeePayment
         - FeeClaim
         - PlatformGain
+        - Evidence
+        - ReferralBalanceClaim
+        - ReferralGain
+        - UserGain
       abis:
         - name: TalentLayerEscrow
           file: ./abis/TalentLayerEscrow.json
@@ -136,7 +145,7 @@ dataSources:
       eventHandlers:
         - event: PaymentCompleted(uint256)
           handler: handlePaymentCompleted
-        - event: Payment(uint256,uint8,address,uint256,uint256)
+        - event: Payment(uint256,uint8,address,uint256,uint256,uint256)
           handler: handlePayment
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
@@ -165,6 +174,9 @@ dataSources:
           handler: handleReferralAmountReleased
         - event: ReferralAmountClaimed(uint256,indexed address,uint256)
           handler: handleReferralAmountClaimed
+          # Legacy events
+        - event: Payment(uint256,uint8,address,uint256,uint256)
+          handler: handlePaymentV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
@@ -179,6 +191,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Platform
+        - Arbitrator
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
@@ -201,6 +214,10 @@ dataSources:
           handler: handleOriginValidatedProposalFeeRateUpdated
         - event: ArbitratorUpdated(uint256,address,bytes)
           handler: handleArbitratorUpdated
+        - event: ArbitratorAdded(address,bool)
+          handler: handleArbitratorAdded
+        - event: ArbitratorRemoved(address)
+          handler: handleArbitratorRemoved
         - event: ArbitrationFeeTimeoutUpdated(uint256,uint256)
           handler: handleArbitrationFeeTimeoutUpdated
         - event: MinArbitrationFeeTimeoutUpdated(uint256)
@@ -263,7 +280,9 @@ templates:
       handler: handleUserData
       entities:
         - UserDescription
+        - UserWeb3mailPreferences
         - Keyword
+        - Protocol
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
@@ -280,7 +299,7 @@ templates:
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
-    network: mumbai
+    network: matic
   - name: EvidenceData
     kind: file/ipfs
     mapping:
@@ -293,4 +312,4 @@ templates:
       abis:
         - name: TalentLayerEscrow
           file: ./abis/TalentLayerEscrow.json
-    network: mumbai
+    network: matic

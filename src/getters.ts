@@ -15,6 +15,7 @@ import {
   Transaction,
   Evidence,
   Keyword,
+  Arbitrator,
   UserStat,
   ReferralGain,
   ReferralBalanceClaim,
@@ -54,12 +55,14 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
   return proposal
 }
 
-export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
+export function getOrCreateReview(id: BigInt, serviceId: BigInt, toId: BigInt, userId: BigInt): Review {
   let review = Review.load(id.toString())
   if (!review) {
     review = new Review(id.toString())
     review.to = getOrCreateUser(toId).id
     review.service = getOrCreateService(serviceId).id
+    const proposalId = generateIdFromTwoElements(serviceId.toString(), userId.toString())
+    review.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
     review.createdAt = ZERO
     review.save()
   }
@@ -127,13 +130,14 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
   return transaction
 }
 
-export function getOrCreatePayment(paymentId: string, serviceId: BigInt): Payment {
+export function getOrCreatePayment(paymentId: string, serviceId: BigInt, userId: BigInt): Payment {
   let payment = Payment.load(paymentId)
   if (!payment) {
     payment = new Payment(paymentId.toString())
     payment.service = getOrCreateService(serviceId).id
+    const proposalId = generateIdFromTwoElements(serviceId.toString(), userId.toString())
+    payment.proposal = getOrCreateProposal(proposalId.toString(), serviceId).id
     payment.amount = ZERO
-    payment.paymentType = ''
   }
   return payment
 }
@@ -175,6 +179,9 @@ export function getOrCreateToken(tokenAddress: Bytes): Token {
       } else if (dataSource.network() == 'avalanche' || dataSource.network() == 'fuji') {
         token.symbol = 'AVAX'
         token.name = 'Avalanche'
+      } else if (dataSource.network() == 'iexec') {
+        token.symbol = 'RLC'
+        token.name = 'iExec RLC'
       } else {
         token.symbol = 'ETH'
         token.name = 'Ether'
@@ -330,4 +337,40 @@ export function getOrCreateReferralClaim(referralClaimId: string): ReferralBalan
     claim.save()
   }
   return claim
+}
+
+export function getOrCreateArbitrator(address: Address): Arbitrator {
+  let arbitrator = Arbitrator.load(address.toString())
+  if (!arbitrator) {
+    arbitrator = new Arbitrator(address.toString())
+    arbitrator.address = ZERO_ADDRESS
+    arbitrator.isValid = false
+    arbitrator.isInternal = false
+    arbitrator.save()
+  }
+  return arbitrator
+}
+
+// Legacy Getters
+export function getOrCreateReviewV1(id: BigInt, serviceId: BigInt, toId: BigInt): Review {
+  let review = Review.load(id.toString())
+  if (!review) {
+    review = new Review(id.toString())
+    review.to = getOrCreateUser(toId).id
+    review.service = getOrCreateService(serviceId).id
+    review.createdAt = ZERO
+    review.save()
+  }
+  return review
+}
+
+export function getOrCreatePaymentV1(paymentId: string, serviceId: BigInt): Payment {
+  let payment = Payment.load(paymentId)
+  if (!payment) {
+    payment = new Payment(paymentId.toString())
+    payment.service = getOrCreateService(serviceId).id
+    payment.amount = ZERO
+    payment.paymentType = ''
+  }
+  return payment
 }

@@ -1,6 +1,19 @@
 import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
-import { Approval, ApprovalForAll, Mint, Transfer } from '../../generated/TalentLayerReview/TalentLayerReview'
-import { getOrCreateReview, getOrCreateService, getOrCreateUser, getOrCreateUserStat } from '../getters'
+import { User } from '../../generated/schema'
+import {
+  Approval,
+  ApprovalForAll,
+  Mint,
+  Mint1 as MintV1,
+  Transfer,
+} from '../../generated/TalentLayerReview/TalentLayerReview'
+import {
+  getOrCreateReview,
+  getOrCreateReviewV1,
+  getOrCreateService,
+  getOrCreateUser,
+  getOrCreateUserStat,
+} from '../getters'
 import { ONE, ZERO } from '../constants'
 import { ReviewData } from '../../generated/templates'
 
@@ -9,13 +22,20 @@ export function handleApproval(event: Approval): void {}
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleMint(event: Mint): void {
-  const review = getOrCreateReview(event.params.tokenId, event.params.serviceId, event.params.toId)
+  const review = getOrCreateReview(
+    event.params.tokenId,
+    event.params.serviceId,
+    event.params.toId,
+    event.params.proposalId,
+  )
   review.rating = event.params.rating
   review.createdAt = event.block.timestamp
   review.cid = event.params.reviewUri
 
   const receiver = getOrCreateUser(event.params.toId)
   const receiverStats = getOrCreateUserStat(event.params.toId)
+
+  // if (!receiver) return
 
   // Update receiver rating stats
   if (receiverStats.numReceivedReviews == ZERO) {

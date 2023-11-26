@@ -17,8 +17,10 @@ import {
   getOrCreateReferralGain,
   getOrCreateReferralClaim,
   getOrCreateUser,
+  getOrCreatePaymentV1,
 } from '../getters'
 import {
+  Payment1 as PaymentV1,
   Payment,
   PaymentCompleted,
   FeesClaimed,
@@ -108,7 +110,7 @@ export function handlePaymentCompleted(event: PaymentCompleted): void {
 
 export function handlePayment(event: Payment): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
-  const payment = getOrCreatePayment(paymentId, event.params._serviceId)
+  const payment = getOrCreatePayment(paymentId, event.params._serviceId, event.params._proposalId)
   const token = event.params._token
 
   payment.amount = event.params._amount
@@ -309,4 +311,40 @@ export function handleReferralAmountClaimed(event: ReferralAmountClaimed): void 
   referralGain.availableBalance = referralGain.availableBalance.minus(event.params._amount)
 
   referralGain.save()
+}
+
+// Legacy Events
+export function handlePaymentV1(event: PaymentV1): void {
+  const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
+  const payment = getOrCreatePaymentV1(paymentId, event.params._serviceId)
+  const token = event.params._token
+
+  payment.amount = event.params._amount
+  payment.rateToken = getOrCreateToken(token).id
+  payment.createdAt = event.block.timestamp
+  payment.transaction = Transaction.load(event.params._transactionId.toString())!.id
+
+  if (event.params._paymentType === PaymentType.Release) {
+    payment.paymentType = 'Release'
+
+    const service = getOrCreateService(event.params._serviceId)
+    const seller = service.seller
+    if (seller) {
+      const userGainId = generateIdFromTwoElements(seller, event.params._token.toHex())
+      const userGain = getOrCreateUserGain(userGainId, BigInt.fromString(seller))
+      userGain.token = getOrCreateToken(token).id
+      userGain.totalGain = userGain.totalGain.plus(event.params._amount)
+      userGain.save()
+    }
+  }
+  if (event.params._paymentType === PaymentType.Reimburse) {
+    payment.paymentType = 'Reimburse'
+  }
+
+  payment.transactionHash = event.transaction.hash.toHex()
+  payment.save()
+
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+  transaction.amount = transaction.amount.minus(event.params._amount)
+  transaction.save()
 }

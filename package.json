@@ -11,7 +11,7 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentlayer/talent-layer-protocol --version-label 0.0.1"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.35.0",
-    "@graphprotocol/graph-ts": "^0.29.0"
+    "@graphprotocol/graph-cli": "^0.59.0",
+    "@graphprotocol/graph-ts": "^0.31.0"
   }
 }
