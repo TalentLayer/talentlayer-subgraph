@@ -56,6 +56,7 @@ enum ArbitrationFeePaymentType {
   Reimburse,
 }
 
+// =================== Current V2 Events ===================
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
 
@@ -313,7 +314,7 @@ export function handleReferralAmountClaimed(event: ReferralAmountClaimed): void 
   referralGain.save()
 }
 
-// Legacy Events
+// =================== Legacy V1 Events ===================
 export function handlePaymentV1(event: PaymentV1): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const payment = getOrCreatePaymentV1(paymentId, event.params._serviceId)
