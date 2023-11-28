@@ -416,6 +416,12 @@
           "internalType": "uint256",
           "name": "_serviceId",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_transactionId",
+          "type": "uint256"
         }
       ],
       "name": "PaymentCompleted",
@@ -428,12 +434,6 @@
           "indexed": false,
           "internalType": "uint256",
           "name": "_serviceId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_transactionId",
           "type": "uint256"
         }
       ],
