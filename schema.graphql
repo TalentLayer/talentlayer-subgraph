@@ -147,7 +147,7 @@ type Proposal @entity {
   status: ProposalStatus! # Proposal status
   seller: User # Proposal seller
   rateToken: Token! # Rate token entity
-  rateAmount: BigInt # Rate amount
+  rateAmount: BigInt! # Rate amount
   cid: String # cid of the description
   platform: Platform # Platform on which proposal was created
   description: ProposalDescription #Proposals that the description describes.
@@ -190,6 +190,8 @@ type Transaction @entity {
   receiver: User # receiver of the transaction
   token: Token! # token entity
   amount: BigInt! # amount
+  releasedAmount: BigInt! # Total released amount
+  totalAmount: BigInt! # Total escrowed amount
   service: Service # service entity
   protocolEscrowFeeRate: Int! # fee paid to the protocol
   originServiceFeeRate: Int! # Fee asked by the platform which created the service
