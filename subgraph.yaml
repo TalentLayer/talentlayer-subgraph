@@ -159,6 +159,8 @@ dataSources:
           # Legacy events
         - event: Payment(uint256,uint8,address,uint256,uint256)
           handler: handlePaymentV1
+        - event: PaymentCompleted(uint256)
+          handler: handlePaymentCompletedV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
