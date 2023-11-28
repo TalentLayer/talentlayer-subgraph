@@ -1,5 +1,5 @@
 import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
-import { Service, Transaction, User} from '../../generated/schema'
+import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
   getOrCreatePayment,
