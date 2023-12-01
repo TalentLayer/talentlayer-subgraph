@@ -64,7 +64,6 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
   service.updatedAt = event.block.timestamp
   service.cid = newCid
   service.referralAmount = event.params.referralAmount
-  service.rateToken = getOrCreateToken(event.params.rateToken).id
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', serviceId)

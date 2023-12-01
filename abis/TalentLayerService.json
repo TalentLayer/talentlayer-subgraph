@@ -504,12 +504,6 @@
         },
         {
           "indexed": false,
-          "internalType": "address",
-          "name": "rateToken",
-          "type": "address"
-        },
-        {
-          "indexed": false,
           "internalType": "uint256",
           "name": "referralAmount",
           "type": "uint256"
