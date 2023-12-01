@@ -59,10 +59,11 @@ enum ArbitrationFeePaymentType {
 // =================== Current V2 Events ===================
 export function handleTransactionCreated(event: TransactionCreated): void {
   const transaction = getOrCreateTransaction(event.params._transactionId, event.block.timestamp)
+  const token = getOrCreateToken(event.params._token).id;
 
   transaction.sender = User.load(event.params._senderId.toString())!.id
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
-  transaction.token = getOrCreateToken(event.params._token).id
+  transaction.token = token
   transaction.amount = event.params._amount
   transaction.service = Service.load(event.params._serviceId.toString())!.id
   transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
@@ -74,6 +75,7 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.save()
 
   const service = getOrCreateService(event.params._serviceId)
+  service.rateToken = token
 
   const proposalId = generateIdFromTwoElements(event.params._serviceId.toString(), event.params._proposalId.toString())
   const proposal = getOrCreateProposal(proposalId, event.params._serviceId)
