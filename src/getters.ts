@@ -43,6 +43,7 @@ export function getOrCreateProposal(id: string, serviceId: BigInt): Proposal {
     proposal.updatedAt = ZERO
     proposal.service = getOrCreateService(serviceId).id
     proposal.rateToken = getOrCreateToken(ZERO_ADDRESS).id
+    proposal.rateAmount = ZERO
     proposal.expirationDate = ZERO
     proposal.save()
   }
@@ -105,6 +106,8 @@ export function getOrCreateTransaction(id: BigInt, blockTimestamp: BigInt = ZERO
     transaction = new Transaction(id.toString())
     transaction.token = ''
     transaction.amount = ZERO
+    transaction.releasedAmount = ZERO
+    transaction.totalAmount = ZERO
     transaction.protocolEscrowFeeRate = 0
     transaction.originServiceFeeRate = 0
     transaction.originValidatedProposalFeeRate = 0

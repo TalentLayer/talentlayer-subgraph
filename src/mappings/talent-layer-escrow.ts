@@ -1,4 +1,4 @@
-import { BigInt, DataSourceContext, log } from '@graphprotocol/graph-ts'
+import { BigInt, DataSourceContext } from '@graphprotocol/graph-ts'
 import { Service, Transaction, User } from '../../generated/schema'
 import {
   getOrCreateService,
@@ -19,7 +19,8 @@ import {
 import {
   Payment as PaymentCurrent,
   Payment1 as PaymentV1,
-  PaymentCompleted,
+  PaymentCompleted as PaymentCompleted,
+  PaymentCompleted1 as PaymentCompletedV1,
   FeesClaimed,
   ProtocolEscrowFeeRateUpdated,
   TransactionCreated,
@@ -58,6 +59,7 @@ export function handleTransactionCreated(event: TransactionCreated): void {
   transaction.receiver = User.load(event.params._receiverId.toString())!.id
   transaction.token = getOrCreateToken(event.params._token).id
   transaction.amount = event.params._amount
+  transaction.totalAmount = event.params._amount
   transaction.service = Service.load(event.params._serviceId.toString())!.id
   transaction.protocolEscrowFeeRate = event.params._protocolEscrowFeeRate
   transaction.originServiceFeeRate = event.params._originServiceFeeRate
@@ -81,8 +83,19 @@ export function handleTransactionCreated(event: TransactionCreated): void {
 }
 
 export function handlePaymentCompleted(event: PaymentCompleted): void {
+  const protocol = getOrCreateProtocol()
   const service = getOrCreateService(event.params._serviceId)
   service.status = 'Finished'
+  const transaction = getOrCreateTransaction(event.params._transactionId)
+
+  const releasedAmount = transaction.totalAmount.minus(transaction.releasedAmount)
+  const releasedPercentage = releasedAmount.times(BigInt.fromString('100')).div(transaction.totalAmount)
+  if (releasedPercentage >= protocol.minServiceCompletionPercentage) {
+    service.status = 'Finished'
+  } else {
+    service.status = 'Uncompleted'
+  }
+
   service.updatedAt = event.block.timestamp
   service.save()
 
@@ -99,11 +112,12 @@ export function handlePayment(event: PaymentCurrent): void {
   const paymentId = generateUniqueId(event.transaction.hash.toHex(), event.logIndex.toString())
   const payment = getOrCreatePayment(paymentId, event.params._serviceId, event.params._proposalId)
   const token = event.params._token
+  const transaction = getOrCreateTransaction(event.params._transactionId)
 
   payment.amount = event.params._amount
   payment.rateToken = getOrCreateToken(token).id
   payment.createdAt = event.block.timestamp
-  payment.transaction = Transaction.load(event.params._transactionId.toString())!.id
+  payment.transaction = transaction.id
 
   if (event.params._paymentType === PaymentType.Release) {
     payment.paymentType = 'Release'
@@ -117,6 +131,8 @@ export function handlePayment(event: PaymentCurrent): void {
       userGain.totalGain = userGain.totalGain.plus(event.params._amount)
       userGain.save()
     }
+    // Update released amount in case of a release
+    transaction.releasedAmount = transaction.releasedAmount.plus(event.params._amount)
   }
   if (event.params._paymentType === PaymentType.Reimburse) {
     payment.paymentType = 'Reimburse'
@@ -125,7 +141,6 @@ export function handlePayment(event: PaymentCurrent): void {
   payment.transactionHash = event.transaction.hash.toHex()
   payment.save()
 
-  const transaction = getOrCreateTransaction(event.params._transactionId)
   transaction.amount = transaction.amount.minus(event.params._amount)
   transaction.save()
 }
@@ -306,4 +321,19 @@ export function handlePaymentV1(event: PaymentV1): void {
   const transaction = getOrCreateTransaction(event.params._transactionId)
   transaction.amount = transaction.amount.minus(event.params._amount)
   transaction.save()
+}
+
+export function handlePaymentCompletedV1(event: PaymentCompletedV1): void {
+  const service = getOrCreateService(event.params._serviceId)
+  service.status = 'Finished'
+  service.updatedAt = event.block.timestamp
+  service.save()
+
+  const buyerUserStats = getOrCreateUserStats(BigInt.fromString(service.buyer!))
+  buyerUserStats.numFinishedServicesAsBuyer.plus(ONE)
+  buyerUserStats.save()
+
+  const sellerUserStats = getOrCreateUserStats(BigInt.fromString(service.seller!))
+  sellerUserStats.numFinishedServicesAsSeller.plus(ONE)
+  sellerUserStats.save()
 }
