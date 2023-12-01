@@ -96,7 +96,7 @@ dataSources:
       eventHandlers:
         - event: ServiceCreated(uint256,uint256,uint256,string,address,uint256)
           handler: handleServiceCreated
-        - event: ServiceUpdated(uint256,string,uint256)
+        - event: ServiceUpdated(uint256,string,address,uint256)
           handler: handleServiceUpdated
         - event: ProposalCreated(uint256,uint256,string,uint8,uint256,uint256,uint256,uint256)
           handler: handleProposalCreated

@@ -64,6 +64,7 @@ export function handleServiceUpdated(event: ServiceUpdated): void {
   service.updatedAt = event.block.timestamp
   service.cid = newCid
   service.referralAmount = event.params.referralAmount
+  service.rateToken = getOrCreateToken(event.params.rateToken).id
 
   const context = new DataSourceContext()
   context.setBigInt('serviceId', serviceId)
@@ -90,7 +91,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
   proposal.service = getOrCreateService(event.params.serviceId).id
   proposal.seller = getOrCreateUser(event.params.ownerId).id
-  proposal.rateAmount = event.params.amount
+  proposal.rateAmount = event.params.rateAmount
   proposal.platform = Platform.load(event.params.platformId.toString())!.id
   proposal.expirationDate = event.params.expirationDate
   if (event.params.referrerId != ZERO) {
@@ -121,7 +122,7 @@ export function handleProposalUpdated(event: ProposalUpdated): void {
   const oldCid = proposal.cid
   const dataId = newCid + '-' + event.block.timestamp.toString()
 
-  proposal.rateAmount = event.params.amount
+  proposal.rateAmount = event.params.rateAmount
   if (event.params.referrerId != ZERO) {
     proposal.referrer = getOrCreateUser(event.params.referrerId).id
   }
