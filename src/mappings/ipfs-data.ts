@@ -7,6 +7,10 @@ import {
   ReviewDescription,
   UserWeb3mailPreferences,
   EvidenceDescription,
+  Credential,
+  CredentialDetail,
+  Claim,
+  ClaimsEncrypted,
 } from '../../generated/schema'
 import { getOrCreateKeyword } from '../getters'
 
@@ -155,6 +159,80 @@ export function handleUserData(content: Bytes): void {
     description.web3mailPreferences = id
   }
 
+  const credentialsArray = getValueAsArray(jsonObject, 'credentials')
+  if (credentialsArray) {
+    for (let i = 0; i < credentialsArray.length; i++) {
+      const credentialObj = credentialsArray[i].toObject()
+      const credentialId = getValueAsString(credentialObj, 'id')
+      
+      if (credentialId !== null) {
+        let credential = new Credential(credentialId)
+        // Fill Credential fields
+        credential.issuer = getValueAsString(credentialObj, 'issuer')
+        credential.signature1 = getValueAsString(credentialObj, 'signature1')
+        credential.signature2 = getValueAsString(credentialObj, 'signature2')
+        credential.userDescription = id
+
+        // Handle CredentialDetail
+        const credentialDetailObj = getValueAsObject(credentialObj, 'credential')
+        if (credentialDetailObj) {
+          const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
+          if (credentialDetailId !== null) {
+            let credentialDetail = new CredentialDetail(credentialDetailId)
+            // Fill CredentialDetail fields
+            credentialDetail.author = getValueAsString(credentialDetailObj, 'author')
+            credentialDetail.platform = getValueAsString(credentialDetailObj, 'platform')
+            credentialDetail.description = getValueAsString(credentialDetailObj, 'description')
+            credentialDetail.issueTime = getValueAsString(credentialDetailObj, 'issueTime')
+            credentialDetail.expiryTime = getValueAsString(credentialDetailObj, 'expiryTime')
+            credentialDetail.userAddress = getValueAsString(credentialDetailObj, 'userAddress')
+
+            // Handle Claims array within CredentialDetail
+            const claimsArray = getValueAsArray(credentialDetailObj, 'claims')
+            if (claimsArray) {
+              for (let i = 0; i < claimsArray.length; i++) {
+                const claimObj = claimsArray[i].toObject()
+                const claimId = getValueAsString(claimObj, 'id')
+
+                if (claimId !== null) {
+                  let claim = new Claim(claimId)
+                  claim.platform = getValueAsString(claimObj, 'platform')
+                  claim.criteria = getValueAsString(claimObj, 'criteria')
+                  claim.condition = getValueAsString(claimObj, 'condition')
+                  claim.value = getValueAsString(claimObj, 'value')
+                  claim.credentialDetail = credentialDetailId
+
+                  claim.save()
+                }
+              }
+            }
+
+            // Handle ClaimsEncrypted object within CredentialDetail
+            const claimsEncryptedObj = getValueAsObject(credentialDetailObj, 'claimsEncrypted')
+            if (claimsEncryptedObj) {
+              const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
+              if (claimsEncryptedId !== null) {
+                let claimsEncrypted = new ClaimsEncrypted(claimsEncryptedId)
+                claimsEncrypted.ciphertext = getValueAsString(claimsEncryptedObj, 'ciphertext')
+                claimsEncrypted.dataToEncryptHash = getValueAsString(claimsEncryptedObj, 'dataToEncryptHash')
+                claimsEncrypted.total = getValueAsBigInt(claimsEncryptedObj, 'total');
+                claimsEncrypted.condition = getValueAsString(claimsEncryptedObj, 'condition')
+                
+                claimsEncrypted.save()
+                credentialDetail.claimsEncrypted = claimsEncryptedId
+              }
+            }
+
+            credentialDetail.save()
+            credential.credentialDetail = credentialDetailId
+          }
+        }
+
+        credential.save()
+      }
+    }
+  }
+
   //Creates duplicate values. Open issue
   //https://github.com/graphprotocol/graph-node/issues/4087
   //description.skills = createKeywordEntities(description.skills_raw!)!
@@ -253,6 +331,16 @@ function getValueAsBoolean(jsonObject: TypedMap<string, JSONValue>, key: string,
   }
 
   return value.toBool()
+}
+
+function getValueAsArray(jsonObject: TypedMap<string, JSONValue>, key: string): JSONValue[] | null {
+  const value = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.ARRAY) {
+    return null
+  }
+
+  return value.toArray()
 }
 
 //Transforms a comma separated string of keywords into an Array of Keyword.id entities.

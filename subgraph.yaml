@@ -264,6 +264,10 @@ templates:
         - UserDescription
         - UserWeb3mailPreferences
         - Keyword
+        - Credential
+        - CredentialDetail
+        - ClaimsEncrypted
+        - Claim
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
