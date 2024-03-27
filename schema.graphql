@@ -120,6 +120,7 @@ type UserDescription @entity(immutable: true) {
   video_url: String #url
   image_url: String #url
   web3mailPreferences: UserWeb3mailPreferences
+  credentials: [Credential!] @derivedFrom(field: "userDescription")
 }
 
 type UserWeb3mailPreferences @entity(immutable: true) {
@@ -131,6 +132,44 @@ type UserWeb3mailPreferences @entity(immutable: true) {
   activeOnReview: Boolean
   activeOnPlatformMarketing: Boolean
   activeOnProtocolMarketing: Boolean
+}
+
+type Credential @entity(immutable: true) {
+  id: ID!
+  issuer: String
+  signature1: String
+  signature2: String
+  credentialDetail: CredentialDetail
+  userDescription: UserDescription!
+}
+
+type CredentialDetail @entity(immutable: true) {
+  id: ID!
+  author: String
+  platform: String
+  description: String
+  issueTime: String
+  expiryTime: String
+  userAddress: String
+  claims: [Claim!]
+  claimsEncrypted: ClaimsEncrypted
+}
+
+type Claim @entity(immutable: true) {
+  id: ID!
+  platform: String
+  criteria: String
+  condition: String
+  value: String
+  credentialDetail: CredentialDetail!
+}
+
+type ClaimsEncrypted @entity(immutable: true) {
+  id: ID!
+  total: BigInt
+  ciphertext: String
+  dataToEncryptHash: String
+  condition: String
 }
 
 enum ProposalStatus {
