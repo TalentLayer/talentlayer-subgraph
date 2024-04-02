@@ -181,6 +181,7 @@ export function handleUserData(content: Bytes): void {
         if (credentialDetailObj) {
           const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
           if (credentialDetailId !== null) {
+            log.debug('credentialDetailId = {}', [credentialDetailId])
             let credentialDetail = CredentialDetail.load(credentialDetailId)
             if (credentialDetail == null) {
               credentialDetail = new CredentialDetail(credentialDetailId)
@@ -201,6 +202,7 @@ export function handleUserData(content: Bytes): void {
                 const claimId = getValueAsString(claimObj, 'id')
 
                 if (claimId !== null) {
+                  log.debug('claimId = {}', [claimId])
                   let claim = Claim.load(claimId)
                   if (claim == null) {
                     claim = new Claim(claimId)
@@ -221,6 +223,7 @@ export function handleUserData(content: Bytes): void {
             if (claimsEncryptedObj) {
               const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
               if (claimsEncryptedId !== null) {
+                log.debug('claimsEncryptedId = {}', [claimsEncryptedId])
                 let claimsEncrypted = ClaimsEncrypted.load(claimsEncryptedId)
                 if (claimsEncrypted == null) {
                   claimsEncrypted = new ClaimsEncrypted(claimsEncryptedId)
