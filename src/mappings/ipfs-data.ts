@@ -164,9 +164,12 @@ export function handleUserData(content: Bytes): void {
     for (let i = 0; i < credentialsArray.length; i++) {
       const credentialObj = credentialsArray[i].toObject()
       const credentialId = getValueAsString(credentialObj, 'id')
-      
+
       if (credentialId !== null) {
-        let credential = new Credential(credentialId)
+        let credential = Credential.load(credentialId)
+        if (credential == null) {
+          credential = new Credential(credentialId)
+        }
         // Fill Credential fields
         credential.issuer = getValueAsString(credentialObj, 'issuer')
         credential.signature1 = getValueAsString(credentialObj, 'signature1')
@@ -178,7 +181,10 @@ export function handleUserData(content: Bytes): void {
         if (credentialDetailObj) {
           const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
           if (credentialDetailId !== null) {
-            let credentialDetail = new CredentialDetail(credentialDetailId)
+            let credentialDetail = CredentialDetail.load(credentialDetailId)
+            if (credentialDetail == null) {
+              credentialDetail = new CredentialDetail(credentialDetailId)
+            }
             // Fill CredentialDetail fields
             credentialDetail.author = getValueAsString(credentialDetailObj, 'author')
             credentialDetail.platform = getValueAsString(credentialDetailObj, 'platform')
@@ -195,7 +201,10 @@ export function handleUserData(content: Bytes): void {
                 const claimId = getValueAsString(claimObj, 'id')
 
                 if (claimId !== null) {
-                  let claim = new Claim(claimId)
+                  let claim = Claim.load(claimId)
+                  if (claim == null) {
+                    claim = new Claim(claimId)
+                  }
                   claim.platform = getValueAsString(claimObj, 'platform')
                   claim.criteria = getValueAsString(claimObj, 'criteria')
                   claim.condition = getValueAsString(claimObj, 'condition')
@@ -212,12 +221,15 @@ export function handleUserData(content: Bytes): void {
             if (claimsEncryptedObj) {
               const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
               if (claimsEncryptedId !== null) {
-                let claimsEncrypted = new ClaimsEncrypted(claimsEncryptedId)
+                let claimsEncrypted = ClaimsEncrypted.load(claimsEncryptedId)
+                if (claimsEncrypted == null) {
+                  claimsEncrypted = new ClaimsEncrypted(claimsEncryptedId)
+                }
                 claimsEncrypted.ciphertext = getValueAsString(claimsEncryptedObj, 'ciphertext')
                 claimsEncrypted.dataToEncryptHash = getValueAsString(claimsEncryptedObj, 'dataToEncryptHash')
                 claimsEncrypted.total = getValueAsBigInt(claimsEncryptedObj, 'total');
                 claimsEncrypted.condition = getValueAsString(claimsEncryptedObj, 'condition')
-                
+
                 claimsEncrypted.save()
                 credentialDetail.claimsEncrypted = claimsEncryptedId
               }
