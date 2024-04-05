@@ -151,7 +151,7 @@ type CredentialDetail @entity(immutable: true) {
   issueTime: String
   expiryTime: String
   userAddress: String
-  claims: [Claim!]
+  claims: [Claim!] @derivedFrom(field: "credentialDetail")
   claimsEncrypted: ClaimsEncrypted
 }
 
