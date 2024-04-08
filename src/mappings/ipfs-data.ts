@@ -37,7 +37,7 @@ export function handleServiceData(content: Bytes): void {
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.expectedEndDate = getValueAsBigInt(jsonObject, 'expectedEndDate')
   const keywords = getValueAsString(jsonObject, 'keywords')
-  if (keywords !== null) {
+  if (keywords) {
     description.keywords_raw = keywords.toLowerCase()
   }
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
@@ -121,7 +121,7 @@ export function handleUserData(content: Bytes): void {
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
   const skills = getValueAsString(jsonObject, 'skills')
-  if (skills !== null) {
+  if (skills) {
     description.skills_raw = skills.toLowerCase()
   }
   description.timezone = getValueAsBigInt(jsonObject, 'timezone')
@@ -165,7 +165,7 @@ export function handleUserData(content: Bytes): void {
       const credentialObj = credentialsArray[i].toObject()
       const credentialId = getValueAsString(credentialObj, 'id')
 
-      if (credentialId !== null) {
+      if (credentialId) {
         log.warning('credentialId = {}', [credentialId.toString()])
         let credential = Credential.load(credentialId)
         if (credential == null) {
@@ -181,7 +181,7 @@ export function handleUserData(content: Bytes): void {
         const credentialDetailObj = getValueAsObject(credentialObj, 'credential')
         if (credentialDetailObj) {
           const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
-          if (credentialDetailId !== null) {
+          if (credentialDetailId) {
             log.warning('credentialDetailId = {}', [credentialDetailId.toString()])
             let credentialDetail = CredentialDetail.load(credentialDetailId)
             if (credentialDetail == null) {
@@ -202,7 +202,7 @@ export function handleUserData(content: Bytes): void {
                 const claimObj = claimsArray[i].toObject()
                 const claimId = getValueAsString(claimObj, 'id')
 
-                if (claimId !== null) {
+                if (claimId) {
                   log.warning('claimId = {}', [claimId.toString()])
                   let claim = Claim.load(claimId)
                   if (claim == null) {
@@ -223,7 +223,7 @@ export function handleUserData(content: Bytes): void {
             const claimsEncryptedObj = getValueAsObject(credentialDetailObj, 'claimsEncrypted')
             if (claimsEncryptedObj) {
               const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
-              if (claimsEncryptedId !== null) {
+              if (claimsEncryptedId) {
                 log.warning('claimsEncryptedId = {}', [claimsEncryptedId.toString()])
                 let claimsEncrypted = ClaimsEncrypted.load(claimsEncryptedId)
                 if (claimsEncrypted == null) {
