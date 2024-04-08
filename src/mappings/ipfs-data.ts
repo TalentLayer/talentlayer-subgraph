@@ -114,6 +114,7 @@ export function handleUserData(content: Bytes): void {
   const context = dataSource.context()
   const userId = context.getBigInt('userId')
   const id = context.getString('id')
+  const timestamp = context.getString('timestamp')
 
   let description = new UserDescription(id)
   description.user = userId.toString()
@@ -166,11 +167,8 @@ export function handleUserData(content: Bytes): void {
       const credentialId = getValueAsString(credentialObj, 'id')
 
       if (credentialId) {
-        log.warning('credentialId = {}', [credentialId.toString()])
-        let credential = Credential.load(credentialId)
-        if (credential == null) {
-          credential = new Credential(credentialId)
-        }
+        const uniqId = credentialId + '-' + i.toString() + '-' + timestamp
+        let credential = new Credential(uniqId)
         // Fill Credential fields
         credential.issuer = getValueAsString(credentialObj, 'issuer')
         credential.signature1 = getValueAsString(credentialObj, 'signature1')
@@ -182,11 +180,8 @@ export function handleUserData(content: Bytes): void {
         if (credentialDetailObj) {
           const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
           if (credentialDetailId) {
-            log.warning('credentialDetailId = {}', [credentialDetailId.toString()])
-            let credentialDetail = CredentialDetail.load(credentialDetailId)
-            if (credentialDetail == null) {
-              credentialDetail = new CredentialDetail(credentialDetailId)
-            }
+            const uniqCredentialDetailId = credentialDetailId + '-' + i.toString() + '-' + timestamp
+            let credentialDetail = new CredentialDetail(uniqCredentialDetailId)
             // Fill CredentialDetail fields
             credentialDetail.author = getValueAsString(credentialDetailObj, 'author')
             credentialDetail.platform = getValueAsString(credentialDetailObj, 'platform')
@@ -198,21 +193,18 @@ export function handleUserData(content: Bytes): void {
             // Handle Claims array within CredentialDetail
             const claimsArray = getValueAsArray(credentialDetailObj, 'claims')
             if (claimsArray) {
-              for (let i = 0; i < claimsArray.length; i++) {
-                const claimObj = claimsArray[i].toObject()
+              for (let j = 0; j < claimsArray.length; j++) {
+                const claimObj = claimsArray[j].toObject()
                 const claimId = getValueAsString(claimObj, 'id')
 
                 if (claimId) {
-                  log.warning('claimId = {}', [claimId.toString()])
-                  let claim = Claim.load(claimId)
-                  if (claim == null) {
-                    claim = new Claim(claimId)
-                  }
+                  const uniqClaimId = claimId + '-' + j.toString() + '-' + timestamp
+                  let claim = new Claim(uniqClaimId)
                   claim.platform = getValueAsString(claimObj, 'platform')
                   claim.criteria = getValueAsString(claimObj, 'criteria')
                   claim.condition = getValueAsString(claimObj, 'condition')
                   claim.value = getValueAsString(claimObj, 'value')
-                  claim.credentialDetail = credentialDetailId
+                  claim.credentialDetail = uniqCredentialDetailId
 
                   claim.save()
                 }
@@ -224,23 +216,20 @@ export function handleUserData(content: Bytes): void {
             if (claimsEncryptedObj) {
               const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
               if (claimsEncryptedId) {
-                log.warning('claimsEncryptedId = {}', [claimsEncryptedId.toString()])
-                let claimsEncrypted = ClaimsEncrypted.load(claimsEncryptedId)
-                if (claimsEncrypted == null) {
-                  claimsEncrypted = new ClaimsEncrypted(claimsEncryptedId)
-                }
+                const uniqClaimsEncryptedId = claimsEncryptedId + '-' + i.toString() + '-' + timestamp
+                let claimsEncrypted = new ClaimsEncrypted(uniqClaimsEncryptedId)
                 claimsEncrypted.ciphertext = getValueAsString(claimsEncryptedObj, 'ciphertext')
                 claimsEncrypted.dataToEncryptHash = getValueAsString(claimsEncryptedObj, 'dataToEncryptHash')
                 claimsEncrypted.total = getValueAsBigInt(claimsEncryptedObj, 'total');
                 claimsEncrypted.condition = getValueAsString(claimsEncryptedObj, 'condition')
 
                 claimsEncrypted.save()
-                credentialDetail.claimsEncrypted = claimsEncryptedId
+                credentialDetail.claimsEncrypted = uniqClaimsEncryptedId
               }
             }
 
             credentialDetail.save()
-            credential.credentialDetail = credentialDetailId
+            credential.credentialDetail = uniqCredentialDetailId
           }
         }
 
