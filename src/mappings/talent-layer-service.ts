@@ -8,6 +8,7 @@ import {
   ProposalUpdated,
   AllowedTokenListUpdated,
   MinCompletionPercentageUpdated,
+  ServiceCancelled,
 } from '../../generated/TalentLayerService/TalentLayerService'
 import {
   getOrCreateService,
@@ -148,4 +149,13 @@ export function handleMinCompletionPercentageUpdated(event: MinCompletionPercent
   const protocol = getOrCreateProtocol()
   protocol.minServiceCompletionPercentage = event.params.minCompletionPercentage
   protocol.save()
+}
+
+export function handleServiceCancelled(event: ServiceCancelled): void {
+  const service = getOrCreateService(event.params.id)
+
+  service.updatedAt = event.block.timestamp
+  service.status = 'Cancelled'
+
+  service.save()
 }
