@@ -105,6 +105,8 @@ dataSources:
           handler: handleAllowedTokenListUpdated
         - event: MinCompletionPercentageUpdated(uint256)
           handler: handleMinCompletionPercentageUpdated
+        - event: ServiceCancelled(uint256)
+          handler: handleServiceCancelled
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
