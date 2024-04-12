@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: mumbai
+    network: matic
     source:
       abi: TalentLayerID
-      address: "0x36576CE3309b3AdaA3aFb4B486333532e607797E"
-      startBlock: 45143015
+      address: "0xD7D1B2b0A665F03618cb9a45Aa3070f789cb91f2"
+      startBlock: 41128230
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,11 +44,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: mumbai
+    network: matic
     source:
       abi: TalentLayerReview
-      address: "0x046eDFE9ebaE9241FE1a2C18Eba73BCf18306349"
-      startBlock: 45143015
+      address: "0x7bBC20c8Fcb75A126810161DFB1511f6D3B1f2bE"
+      startBlock: 41128230
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -68,16 +68,17 @@ dataSources:
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+          # Legacy events
         - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
           handler: handleMintV1
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
-    network: mumbai
+    network: matic
     source:
       abi: TalentLayerService
-      address: "0x22A17eC782C6879211EEecc458D62B0EB987B4A1"
-      startBlock: 45143015
+      address: "0xae8Bba1a403816568230d92099ccB87f41BbcA78"
+      startBlock: 41128230
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -109,11 +110,11 @@ dataSources:
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: mumbai
+    network: matic
     source:
       abi: TalentLayerEscrow
-      address: "0x9fF5Ab7508E74c11A4Fcd7300f1bA5eeFb0183C2"
-      startBlock: 45143015
+      address: "0x21C716673897f4a2A3c12053f3973F51Ce7b0cf6"
+      startBlock: 41128230
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -157,16 +158,17 @@ dataSources:
           handler: handleEvidenceSubmitted
         - event: MetaEvidence(indexed uint256,string)
           handler: handleMetaEvidence
+          # Legacy events
         - event: Payment(uint256,uint8,address,uint256,uint256)
           handler: handlePaymentV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: mumbai
+    network: matic
     source:
       abi: TalentLayerPlatformID
-      address: "0x0E8a34187C3F7Cf5dc34d87d22686217bD793CBd"
-      startBlock: 45143015
+      address: "0x09FF07297d48eD9aD870caCE4b33BF30869C1D17"
+      startBlock: 41128230
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -226,7 +228,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: mumbai
+    network: matic
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -239,7 +241,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: mumbai
+    network: matic
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -252,7 +254,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: mumbai
+    network: matic
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -267,7 +269,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: mumbai
+    network: matic
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -280,7 +282,7 @@ templates:
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
-    network: mumbai
+    network: matic
   - name: EvidenceData
     kind: file/ipfs
     mapping:
@@ -293,4 +295,4 @@ templates:
       abis:
         - name: TalentLayerEscrow
           file: ./abis/TalentLayerEscrow.json
-    network: mumbai
+    network: matic
