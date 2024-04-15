@@ -131,10 +131,10 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: PaymentCompleted(uint256)
-          handler: handlePaymentCompleted
         - event: Payment(uint256,uint8,address,uint256,uint256,uint256)
           handler: handlePayment
+        - event: PaymentCompleted(uint256,uint256)
+          handler: handlePaymentCompleted
         - event: FeesClaimed(uint256,indexed address,uint256)
           handler: handleFeesClaimed
         - event: OriginServiceFeeRateReleased(uint256,uint256,indexed address,uint256)
@@ -161,6 +161,8 @@ dataSources:
           # Legacy events
         - event: Payment(uint256,uint8,address,uint256,uint256)
           handler: handlePaymentV1
+        - event: PaymentCompleted(uint256)
+          handler: handlePaymentCompletedV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
