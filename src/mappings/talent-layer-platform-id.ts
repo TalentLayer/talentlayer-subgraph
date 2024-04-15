@@ -71,7 +71,11 @@ export function handleMint(event: Mint): void {
   protocol.save()
 }
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  const platform = getOrCreatePlatform(event.params.tokenId);
+  platform.address = event.params.to;
+  platform.save();
+}
 
 export function handleMintFeeUpdated(event: MintFeeUpdated): void {
   const protocol = getOrCreateProtocol()
