@@ -7,6 +7,10 @@ import {
   ReviewDescription,
   UserWeb3mailPreferences,
   EvidenceDescription,
+  Credential,
+  CredentialDetail,
+  Claim,
+  ClaimsEncrypted,
 } from '../../generated/schema'
 import { getOrCreateKeyword } from '../getters'
 
@@ -33,7 +37,7 @@ export function handleServiceData(content: Bytes): void {
   description.startDate = getValueAsBigInt(jsonObject, 'startDate')
   description.expectedEndDate = getValueAsBigInt(jsonObject, 'expectedEndDate')
   const keywords = getValueAsString(jsonObject, 'keywords')
-  if (keywords !== null) {
+  if (keywords) {
     description.keywords_raw = keywords.toLowerCase()
   }
   description.rateToken = getValueAsString(jsonObject, 'rateToken')
@@ -110,6 +114,7 @@ export function handleUserData(content: Bytes): void {
   const context = dataSource.context()
   const userId = context.getBigInt('userId')
   const id = context.getString('id')
+  const timestamp = context.getString('timestamp')
 
   let description = new UserDescription(id)
   description.user = userId.toString()
@@ -117,7 +122,7 @@ export function handleUserData(content: Bytes): void {
   description.title = getValueAsString(jsonObject, 'title')
   description.about = getValueAsString(jsonObject, 'about')
   const skills = getValueAsString(jsonObject, 'skills')
-  if (skills !== null) {
+  if (skills) {
     description.skills_raw = skills.toLowerCase()
   }
   description.timezone = getValueAsBigInt(jsonObject, 'timezone')
@@ -153,6 +158,84 @@ export function handleUserData(content: Bytes): void {
     web3mailPreferences.save()
 
     description.web3mailPreferences = id
+  }
+
+  const credentialsArray = getValueAsArray(jsonObject, 'credentials')
+  if (credentialsArray) {
+    for (let i = 0; i < credentialsArray.length; i++) {
+      const credentialObj = credentialsArray[i].toObject()
+      const credentialId = getValueAsString(credentialObj, 'id')
+
+      if (credentialId) {
+        const uniqId = credentialId + '-' + i.toString() + '-' + timestamp
+        let credential = new Credential(uniqId)
+        // Fill Credential fields
+        credential.issuer = getValueAsString(credentialObj, 'issuer')
+        credential.signature1 = getValueAsString(credentialObj, 'signature1')
+        credential.signature2 = getValueAsString(credentialObj, 'signature2')
+        credential.userDescription = id
+
+        // Handle CredentialDetail
+        const credentialDetailObj = getValueAsObject(credentialObj, 'credential')
+        if (credentialDetailObj) {
+          const credentialDetailId = getValueAsString(credentialDetailObj, 'id')
+          if (credentialDetailId) {
+            const uniqCredentialDetailId = credentialDetailId + '-' + i.toString() + '-' + timestamp
+            let credentialDetail = new CredentialDetail(uniqCredentialDetailId)
+            // Fill CredentialDetail fields
+            credentialDetail.author = getValueAsString(credentialDetailObj, 'author')
+            credentialDetail.platform = getValueAsString(credentialDetailObj, 'platform')
+            credentialDetail.description = getValueAsString(credentialDetailObj, 'description')
+            credentialDetail.issueTime = getValueAsString(credentialDetailObj, 'issueTime')
+            credentialDetail.expiryTime = getValueAsString(credentialDetailObj, 'expiryTime')
+            credentialDetail.userAddress = getValueAsString(credentialDetailObj, 'userAddress')
+
+            // Handle Claims array within CredentialDetail
+            const claimsArray = getValueAsArray(credentialDetailObj, 'claims')
+            if (claimsArray) {
+              for (let j = 0; j < claimsArray.length; j++) {
+                const claimObj = claimsArray[j].toObject()
+                const claimId = getValueAsString(claimObj, 'id')
+
+                if (claimId) {
+                  const uniqClaimId = claimId + '-' + j.toString() + '-' + timestamp
+                  let claim = new Claim(uniqClaimId)
+                  claim.platform = getValueAsString(claimObj, 'platform')
+                  claim.criteria = getValueAsString(claimObj, 'criteria')
+                  claim.condition = getValueAsString(claimObj, 'condition')
+                  claim.value = getValueAsString(claimObj, 'value')
+                  claim.credentialDetail = uniqCredentialDetailId
+
+                  claim.save()
+                }
+              }
+            }
+
+            // Handle ClaimsEncrypted object within CredentialDetail
+            const claimsEncryptedObj = getValueAsObject(credentialDetailObj, 'claimsEncrypted')
+            if (claimsEncryptedObj) {
+              const claimsEncryptedId = getValueAsString(claimsEncryptedObj, 'id')
+              if (claimsEncryptedId) {
+                const uniqClaimsEncryptedId = claimsEncryptedId + '-' + i.toString() + '-' + timestamp
+                let claimsEncrypted = new ClaimsEncrypted(uniqClaimsEncryptedId)
+                claimsEncrypted.ciphertext = getValueAsString(claimsEncryptedObj, 'ciphertext')
+                claimsEncrypted.dataToEncryptHash = getValueAsString(claimsEncryptedObj, 'dataToEncryptHash')
+                claimsEncrypted.total = getValueAsBigInt(claimsEncryptedObj, 'total');
+                claimsEncrypted.condition = getValueAsString(claimsEncryptedObj, 'condition')
+
+                claimsEncrypted.save()
+                credentialDetail.claimsEncrypted = uniqClaimsEncryptedId
+              }
+            }
+
+            credentialDetail.save()
+            credential.credentialDetail = uniqCredentialDetailId
+          }
+        }
+
+        credential.save()
+      }
+    }
   }
 
   //Creates duplicate values. Open issue
@@ -253,6 +336,16 @@ function getValueAsBoolean(jsonObject: TypedMap<string, JSONValue>, key: string,
   }
 
   return value.toBool()
+}
+
+function getValueAsArray(jsonObject: TypedMap<string, JSONValue>, key: string): JSONValue[] | null {
+  const value = jsonObject.get(key)
+
+  if (value == null || value.isNull() || value.kind != JSONValueKind.ARRAY) {
+    return null
+  }
+
+  return value.toArray()
 }
 
 //Transforms a comma separated string of keywords into an Array of Keyword.id entities.

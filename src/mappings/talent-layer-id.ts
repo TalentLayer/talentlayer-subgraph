@@ -32,6 +32,7 @@ export function handleCidUpdated(event: CidUpdated): void {
   const context = new DataSourceContext()
   context.setBigInt('userId', userId)
   context.setString('id', dataId)
+  context.setString('timestamp', event.block.timestamp.toString())
   UserData.createWithContext(newCid, context)
 
   user.save()
