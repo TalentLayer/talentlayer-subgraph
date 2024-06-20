@@ -6,11 +6,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: TalentLayerID
-    network: matic
+    network: fuji
     source:
       abi: TalentLayerID
-      address: "0xD7D1B2b0A665F03618cb9a45Aa3070f789cb91f2"
-      startBlock: 41128230
+      address: "0x11BF027d41011a050c77E3BE7fB1942500C29928"
+      startBlock: 33825200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,11 +44,11 @@ dataSources:
       file: ./src/mappings/talent-layer-id.ts
   - kind: ethereum/contract
     name: TalentLayerReview
-    network: matic
+    network: fuji
     source:
       abi: TalentLayerReview
-      address: "0x7bBC20c8Fcb75A126810161DFB1511f6D3B1f2bE"
-      startBlock: 41128230
+      address: "0x5b1e55ca26f8128155f35a0c5804e292B1b66bb7"
+      startBlock: 33825200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -68,17 +68,16 @@ dataSources:
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-          # Legacy events
         - event: Mint(indexed uint256,indexed uint256,indexed uint256,uint256,string)
           handler: handleMintV1
       file: ./src/mappings/talent-layer-review.ts
   - kind: ethereum/contract
     name: TalentLayerService
-    network: matic
+    network: fuji
     source:
       abi: TalentLayerService
-      address: "0xae8Bba1a403816568230d92099ccB87f41BbcA78"
-      startBlock: 41128230
+      address: "0x037a42146f7803Ac85Eeb201A8aab483E10c3E1A"
+      startBlock: 33825200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -110,11 +109,11 @@ dataSources:
       file: ./src/mappings/talent-layer-service.ts
   - kind: ethereum/contract
     name: TalentLayerEscrow
-    network: matic
+    network: fuji
     source:
       abi: TalentLayerEscrow
-      address: "0x21C716673897f4a2A3c12053f3973F51Ce7b0cf6"
-      startBlock: 41128230
+      startBlock: 33825200
+      address: "0x2D11f75E4af6626bA457532429D5FA6bF18ac011"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -158,17 +157,16 @@ dataSources:
           handler: handleEvidenceSubmitted
         - event: MetaEvidence(indexed uint256,string)
           handler: handleMetaEvidence
-          # Legacy events
         - event: Payment(uint256,uint8,address,uint256,uint256)
           handler: handlePaymentV1
       file: ./src/mappings/talent-layer-escrow.ts
   - kind: ethereum/contract
     name: TalentLayerPlatformID
-    network: matic
+    network: fuji
     source:
       abi: TalentLayerPlatformID
-      address: "0x09FF07297d48eD9aD870caCE4b33BF30869C1D17"
-      startBlock: 41128230
+      address: "0x5582d6493449a9c8aE353715eaE55794056dBF19"
+      startBlock: 33825200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -228,7 +226,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: matic
+    network: fuji
   - name: ProposalData
     kind: file/ipfs
     mapping:
@@ -241,7 +239,7 @@ templates:
       abis:
         - name: TalentLayerService
           file: ./abis/TalentLayerService.json
-    network: matic
+    network: fuji
   - name: ReviewData
     kind: file/ipfs
     mapping:
@@ -254,7 +252,7 @@ templates:
       abis:
         - name: TalentLayerReview
           file: ./abis/TalentLayerReview.json
-    network: matic
+    network: fuji
   - name: UserData
     kind: file/ipfs
     mapping:
@@ -269,7 +267,7 @@ templates:
       abis:
         - name: TalentLayerID
           file: ./abis/TalentLayerID.json
-    network: matic
+    network: fuji
   - name: PlatformData
     kind: file/ipfs
     mapping:
@@ -282,7 +280,7 @@ templates:
       abis:
         - name: TalentLayerPlatformID
           file: ./abis/TalentLayerPlatformID.json
-    network: matic
+    network: fuji
   - name: EvidenceData
     kind: file/ipfs
     mapping:
@@ -295,4 +293,4 @@ templates:
       abis:
         - name: TalentLayerEscrow
           file: ./abis/TalentLayerEscrow.json
-    network: matic
+    network: fuji
